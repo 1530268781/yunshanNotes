@@ -1,8 +1,8 @@
-#### 数据库基础
+## 数据库基础
 
 [数据库百度词条]: https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%BA%93/103728?fr=aladdin
 
-##### 1.定义
+### 1.定义
 
 ​		数据库是一个按<font color='red'>数据结构</font>来存储和管理数据的计算机软件系统。数据库的概念实际包括两层意思：
 
@@ -12,7 +12,7 @@
 
 
 
-##### 2.数据库管理系统
+### 2.数据库管理系统
 
 ​		数据库管理系统是数据库系统的核心组成部分，主要完成对数据库的操作与管理功能，实现数据库对象的创建、数据库存储数据的<font color='red'>（CRUD）查询、添加、修改与删除</font>操作和数据库的用户管理、权限管理等。它的安全直接关系到整个数据库系统的安全。
 
@@ -20,7 +20,7 @@
 
 
 
-##### 3.关系型数据库 VS 非关系型数据库（NoSQL）
+### 3.关系型数据库 VS 非关系型数据库（NoSQL）
 
 |          |   关系型数据库   |      非关系型数据库      |
 | :------: | :--------------: | :----------------------: |
@@ -32,7 +32,7 @@
 
 
 
-##### 4.结构化查询语言SQL
+### 4.结构化查询语言SQL
 
 - 专门用来和数据库通信的语言
 
@@ -83,11 +83,11 @@
   
     
 
-#### MySQL基础
+## MySQL基础
 
 ![image-20210716155635092](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210716155635092.png)
 
-##### 1.介绍与安装
+### 1.介绍与安装
 
 MySQL是一款流行的开源数据库。它也是一个关系型数据库管理系统，2008年，mysql被sun公司收购，2009年sun公司被oracle公司收购，自此两个主流的数据库都归Oracle公司收购。
 
@@ -103,7 +103,7 @@ MySQL是一款流行的开源数据库。它也是一个关系型数据库管理
 
 
 
-##### 2.MySQL服务的启动和停止
+### 2.MySQL服务的启动和停止
 
 所谓MySQL服务是指一系列关于MySQL软件的后台进程，只有启动了MySQL服务才能对mysql软件进行操作。
 
@@ -120,7 +120,7 @@ MySQL是一款流行的开源数据库。它也是一个关系型数据库管理
 
 
 
-##### 3.MySQL服务的登录和退出
+### 3.MySQL服务的登录和退出
 
 - 方式一：通过mysql自带的客户端（MySQL 5.5 Command Line Client 仅限于root用户）
 
@@ -136,33 +136,39 @@ MySQL是一款流行的开源数据库。它也是一个关系型数据库管理
 
 
 
-##### 4.MySQL常见命令
+### 4.MySQL常见命令
 
 ​	注：sql命令以分号结尾
 
-- 查看当前所有的数据库
+- #### 查看当前所有的数据库
+  
   <font color='red'>show databases;</font>
-
-- 打开指定的库
+  
+- #### 打开指定的库
+  
   <font color='red'>use 库名;</font>
-
-- 查看当前库的所有表
+  
+- #### 查看当前库的所有表
+  
   <font color='red'>show tables;</font>
-
-- 查看其它库的所有表
+  
+- #### 查看其它库的所有表
+  
   <font color='red'>show tables from 库名;</font>
-
-- 创建表
+  
+- #### 创建表
+  
   <font color='red'>create table 表名(</font>
-
+  
   <font color='red'>列名 列类型,</font>
   <font color='red'>列名 列类型，</font>
   <font color='red'>...	...);</
-
-- 查看表结构
+  
+- #### 查看表结构
+  
   <font color='red'>desc 表名;</font>font>
-
-- 查看sql服务器版本
+  
+- #### 查看sql服务器版本
 
   - sql命令:select version();
   - dos命令:mysql --version 或 mysql --V
@@ -305,7 +311,7 @@ mysql  Ver 14.14 Distrib 5.5.15, for Win32 (x86)
 
 
 
-##### 5.MySQL语法规范
+### 5.MySQL语法规范
 
 - 1.不区分大小写,但建议关键字大写，表名、列名小写
 - 2.每条命令最好用分号结尾（\g也可以）
@@ -315,3 +321,249 @@ mysql  Ver 14.14 Distrib 5.5.15, for Win32 (x86)
   	单行注释：-- 注释文字
   	多行注释：/* 注释文字  */
 
+
+
+## DQL语言的学习
+
+数据库结构：
+
+```mermaid
+graph LR
+A(myemployees) -->B[departments]
+  A --> C[employees]
+  A --> D[jobs]
+  A --> E[locations]
+
+
+```
+
+### 1.基础查询
+
+- <font color='red'>select  要查询的字段|表达式|常量值|函数  from  表名;</font>
+
+```sql
+/*
+语法：select 要查询的字段|表达式|常量值|函数 from 表名;
+*/
+#(1)查询表中单个字段
+SELECT `last_name` FROM employees ;
+
+#(2)查询表中多个字段
+SELECT 
+  `last_name`,
+  `salary`,
+  `email` 
+FROM
+  employees ;
+
+#(3)查询所有字段 
+SELECT * FROM employees
+
+#(4)查询常量值
+SELECT 100
+
+#(5)查询表达式
+SELECT 100%98
+
+#(6)查询函数
+SELECT VERSION();
+
+#(7)为字段起别名
+/*
+-便于理解
+-如果要查询的字段有重名的情况，使用别名可以区分开来
+*/
+#方式1
+SELECT 100%98 AS 结果
+SELECT last_name AS 姓,first_name AS 名 FROM employees
+#方式2
+SELECT last_name 姓, first_name 名 FROM employees
+#别名中含特殊符号(用双引号)
+SELECT salary AS "out put" FROM employees
+
+#(8)去重(关键字：distinct)
+SELECT DISTINCT department_id FROM employees
+
+#（9）+号的作用
+/*
+select 100+90;两个操作数都为数值型，则做加法运算
+其中一方为字符型，试图将字符型转换为数值型
+select '100'+90;	=190
+select 'John'+90;	=0+90=90
+select null+90;只要其中一方为null,则结果肯定为null
+*/
+
+#(10)拼接(关键字：concat)
+SELECT CONCAT(last_name,first_name) AS 姓名 FROM employees
+```
+
+
+
+### 2.条件查询
+
+- <font color='red'>语法：select  查询字段  from  表名  while 筛选条件;  </font>
+
+- 条件表达式：>  <  >=  <=  =  !=  <>
+
+  ```sql
+  /*
+  按条件表达式筛选
+  */
+  #案例一：查询工资>12000的员工信息
+  SELECT
+  	*
+  FROM
+  	employees
+  WHERE
+  	salary>12000;
+  
+  #案例二：查询部门编号不等于90的员工名和部门编号
+  SELECT
+  	last_name,
+  	department_id
+  FROM 
+  	employees
+  WHERE 
+  	department_id<>90;
+  ```
+
+- 逻辑表达式：
+
+  - and（&&）:两个条件如果同时成立，结果为true，否则为false
+
+  - or(||)：两个条件只要有一个成立，结果为true，否则为false
+
+  - not(!)：如果条件成立，则not后为false，否则为true
+
+    ```sql
+    /*
+    按逻辑表达式筛选
+    */
+    #案例一：查询工资在10000到20000之间的员工名、工资以及奖金
+    SELECT
+    	last_name,
+    	salary,
+    	commission_pct
+    FROM
+    	employees
+    WHERE 	
+    	salary>=10000 AND salary<=20000;
+    	
+    #案例二：查询部门编号不是在90到110之间，或者工资高于15000的员工信息
+    SELECT
+    	*
+    FROM
+    	employees
+    WHERE
+    	NOT(department_id>=90 AND department_id<=110) OR salary>15000;
+    ```
+
+- 模糊查询：
+
+  - like
+
+    ```sql
+    #-------like
+    #案例一：查询员工名字以s开头的员工信息（通配符：%任意多个字符，_任意单个字符）
+    SELECT
+    	*
+    FROM 
+    	employees
+    WHERE
+    	last_name LIKE 's%'
+    
+    #案例二：查询员工名字中第三个字符为i,第四个字符为e的员工名和工资
+    SELECT
+    	last_name,
+    	salary
+    FROM
+    	employees
+    WHERE
+    	last_name LIKE '__i_e%' 
+    	
+    /*
+    转义字符 \
+    自定义转义字符 '$' ESCAPE '$'
+    */
+    ```
+
+  - between and
+
+    ```sql
+    #--------between and（可以替换 <  and  >）
+    #案例：查询员工号在100到120之间的员工信息
+    SELECT
+    	*
+    FROM
+    	employees
+    WHERE 
+    	employee_id BETWEEN 100 AND 120
+    
+    ```
+
+  - in
+
+    ```sql
+    #------in（可以替换 = or = or = ……）
+    #案例：查询员工的工种编号是 IT_PROG、AD_VP、AD_PRES中的一个的员工名和工种编号
+    SELECT
+    	last_name,
+    	job_id
+    FROM
+    	employees
+    WHERE
+    	job_id='IT_PROG' OR job_id='AD_VP' OR job_id='AD_PRES';
+    	
+    SELECT
+    	last_name,
+    	job_id
+    FROM
+    	employees
+    WHERE
+    	job_id IN ('IT_PROG','AD_VP','AD_PRES');
+    ```
+
+  - is null | is not null
+
+    ```sql
+    #----is （not）null
+    /*
+    判断null值不能用 = 和 <>,而要用 is 和 is not
+    */
+    #案例一：查询没有奖金的员工名和奖金率
+    SELECT
+    	last_name,
+    	commission_pct
+    FROM
+    	employees
+    WHERE
+    	commission_pct IS NULL
+    	
+    #案例二：查询有奖金的员工名和奖金率
+    SELECT
+    	last_name,
+    	commission_pct
+    FROM
+    	employees
+    WHERE
+    	commission_pct IS NOT NULL
+    
+    ```
+
+    
+
+### 3.排序查询  	   				
+
+### 4.常见函数                       
+
+### 5.分组函数                      
+
+### 6.分组查询		   			
+
+### 7.连接查询	 				
+
+### 8.子查询                     
+
+### 9.分页查询                  
+
+### 10.union联合查询
