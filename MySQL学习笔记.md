@@ -339,7 +339,7 @@ A(myemployees) -->B[departments]
 
 ### 1.基础查询
 
-- <font color='red'>select  要查询的字段|表达式|常量值|函数  from  表名;</font>
+- <font color='red'>语法：select  要查询的字段|表达式|常量值|函数  from  表名;</font>
 
 ```sql
 /*
@@ -401,7 +401,7 @@ SELECT CONCAT(last_name,first_name) AS 姓名 FROM employees
 
 ### 2.条件查询
 
-- <font color='red'>语法：select  查询字段  from  表名  while 筛选条件;  </font>
+- <font color='red'>语法：select  查询字段  from  表名  while 筛选条件;  </font>
 
 - 条件表达式：>  <  >=  <=  =  !=  <>
 
@@ -529,6 +529,7 @@ SELECT CONCAT(last_name,first_name) AS 姓名 FROM employees
     #----is （not）null
     /*
     判断null值不能用 = 和 <>,而要用 is 和 is not
+    也可以用安全等于 <=>
     */
     #案例一：查询没有奖金的员工名和奖金率
     SELECT
@@ -539,6 +540,14 @@ SELECT CONCAT(last_name,first_name) AS 姓名 FROM employees
     WHERE
     	commission_pct IS NULL
     	
+    SELECT
+    	last_name,
+    	commission_pct
+    FROM
+    	employees
+    WHERE
+    	commission_pct <=> NULL
+    	
     #案例二：查询有奖金的员工名和奖金率
     SELECT
     	last_name,
@@ -547,12 +556,68 @@ SELECT CONCAT(last_name,first_name) AS 姓名 FROM employees
     	employees
     WHERE
     	commission_pct IS NOT NULL
-    
+    	
+    #案例三：查询员工号为176的姓名、部门号和年薪
+    /*
+    年薪=salary*12*(1+年薪率)
+    年薪率可能为NULL，为NULL时当作0
+    年薪=salary*12*(1+IFNULL(commission_pct,0))
+    */
+    SELECT
+    	last_name,
+    	department_id,
+    	salary*12*(1+IFNULL(commission_pct,0)) AS 年薪
+    FROM
+    	employees
     ```
-
+    
     
 
-### 3.排序查询  	   				
+### 3.排序查询  
+
+- <font color='red'>语法：select  要查询的东西  from  表 【where 条件】 order by 排序的字段|表达式|别名|函数 【asc|desc】</font>  
+
+  ```sql
+  /*
+  语法:
+  select 要查询的东西
+  from 表
+  【where 条件】
+  order by 排序的字段|表达式|别名|函数 【asc|desc】
+  */
+  
+  #案例一：查询员工信息，要求按工资从高到低排序
+  SELECT *
+  FROM employees
+  ORDER BY salary ASC;
+  
+  #案例二：查询部门编号>=90的员工信息，按入职时间的先后排序
+  SELECT * 
+  FROM employees 
+  WHERE department_id >= 90 
+  ORDER BY hiredate ASC;
+  
+  #案例三：按年薪高低显示员工的信息和年薪【按表达式|别名排序】
+  SELECT *,salary*12*(1+IFNULL(commission_pct,0)) 年薪
+  FROM employees
+  ORDER BY salary*12*(1+IFNULL(commission_pct,0)) DESC;
+  
+  SELECT *,salary*12*(1+IFNULL(commission_pct,0)) 年薪
+  FROM employees
+  ORDER BY 年薪 DESC;
+  
+  #案例四：按姓名的长度显示员工信姓名和工资【按函数排序】
+  SELECT LENGTH(last_name) 姓名长度,last_name,salary
+  FROM employees
+  ORDER BY LENGTH(last_name) DESC;
+  
+  #案例五：查询员工信息，要求先按工资升序排序，如果工资相同，再按员工编号降序排序【按多个字段排序】
+  SELECT *
+  FROM employees
+  ORDER BY salary ASC,employee_id DESC;			
+  ```
+
+
 
 ### 4.常见函数                       
 
