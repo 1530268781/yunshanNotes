@@ -139,16 +139,19 @@
 
 ​		       3）简化选项与完整选项-a 等于 --all
 
-#### 2.1 文件处理命令
+
+
+#### 2.1 文件处理命令ls
 
 ##### (1) <font color='red'>ls</font>
 
-- 命令英文原意：list 
-- 功能描述：显示目录文件
+- 命令英文原意：<font color='orange'>l</font>i<font color='orange'>s</font>t 
 
 - 命令所在路径：/bin/ls 
 
 - 执行权限：所有用户
+
+- 功能描述：显示目录文件
 
 - 语法：ls 选项[-ald] [文件或目录] 
   - <font color='orange'>-a </font>（--all）显示所有文件，包括隐藏文件
@@ -165,10 +168,229 @@
   - -F (--classify) 显示文件的类型，*代表可执行文件，/代表目录
   - --color 用不同颜色显示文件类型，绿：可执行文件，蓝：文件夹，黑：普通
 
-```shell
-#举例：
-ls -al		#显示所有文件详细信息
-ls -alh		#显示所有文件详细信息（包括文件大小）
-ls -alhS	#按文件大小排序显示所有文件详细信息
-```
+	```shell
+	#举例：
+	ls -al		#显示所有文件详细信息
+	ls -alh		#显示所有文件详细信息（包括文件大小）
+	ls -alhS	#按文件大小排序显示所有文件详细信息
+	```
+	
+	tip: 显示详细信息第一列字符 -rwxr-xr-x含义，分为四个字段- rwx r-x r-x
+	
+	- 第一个字段：- 表示二进制文件，d 表示目录，l 表示软链接文件
+	- 第二个字段：u所有者权限。r、w、x分别表示读、写、执行，- 表示无对应权限
+	- 第三个字段：g所属组权限
+	- 第四个字段：o其他人权限
 
+
+
+#### 2.2 目录处理命令
+
+##### （1）<font color='red'>mkdir</font>
+
+- 命令英文原意：<font color='orange'>m</font>a<font color='orange'>k</font>e <font color='orange'>dir</font>ectories 
+
+- 命令所在路径：/bin/mkdir 
+
+- 执行权限：所有用户
+
+- 语法：mkdir -p  [目录名]
+
+- 功能描述：创建新目录    -p 递归创建( -p 可以递归创建 在没有一级目录的情况下新创建二级目录)
+
+- tip：创建目录 在/tmp/目录下创建临时文件 只能创建/tmp/......二级目录
+
+- 范例： 
+
+  ```shell
+  $ mkdir -p /tmp/Japan/boduo    #(不存在Japan目录，所以要用-p递归创建)
+  $ mkdir /tmp/Japan/longze /tmp/Japan/cangjing
+  ```
+
+
+##### （2）<font color='red'>rmdir</font>
+
+- 命令英文原意：<font color='orange'>r</font>emove e<font color='orange'>m</font>pty <font color='orange'>dir</font>ectories 
+
+- 命令所在路径：/bin/rmdir 
+
+- 执行权限：所有用户
+
+- 语法：rmdir [目录名] 
+
+- 功能描述： 删除空目录，只能删除没有文件的空目录 （不经常使用）
+
+- 范例： 
+
+  ```shell
+  $ rmdir /tmp/Japan/boduo
+  ```
+
+
+##### （3）<font color='red'>cd</font>
+
+- 命令英文原意：<font color='orange'>c</font>hange <font color='orange'>d</font>irectory 
+
+- 命令所在路径：shell 内置
+
+- 命令执行权限：所有用户
+
+- 语法：cd [目录] 
+
+- 功能描述：切换目录
+
+- 范例： 
+
+  ```shell
+  $ cd /tmp/Japan/boduo #切换到指定目录
+  $ cd .. #回到上一级目录
+  $cd / #回到根目录
+  ```
+
+
+##### （4）<font color='red'>pwd </font>
+
+- 命令英文原意： <font color='orange'>p</font>rint <font color='orange'>w</font>orking <font color='orange'>d</font>irectory 
+- 命令所在路径：/bin/pwd 
+- 执行权限：所有用户
+- 语法：pwd 
+- 功能描述：显示当前目录
+- 范例：$ pwd 
+
+##### （5）<font color='red'>cp</font>
+
+- 命令英文原意：<font color='orange'>c</font>o<font color='orange'>p</font>y 
+
+- 命令所在路径：/bin/cp 
+
+- 执行权限：所有用户
+
+- 语法：cp -rp [原文件或目录] [目标目录] 
+  - -r 复制目录
+  - -p 保留文件属性，比如保留创建时间，日志文件的复制需要用到
+
+- 功能描述：复制文件或目录
+
+- 范例：
+
+  ```shell
+  $ cp -r /tmp/Japan/cangjing /root 
+  #将目录/tmp/Japan/cangjing 复制到目录/root 下
+  
+  $ cp -rp /tmp/Japan/boduo /tmp/Japan/longze /root 
+  #将/tmp/Japan 目录下的 boduo 和 longze 目录复制到/root 下，保持目录属性
+  ```
+
+##### （6）<font color='red'>rm</font>
+
+- 命令英文原意：<font color='orange'>r</font>e<font color='orange'>m</font>ove 
+
+
+- 命令所在路径：/bin/rm 
+
+
+- 执行权限：所有用户
+
+
+- 语法：rm -rf [文件或目录] 
+  - -r 删除目录，一般是rm -rf 连着用
+  - -f 强制执行，不在询问
+
+- 功能描述：删除文件
+
+
+- 范例：
+
+  ```shell
+  $ rm /tmp/yum.log 
+  #删除文件/tmp/yum.log 
+  
+  $ rm -rf /tmp/Japan/longze 
+  #删除目录/tmp/Japan/longze
+  ```
+
+
+
+#### 2.3 文件处理命令
+
+##### (1) <font color='red'>touch</font>
+
+- 命令所在路径：/bin/touch 
+
+- 执行权限：所有用户
+
+- 语法：touch [文件名] 或 touch[绝对路径+文件名]
+
+- 功能描述：创建空文件
+
+- 范例： $ touch Japanlovestory.list
+
+##### (2) <font color='red'>cat</font>
+
+- 命令所在路径：/bin/cat 
+
+- 执行权限：所有用户
+
+- 语法：cat [文件名] 
+
+- 功能描述：显示文件内容 
+  -  -n 显示行号
+  - -A 显示隐藏字符
+
+- 范例： 
+  - $ cat /etc/issue 
+  - $ cat -n /etc/services
+
+##### (3) <font color='red'>more</font>
+
+- 命令所在路径：/bin/more 
+
+- 执行权限：所有用户
+
+- 语法：more [文件名] 
+  -  (空格) 或 f 翻页 
+  -  (Enter) 换行 
+  -  q 或 Q 退出
+
+- 功能描述：分页显示文件内容,合长的文件内容
+
+- 范例： $ more /etc/services
+
+##### (4) <font color='red'>less</font>
+
+- 命令所在路径：/usr/bin/less 执行权限：所有用户
+
+- 语法：less [文件名] 
+
+- 功能描述：分页显示文件内容（可向上翻页）
+
+- 范例： $ less /etc/services
+
+- **tips: 按下 / 后可以搜索,会反显高亮 按 q 退出（more 也可以）**
+
+##### (5) <font color='red'>head</font>
+
+- 命令所在路径：/usr/bin/head 
+
+- 执行权限：所有用户
+
+- 语法：head [文件名] 
+
+- 功能描述：显示文件前面几行 
+  - -n 指定行数
+
+- 范例： $ head -n 20 /etc/services
+
+##### (6) <font color='red'>tail</font>
+
+- 命令所在路径：/usr/bin/tail 
+
+- 执行权限：所有用户
+
+- 语法：tail [文件名] 
+
+- 功能描述：显示文件后面几行 
+  -  -n 指定行数 
+  -  -f 动态显示文件末尾内容
+
+- 范例： $ tail -n 18 /etc/services
