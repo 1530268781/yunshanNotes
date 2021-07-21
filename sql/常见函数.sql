@@ -67,3 +67,92 @@ mod(-10,-3)=-10-(-10/-3)*(-3)=-10-(-9)=-1
 SELECT MOD(10,3);
 SELECT MOD(10,-3);
 
+#三、日期函数
+#now 返回当前系统日期+时间
+SELECT NOW();
+
+#curdate 返回当前日期
+SELECT CURDATE();
+
+#curtime 返回当前时间
+SELECT CURTIME();
+
+#获取指定部分的年、月、日、小时、分、秒
+SELECT YEAR(NOW()) 年;
+SELECT YEAR('1999-10-10') 年;
+
+SELECT MONTH(NOW()) 月;
+SELECT MONTHNAME(NOW()) 月名;
+
+#将字符串转换为日期
+SELECT STR_TO_DATE('3-3-1999','%c-%d-%Y') AS out_put
+
+#将日期转换为字符
+SELECT DATE_FORMAT(hiredate,'%m月/%d日 %y年') AS out_put
+FROM employees;
+
+#四、其他函数
+SELECT VERSION();
+SELECT DATABASE();
+SELECT USER();
+
+#五、流程控制函数
+#(1)if函数：if else 效果
+SELECT IF(10<5,'小','大');
+
+SELECT 
+	last_name,
+	commission_pct,
+	IF(commission_pct IS NULL,'没有奖金','有奖金') AS 备注
+FROM employees;
+
+#(2)case函数：作为一个新字段，与前面字段用逗号隔开
+#switch case的效果
+/*
+case 要判断的表达式
+when 常量1 then 要显示的值1或语句1；
+when 常量2 then 要显示的值2或语句2；
+...
+else 要显示的值n或语句n;
+end
+*/
+/*
+案例一：查询员工的工资，要求
+部门号=30，显示工资1.1倍
+部门号=40，显示工资1.2倍
+部门号=50，显示工资1.3倍
+其他部门，显示原工资
+*/
+SELECT salary AS 原始工资,department_id,
+CASE department_id
+WHEN 30 THEN salary*1.1
+WHEN 40 THEN salary*1.2
+WHEN 50 THEN salary*1.3
+ELSE salary
+END
+AS 新工资
+FROM employees;
+
+#多重if的效果
+/*
+case 
+when 表达式1 then 要显示的值1或语句1；
+when 表达式2 then 要显示的值2或语句2；
+...
+else 要显示的值n或语句n;
+end
+*/
+/*
+案例：查询工资级别，要求
+工资>20000,显示A级别
+工资>15000，显示B级别
+工资<15000,显示C级别
+*/
+SELECT last_name,salary,
+CASE 
+WHEN salary>20000 THEN 'A'
+WHEN salary>15000 THEN 'B'
+WHEN salary>10000 THEN 'C'
+ELSE 'D'
+END AS 工资级别
+FROM employees

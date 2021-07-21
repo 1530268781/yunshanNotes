@@ -394,3 +394,64 @@
   -  -f 动态显示文件末尾内容
 
 - 范例： $ tail -n 18 /etc/services
+
+
+
+
+
+### 第十章 Shell基础
+
+#### 10.1 Shell概述
+
+- Shell是什么
+  - Shell是一个<font color='orange'>命令行解释器</font>，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用户可以用Shell来 启动、挂起、停止甚至是编写一些程序。
+
+    <img src="Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210721142803916.png" alt="image-20210721142803916" style="zoom:50%;" />
+
+  - Shell还是一个功能相当强大的<font color='orange'>编程语言</font>， 易编写，易调试，灵活性较强。Shell是解释执行的<font color='orange'>脚本语言</font>，在Shell中可以直接调用Linux系统命令。
+
+  
+
+- Shell的分类
+  - <font color='orange'>Bourne Shell</font>:从1979起Unix就开始使用 Bourne Shell，Bourne Shell的主文件名为 sh。
+
+  - <font color='orange'>C Shell</font>: C Shell主要在BSD版的Unix系 统中使用，其语法和C语言相类似而得名
+
+    Shell的两种主要语法类型有Bourne和C， 这两种语法彼此不兼容。
+
+    Bourne家族主要 包括sh、ksh、Bash、psh、zsh;
+
+    C家族主 要包括:csh、tcsh
+
+    Bash: Bash与sh兼容，现在使用的Linux 就是使用Bash作为<font color='orange'>用户的基本Shell</font>。
+
+  - Linux支持的Shell
+    /etc/shells
+    会显示：/bin/sh、/bin/bash、/sbin/nologin、/bin/tcsh、/bin/csh
+    都是Linux支持的Shell
+
+    ```shell
+    [zlx@zlx-vmwarevirtualplatform ~]$ cat /etc/shells
+    # Pathnames of valid login shells.
+    # See shells(5) for details.
+    
+    /bin/sh
+    /bin/bash
+    /bin/zsh
+    /usr/bin/zsh
+    /usr/bin/git-shell
+    
+    ```
+
+    
+
+#### 10.2 Shell脚本的执行方式
+
+#### 10.3 Bash的基本功能
+
+#### 10.4 Bash的变量
+
+#### 10.5 Bash的运算符-1
+
+#### 10.6 Bash的运算符-2
+
