@@ -47,11 +47,11 @@
   - **/proc**：
     proc 是 Processes(进程) 的缩写，/proc 是一种伪文件系统（也即虚拟文件系统），存储的是<font color='orange'>当前内核运行状态</font>的一系列特殊文件，这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。
     这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件，比如可以通过下面的命令来屏蔽主机的ping命令，使别人无法ping你的机器：
-    
+
     ```shell
      echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all  
     ```
-    
+
   - **/root**：<font color='red'>[重点]</font>
     该目录为系统管理员，也称作超级权限者的用户主目录
 
@@ -82,13 +82,13 @@
 
     - **/usr/bin：**
       系统用户使用的应用程序。
-      
+
     - **/usr/sbin：**
       超级用户使用的比较高级的管理程序和系统守护程序。
-      
+
     - **/usr/src：**
       内核源代码默认的放置目录。
-      
+
     - **/usr/local：**<font color='red'>[重点]</font>
 
       这是另一个给主机额外安装软件所安装的目录。一般是通过编译源码方式安装的程序。
@@ -100,7 +100,7 @@
     linux 系统会自动识别一些设备，例如U盘、光驱等等，当识别后，Linux 会把识别的设备挂载到这个目录下。
 
   - **/selinux**：
-     这个目录是 Redhat/CentOS 所特有的目录，Selinux 是一个安全机制，类似于 windows 的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。
+    这个目录是 Redhat/CentOS 所特有的目录，Selinux 是一个安全机制，类似于 windows 的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。
 
 
 
@@ -154,6 +154,7 @@
 - 功能描述：显示目录文件
 
 - 语法：ls 选项[-ald] [文件或目录] 
+
   - <font color='orange'>-a </font>（--all）显示所有文件，包括隐藏文件
   - <font color='orange'>-l</font> (--list) 详细信息显示（权限，所有者等）
   - -m (--format=commas) 用逗号分隔的列表显示
@@ -168,19 +169,19 @@
   - -F (--classify) 显示文件的类型，*代表可执行文件，/代表目录
   - --color 用不同颜色显示文件类型，绿：可执行文件，蓝：文件夹，黑：普通
 
-	```shell
-	#举例：
-	ls -al		#显示所有文件详细信息
-	ls -alh		#显示所有文件详细信息（包括文件大小）
-	ls -alhS	#按文件大小排序显示所有文件详细信息
-	```
-	
-	tip: 显示详细信息第一列字符 -rwxr-xr-x含义，分为四个字段- rwx r-x r-x
-	
-	- 第一个字段：- 表示二进制文件，d 表示目录，l 表示软链接文件
-	- 第二个字段：u所有者权限。r、w、x分别表示读、写、执行，- 表示无对应权限
-	- 第三个字段：g所属组权限
-	- 第四个字段：o其他人权限
+  ```shell
+  #举例：
+  ls -al		#显示所有文件详细信息
+  ls -alh		#显示所有文件详细信息（包括文件大小）
+  ls -alhS	#按文件大小排序显示所有文件详细信息
+  ```
+
+  tip: 显示详细信息第一列字符 -rwxr-xr-x含义，分为四个字段- rwx r-x r-x
+
+  - 第一个字段：- 表示二进制文件，d 表示目录，l 表示软链接文件
+  - 第二个字段：u所有者权限。r、w、x分别表示读、写、执行，- 表示无对应权限
+  - 第三个字段：g所属组权限
+  - 第四个字段：o其他人权限
 
 
 
@@ -266,6 +267,7 @@
 - 执行权限：所有用户
 
 - 语法：cp -rp [原文件或目录] [目标目录] 
+
   - -r 复制目录
   - -p 保留文件属性，比如保留创建时间，日志文件的复制需要用到
 
@@ -296,7 +298,7 @@
   - -r 删除目录，一般是rm -rf 连着用
   - -f 强制执行，不在询问
 
-- 功能描述：删除文件
+- 功能描述：删除文件或目录（-r）
 
 
 - 范例：
@@ -335,7 +337,7 @@
 
 - 功能描述：显示文件内容 
   -  -n 显示行号
-  - -A 显示隐藏字符
+  -  -A 显示隐藏字符
 
 - 范例： 
   - $ cat /etc/issue 
@@ -404,6 +406,7 @@
 #### 10.1 Shell概述
 
 - Shell是什么
+
   - Shell是一个<font color='orange'>命令行解释器</font>，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用户可以用Shell来 启动、挂起、停止甚至是编写一些程序。
 
     <img src="Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210721142803916.png" alt="image-20210721142803916" style="zoom:50%;" />
@@ -413,6 +416,7 @@
   
 
 - Shell的分类
+
   - <font color='orange'>Bourne Shell</font>:从1979起Unix就开始使用 Bourne Shell，Bourne Shell的主文件名为 sh。
 
   - <font color='orange'>C Shell</font>: C Shell主要在BSD版的Unix系 统中使用，其语法和C语言相类似而得名
@@ -440,16 +444,356 @@
     /bin/zsh
     /usr/bin/zsh
     /usr/bin/git-shell
-    
     ```
 
     
 
 #### 10.2 Shell脚本的执行方式
 
+##### （1）<font color='red'>echo </font>输出命令
+
+- #echo [选项] [输出内容] 
+
+- <font color='orange'>-e</font>: 支持反斜线控制的转义字符
+
+| 控制字符 |                             作用                             |
+| :------: | :----------------------------------------------------------: |
+|    \     |                          输出\本身                           |
+|    \a    |                          输出警告音                          |
+|    \b    |                   退格键，也就是向左删除键                   |
+|    \c    |             取消输出行末的换行符。和“-n”选项一致             |
+|    \e    |                           ESCAPE键                           |
+|    \f    |                            换页符                            |
+|    \n    |                            换行符                            |
+|    \r    |                            回车键                            |
+|    \t    |                     制表符，也就是Tab键                      |
+|    \v    |                          垂直制表符                          |
+|  \0nnn   | 按照八进制ASCII码表输出字符。其中0为数字零，nnn是三位八进制数 |
+|   \xhh   |    按照十六进制ASCII码表输出字符。其中hh是两位十六进制数     |
+
+- 例子
+
+  ```shell
+  #\b退格删除左侧字符$ echo -e 'ab\bc'ac#\t制表符 \n换行符$ echo -e 'a\tb\tc\nd\te\tf'a	b	cd	e	f#\x按照十六进制ASCII码表输出字符$ echo -e '\x61\t\x62\t\x63'a	b	c$ echo -e '\e[1;31m abcd \e[0m' abcd #因为\e[1; 表示开启颜色区别 \e[0m 表示结束颜色区别 31m表示红色 还有其他：#30m=黑色，31m=红色，32m=绿色，33m=黄色，34m=蓝色，35m=洋红，36m=青色，#37m=白色
+  ```
+
+##### （2）第一个脚本
+
+```shell
+$ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文档$ ls$ mkdir 脚本练习$ cd 脚本练习$ vim hello.sh$ sh hello.shWelcome to linux world!hhh
+```
+
+
+```sh
+#!/bin/bash#This is my first program#Author:zlxecho -e 'Welcome to linux world!\nhhh'
+```
+
+注意：在这一段脚本中，#!/bin/Bash这一句是个例外，他并不是注释，是标识，说明以下语句是Shell脚本，解释器是/bin/bash
+
+##### （5）执行脚本
+
+- 赋予执行权限，直接运行
+
+  - chmod 755 hello.sh
+  - ./hello.sh
+
+- 通过Bash调用执行脚本
+
+  - bash hello.sh
+  - 或 sh hello.sh  (不需要执行权限就可以执行)
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 脚本练习]$ ./hello.shbash: ./hello.sh: 权限不够[zlx@zlx-vmwarevirtualplatform 脚本练习]$ chmod 755 hello.sh[zlx@zlx-vmwarevirtualplatform 脚本练习]$ ./hello.shWelcome to linux world!hh[zlx@zlx-vmwarevirtualplatform 脚本练习]$ sh hello.shWelcome to linux world!hh
+  ```
+
+
+
 #### 10.3 Bash的基本功能
 
-#### 10.4 Bash的变量
+##### （1） 历史命令<font color='red'>history</font>与命令补全
+
+- **历史命令**
+
+  - history [选项] [历史命令保存文件] 
+
+  - 选项： 
+
+    - -c： 清空历史命令 
+
+    - -w： 把缓存中的历史命令写入历史命令保存文件 <font color='orange'>~/.bash_history </font>
+
+      历史命令默认会保存 1000 条,可以在环境变量配置文件/etc/profile 中进行修改
+
+  - 历史命令的调用
+
+    - 使用<font color='orange'>上、下箭头</font>调用以前的历史命令
+
+    - 使用“<font color='orange'>!n</font>”重复执行第 n 条历史命令
+
+    - 使用“<font color='orange'>!!</font>”重复执行上一条命令
+
+    - 使用“<font color='orange'>!字串</font>”重复执行最后一条以该字串开头的命令 
+
+      ```shell
+      [zlx@zlx-vmwarevirtualplatform ~]$ ls公共  模板  视频  图片  文档  下载  音乐  桌面[zlx@zlx-vmwarevirtualplatform ~]$ !!ls公共  模板  视频  图片  文档  下载  音乐  桌面[zlx@zlx-vmwarevirtualplatform ~]$ !lls公共  模板  视频  图片  文档  下载  音乐  桌面
+      ```
+
+
+
+- **命令与文件补全**
+  -  在 Bash 中，命令与文件补全是非常方便与常用的功能，我们只要在输入命令或文件时，按“Tab”键就会自动进行补全
+
+
+
+##### （2）命令别名<font color='red'>alias</font>与常用快捷键
+
+- **命令别名**
+
+  - alias 别名='原命令' 		#设定命令别名 
+  - alias        #查询命令别名 
+
+- **命令执行时顺序**
+
+  - 1 第一顺位执行用<font color='orange'>绝对路径或相对路径</font>执行的命令。
+  - 2 第二顺位执行<font color='orange'>别名</font>。
+  - 3 第三顺位执行 <font color='orange'>Bash</font>font> 的内部命令。
+  - 4 第四顺位执行按照<font color='orange'>$PATH 环境变量定义的目录查找顺序</font>找到的第一个命令。
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform ~]$ alias vi='vim'[zlx@zlx-vmwarevirtualplatform ~]$ aliasalias cp='cp -i'alias df='df -h'alias egrep='egrep --colour=auto'alias fgrep='fgrep --colour=auto'alias free='free -m'alias grep='grep --colour=auto'alias home='cd ~'alias ls='ls --color=auto'alias more='less'alias np='nano -w PKGBUILD'alias vi='vim'#再执行vi时不会调用PATH目录中命令，因为别名的优先级比PATH高#输出系统环境变量定义的目录[zlx@zlx-vmwarevirtualplatform ~]$ echo $PATH/home/zlx/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin#查询某条命令所在目录[zlx@zlx-vmwarevirtualplatform ~]$ whereis lsls: /usr/bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz[zlx@zlx-vmwarevirtualplatform ~]$ whereis vivi: /usr/bin/vi /usr/share/man/man1/vi.1.gz /usr/share/man/man1p/vi.1p.gz[zlx@zlx-vmwarevirtualplatform ~]$ whereis vimvim: /usr/bin/vim /usr/share/vim /usr/share/man/man1/vim.1.gz
+  ```
+
+- **让别名永久生效**
+
+  - vim /root/.bashrc
+
+- **删除别名**
+
+  - unalias 别名
+
+- **Bash 常用快捷键**
+
+  |                   快捷键                   |                             作用                             |
+  | :----------------------------------------: | :----------------------------------------------------------: |
+  | <font color='cornflowerblue'>ctrl+a</font> | 把光标移动到命令行开头。如果我们输入的命令过长，想要把光标移 动到命令行开头时使用。 |
+  | <font color='cornflowerblue'>ctrl+e</font> |                   把光标移动到命令行结尾。                   |
+  | <font color='cornflowerblue'>ctrl+c</font> |                     强制终止当前的命令。                     |
+  | <font color='cornflowerblue'>ctrl+l</font> |                   清屏，相当于clear命令。                    |
+  | <font color='cornflowerblue'>ctrl+u</font> | 删除或<font color='red'>剪切</font>光标之<font color='red'>前</font>的命令。我输入了一行很长的命令，不用使用退 格键一个一个字符的删除，使用这个快捷键会更加方便 |
+  |                   ctrl+k                   |     删除或剪切光标之<font color='red'>后</font>的内容。      |
+  | <font color='cornflowerblue'>ctrl+y</font> |   <font color='red'>粘贴</font> ctrl+U或ctrl+K剪切的内容。   |
+  | <font color='cornflowerblue'>ctrl+r</font> | 在历史命令中搜索，按下ctrl+R之后，就会出现搜索界面，只要输入 搜索内容，就会从历史命令中搜索。 |
+  | <font color='cornflowerblue'>ctrl+d</font> |                        退出当前终端。                        |
+  |                   ctrl+z                   | 暂停，并放入后台。这个快捷键牵扯工作管理的内容，我们在系统管 理章节详细介绍。 |
+  |                   ctrl+s                   |                        暂停屏幕输出。                        |
+  |                   ctrl+q                   |                        恢复屏幕输出。                        |
+
+
+
+##### （3）输入输出重定向
+
+- **标准输入输出**
+
+  ![image-20210722132956166](Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210722132956166.png)
+
+  
+
+- **<font color='red'>输出重定向>></font>**
+
+  就是改变输出方向，比如由屏幕输出到文件，非常有用
+
+  | 类型               | 符号             | 作用                                                         |
+  | ------------------ | ---------------- | ------------------------------------------------------------ |
+  | 标准输出重定向     | 命令 > 文件      | 以<font color='red'>覆盖</font>的方式，把命令的正确输出输出到指定的文件或设备当中。 |
+  | 标准输出重定向     | 命令 >> 文件     | 以<font color='red'>追加</font>的方式，把命令的正确输出输出到指定的文 件或设备当中。 |
+  | 标准错误输出重定向 | 错误命令 2>文件  | 以覆盖的方式，把命令的错误输出输出到指定的文件或设备当中。   |
+  | 标准错误输出重定向 | 错误命令 2>>文件 | 以追加的方式，把命令的错误输出输出到指定的文件或设备当中。   |
+
+  tip:在输入报错文件中 2和>>必选<font color='red'>连着写</font>,标准错误输出不常用
+
+  | 类型                       | 符号                   | 作用                                                        |
+  | -------------------------- | ---------------------- | ----------------------------------------------------------- |
+  | 正确输出和错误输出同时保存 | 命令 > 文件 2>&1       | 以覆盖的方式，把正确输出和错误输出都保存到同 一个文件当中。 |
+  | 正确输出和错误输出同时保存 | 命令 >> 文件 2>&1      | 以追加的方式，把正确输出和错误输出都保存到同 一个文件当中。 |
+  | 正确输出和错误输出同时保存 | 命令 &> 文件           | 以覆盖的方式，把正确输出和错误输出都保存到同一个文件当中    |
+  | 正确输出和错误输出同时保存 | 命令 &>> 文件          | 以追加的方式，把正确输出和错误输出都保存到同一个文件当中。  |
+  | 正确输出和错误输出同时保存 | 命令 >> 文件1 2>>文件2 | 把正确的输出追加到文件1中，把错误的输出追加到文件2中。      |
+
+  tip:命令 >> 文件 2>&1 ，命令 &>>文件 两种保存都一样，只不过是格式不同
+  有一个用法：
+  命令 &>/dev/unll 不管命令是否正确，直接丢人这个文件夹，不保存任何数据，在写shell脚本时有用
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform ~]$ ls >> ./文档/cdx
+  [zlx@zlx-vmwarevirtualplatform ~]$ cat ./文档/cdx
+  公共
+  模板
+  视频
+  图片
+  文档
+  下载
+  音乐
+  桌面
+  [zlx@zlx-vmwarevirtualplatform ~]$ lst
+  bash: lst：未找到命令
+  [zlx@zlx-vmwarevirtualplatform ~]$ lst 2>> ./文档/cdx
+  [zlx@zlx-vmwarevirtualplatform ~]$ cat ./文档/cdx
+  公共
+  模板
+  视频
+  图片
+  文档
+  下载
+  音乐
+  桌面
+  bash: lst：未找到命令
+  
+  [zlx@zlx-vmwarevirtualplatform ~]$ ls &>> ./文档/cdx1
+  [zlx@zlx-vmwarevirtualplatform ~]$ lst &>> ./文档/cdx1
+  [zlx@zlx-vmwarevirtualplatform ~]$ cat ./文档/cdx1
+  公共
+  模板
+  视频
+  图片
+  文档
+  下载
+  音乐
+  桌面
+  bash: lst：未找到命令
+  ```
+
+  
+
+- **<font color='red'>输入重定向WC</font>**
+
+  不通过键盘输入，通过文件输入，在实际中用的不多，用在给源码包打补丁
+  - wc [选项] [文件名] :统计某个文件输入的行数、单词数、字节数
+
+  - 选项
+
+    - -c 统计字节数
+    - -w 统计单词数
+    - -l 统计行数
+
+  - 用法：
+    命令 <font color='red'>< 文件</font> ：把文件作为命令的输入
+    命令<font color='red'> << 标识符 内容  标识符</font>：把标识符之间内容作为命令的输入
+
+    ```shell
+    #统计行数、单词数、字符数
+    [zlx@zlx-vmwarevirtualplatform ~]$ wc
+    jdign ing
+    jgidn ingd 
+    jiiji
+    jis9e      3       6      33
+    #统计输入文件
+    [zlx@zlx-vmwarevirtualplatform ~]$ wc < ./文档/cdx
+     9 10 84
+    #统计输入文件行数
+    [zlx@zlx-vmwarevirtualplatform ~]$ wc -l < ./文档/cdx
+    9
+    #以quit为标识符，统计内容
+    [zlx@zlx-vmwarevirtualplatform ~]$ wc << quit
+    > jdig
+    > jidigj jidg
+    > jig
+    > quit
+          3       4      21
+    ```
+
+    
+
+**10.3.4 多命令顺序执行与管道符**
+
+1、 多命令顺序执行
+
+例子： [root@localhost ~]# ls ; date ; cd /user ; pwd
+
+[root@localhost ~]# dd if=输入文件 of=输出文件 bs=字节数 count=个数 
+
+选项： 
+
+if=输入文件 指定源文件或源设备 
+
+of=输出文件 指定目标文件或目标设备 
+
+bs=字节数 指定一次输入/输出多少字节，即把这些字节看做一个数据块
+
+count=个数 指定输入/输出多少个数据块 
+
+例子：
+
+[root@localhost ~]# date ; dd if=/dev/zero of=/root/testfile bs=1k count=100000 ; date[root@localhost ~]# ls anaconda-ks.cfg && echo yes 
+
+[root@localhost ~]# ls /root/test || echo "no 
+
+[root@localhost ~]# 命令 && echo yes || echo no
+
+2、 管道符
+
+命令格式：
+
+[root@localhost ~]# 命令 1 | 命令 2 
+
+\#命令 1 的正确输出作为命令 2 的操作对象
+
+颜色显示 
+
+例子：
+
+[root@localhost ~]# ll -a /etc/ | more 
+
+[root@localhost ~]# netstat -an | grep "ESTABLISHED"
+
+[root@localhost ~]# grep [选项] "搜索内容" 文件名
+
+选项： 
+
+-i： 忽略大小写 
+
+-n： 输出行号 
+
+-v： 反向查找 
+
+--color=auto 搜索出的关键字用颜色显示
+
+**10.3.5 通配符与其他特殊符号**
+
+1、通配符[root@localhost ~]# cd /tmp/ 
+
+[root@localhost tmp]# rm -rf * 
+
+[root@localhost tmp]# touch abc 
+
+[root@localhost tmp]# touch abcd 
+
+[root@localhost tmp]# touch 012 
+
+[root@localhost tmp]# touch 0abc 
+
+[root@localhost tmp]# ls ?abc 
+
+[root@localhost tmp]# ls [0-9]* 
+
+[root@localhost tmp]# ls [^0-9]*3、 Bash 中其他特殊符号反引号与$() 
+
+[root@localhost ~]# echo `ls` 
+
+[root@localhost ~]# echo $(date) 
+
+单引号与双引号
+
+[root@localhost ~]# name=sc 
+
+[root@localhost ~]# echo '$name' 
+
+[root@localhost ~]# echo "$name" 
+
+[root@localhost ~]# echo ‘$(date)' 
+
+[root@localhost ~]# echo “$(date)"
+
+**10.4 Bash 的变量**
 
 #### 10.5 Bash的运算符-1
 

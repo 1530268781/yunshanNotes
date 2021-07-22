@@ -156,3 +156,40 @@ WHEN salary>10000 THEN 'C'
 ELSE 'D'
 END AS 工资级别
 FROM employees
+
+#二、分组函数
+/*
+功能：做统计使用，又称为聚合函数、统计函数或组函数
+sum 求和、avg 平均值、max 最大值、min 最小值、count 计算个数
+*/
+#1.简单使用
+SELECT SUM(salary) AS 工资总和 FROM employees;
+SELECT MAX(salary) AS 最高工资 FROM employees;
+SELECT MIN(salary) AS 最低工资 FROM employees;
+SELECT AVG(salary) AS 平均工资 FROM employees;
+SELECT COUNT(salary) AS 有工资的人数 FROM employees;
+SELECT SUM(salary)/COUNT(salary) AS 平均工资 FROM employees;
+
+#2.参数支持那些类型
+/*
+sum,avg一般处理数值型；
+max,min,count可以处理任何类型；
+*/
+SELECT SUM(last_name),AVG(last_name) FROM employees;
+
+SELECT MAX(last_name),MIN(last_name) FROM employees;
+
+#3.以上分组函数都忽略null值；
+SELECT IF(COUNT(commission_pct)-COUNT(salary)<>0,'不相等','相等') 
+FROM employees;
+
+#4.和distinct搭配
+#查看有几种工资
+SELECT COUNT(DISTINCT salary) FROM employees;
+
+#5.count函数的详细介绍
+#统计表的行数（不忽略null值）
+SELECT COUNT(*) FROM employees;
+SELECT COUNT(1) FROM employees;	#除了1可以是任意常量值
+
+#6.和分组函数一同查询的字段要求是group by后的字段
