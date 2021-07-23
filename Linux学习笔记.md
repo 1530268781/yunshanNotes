@@ -1,4 +1,4 @@
-### 第一章 Linux的目录结构
+## 第一章 Linux的目录结构
 
 #### 1.1 基本介绍
 
@@ -117,9 +117,11 @@
 
 
 
-### 第二章 Linux常用命令
+## 第二章 Linux常用命令
 
-#### 2.0 通配符与命令格式
+### 2.1 文件处理命令
+
+#### 2.1.0 通配符与命令格式
 
 ##### (1)通配符
 
@@ -141,7 +143,7 @@
 
 
 
-#### 2.1 文件处理命令ls
+#### 2.1.1 文件处理命令ls
 
 ##### (1) <font color='red'>ls</font>
 
@@ -185,7 +187,7 @@
 
 
 
-#### 2.2 目录处理命令
+#### 2.1.2 目录处理命令
 
 ##### （1）<font color='red'>mkdir</font>
 
@@ -313,7 +315,7 @@
 
 
 
-#### 2.3 文件处理命令
+#### 2.1.3 文件处理命令
 
 ##### (1) <font color='red'>touch</font>
 
@@ -399,58 +401,235 @@
 
 
 
+#### 2.1.4 文件链接命令
+
+##### （5）<font color='red'>ln</font>
+
+- 命令英文原意：link 
+
+- 命令所在路径：/bin/ln 
+
+- 执行权限：所有用户
+
+- 语法：ln -s [原文件] [目标文件] 
+  - -s 创建软链接
+
+- 功能描述：生成链接文件
+
+- 范例： 
+
+  ```shell
+  $ ln -s /etc/issue /tmp/issue.soft 
+  
+  #创建文件/etc/issue 的软链接/tmp/issue.soft 
+  
+  $ ln /etc/issue /tmp/issue.hard 
+  
+  #创建文件/etc/issue 的硬链接/tmp/issue.hard
+  ```
+
+- 软链接
+
+  - 软链接的作用和Windows中的快捷方式是差不多的。他只不过是指向源文件安装路径的符号链接，所以大小也很小
+  - 而且它的文件类型是lrwxrwxrwx 看似三种用户都可以拥有所有权限。其实，真正拥有的权限是源文件所决定的权限 ，所以这种显示也是软链接的一大特征之一。
+
+- 硬链接
+
+  - 硬链接就是把源文件拷贝到目标位置，而他与cp -p 最大的一点区别就是他可以同步更新，源文件有变化硬链接文件也会同时发生变化，但是如果源文件丢失或者被删除，硬链接也并不会消失
+  - 可以通过i节点来区分，源文件和硬链接文件的i节点是一样的，所以他们会同步更新
+  - 但是他不能跨分区放置硬链接比如：/分区 硬链接 不能放到/boot 分区 
+  - 而且不能对目录使用
 
 
-### 第十章 Shell基础
 
-#### 10.1 Shell概述
+### 2.2 全权限管理命令
 
-- Shell是什么
+#### 4.2.1 权限管理命令 <font color='red'>chmod</font>
 
-  - Shell是一个<font color='orange'>命令行解释器</font>，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用户可以用Shell来 启动、挂起、停止甚至是编写一些程序。
+##### （1）chmod 
 
-    <img src="Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210721142803916.png" alt="image-20210721142803916" style="zoom:50%;" />
+- 命令英文原意：<font color='orange'>ch</font>ange the permissions <font color='orange'>mod</font>e of a file 
 
-  - Shell还是一个功能相当强大的<font color='orange'>编程语言</font>， 易编写，易调试，灵活性较强。Shell是解释执行的<font color='orange'>脚本语言</font>，在Shell中可以直接调用Linux系统命令。
+- 命令所在路径：/bin/chmod 
+
+- 执行权限：所有用户
+
+- 语法：chmod [{ugoa}{+-=}{rwx}] [文件或目录] 
+
+  -  -R 递归修改
+
+  - u ：所有者    g ：所属组
+    o ：其他人    a ：所有用户
+
+    ```shell
+    chmod g+x,o+r /tmp/testfile
+    #就是把testfile文件的所属组增加执行权限，其他人增加读权限
+    chmod a=rwx /tmp/testfile
+    #就是testfile文件的所有用户增加读写执行权限
+    ```
+
+- 功能描述：改变文件或目录
+
+- 权限权限的数字表示 ：chmod [rwx的和,rwx的和,rwx的和]] [文件或者目录]
+  - r ---- 4  w ---- 2  x ---- 1
+
+    例如：rwxrw-r- - 它的权限位数字表示就是 764
+    具体算法：
+    **r+w+x=4+2+1=7
+    r+w=4+2+0=6
+    r=4+0+0=4**
+
+- chmod -R [rwx的和,rwx的和,rwx的和] [文件或目录]
+  **这条命令与mkdir -p递归创建目录一样 这个命令把一个目录下的所有子目录的操作权限全部修改为同样的**
+
+
+
+##### （2）创建用户命令
+
+- useradd [用户名] 	创建普通用户
+- passwd [用户名]      用户密码
+- su - [用户名]             切换普通用户
+
+
+
+##### （3）权限对文件和目录的含义
+
+| 代表字符 | 权限 | 对文件的含义 | 对目录的含义 |
+| -------- | ---- | ------------ | ------------ |
+|r	|读权限	|可以查看文件内容 |可以cat/more/head/tail/less	|
+|w	|写权限	|可以修改文件内容 可以vim	|可以在目录中创建，删除文件，可以touch/mkdir/rmdir/rm|
+|x	|执行权限	|可以执行文件 可以script(脚本) command(命令)	|可以进入目录 可以cd|
+
+
+
+#### 4.2.2 其他权限管理命令
+
+##### （1）<font color='red'>chown</font>
+
+- 命令英文原意：<font color='orange'>ch</font>ange file <font color='orange'>own</font>ership
+
+
+- 命令所在路径：/bin/chown 
+
+
+- 执行权限：所有用户
+
+
+- 语法：chown [用户] [文件或目录] 
+
+
+- 功能描述：改变文件或目录的所有者 范例：$ chown shenchao fengjie 
+
+
+- 改变文件 fengjie 的所有者为 shenchao
+
+
+
+##### （2）<font color='red'>chgrp </font>
+
+- 命令英文原意：change file group ownership 
+
+
+- 命令所在路径：/bin/chgrp
+
+
+- 执行权限：所有用户
+
+
+- 语法：chgrp [用户组] [文件或目录] 
+
+
+- 功能描述：改变文件或目录的所属组
+
+
+- 范例：$ chgrp lampbrother fengjie 
+
+
+ 改变文件 fengjie 的所属组为 lampbrother
+
+
+
+##### （3）<font color='red'>umask</font>
+
+- 命令英文原意：the user file-creation mask 
+
+
+- 命令所在路径：Shell 内置命令
+
+
+- 执行权限：所有用户
+
+
+- 语法：umask [-S] 
+
+
+- -S 以 rwx 形式显示新建文件缺省权限
+
+- 功能描述：显示、设置文件的缺省权限
+
+
+- 范例： $ umask -S
+
+
+tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击）
+
+
+
+
+
+## 第十章 Shell基础
+
+### 10.1 Shell概述
+
+#### 10.1.1 Shell是什么
+
+- Shell是一个<font color='orange'>命令行解释器</font>，它为用户提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用户可以用Shell来 启动、挂起、停止甚至是编写一些程序。
+
+  <img src="Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210721142803916.png" alt="image-20210721142803916" style="zoom:50%;" />
+
+- Shell还是一个功能相当强大的<font color='orange'>编程语言</font>， 易编写，易调试，灵活性较强。Shell是解释执行的<font color='orange'>脚本语言</font>，在Shell中可以直接调用Linux系统命令。
+
+
+
+#### 10.1.2 Shell的分类
+
+- <font color='orange'>Bourne Shell</font>:从1979起Unix就开始使用 Bourne Shell，Bourne Shell的主文件名为 sh。
+
+- <font color='orange'>C Shell</font>: C Shell主要在BSD版的Unix系 统中使用，其语法和C语言相类似而得名
+
+  Shell的两种主要语法类型有Bourne和C， 这两种语法彼此不兼容。
+
+  Bourne家族主要 包括sh、ksh、Bash、psh、zsh;
+
+  C家族主 要包括:csh、tcsh
+
+  Bash: Bash与sh兼容，现在使用的Linux 就是使用Bash作为<font color='orange'>用户的基本Shell</font>。
+
+
+
+#### 10.1.3 Linux支持的Shell
+
+  /etc/shells
+  会显示：/bin/sh、/bin/bash、/sbin/nologin、/bin/tcsh、/bin/csh
+  都是Linux支持的Shell
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform ~]$ cat /etc/shells
+  # Pathnames of valid login shells.
+  # See shells(5) for details.
+  
+  /bin/sh
+  /bin/bash
+  /bin/zsh
+  /usr/bin/zsh
+  /usr/bin/git-shell
+  ```
 
   
 
-- Shell的分类
+### 10.2 Shell脚本的执行方式
 
-  - <font color='orange'>Bourne Shell</font>:从1979起Unix就开始使用 Bourne Shell，Bourne Shell的主文件名为 sh。
-
-  - <font color='orange'>C Shell</font>: C Shell主要在BSD版的Unix系 统中使用，其语法和C语言相类似而得名
-
-    Shell的两种主要语法类型有Bourne和C， 这两种语法彼此不兼容。
-
-    Bourne家族主要 包括sh、ksh、Bash、psh、zsh;
-
-    C家族主 要包括:csh、tcsh
-
-    Bash: Bash与sh兼容，现在使用的Linux 就是使用Bash作为<font color='orange'>用户的基本Shell</font>。
-
-  - Linux支持的Shell
-    /etc/shells
-    会显示：/bin/sh、/bin/bash、/sbin/nologin、/bin/tcsh、/bin/csh
-    都是Linux支持的Shell
-
-    ```shell
-    [zlx@zlx-vmwarevirtualplatform ~]$ cat /etc/shells
-    # Pathnames of valid login shells.
-    # See shells(5) for details.
-    
-    /bin/sh
-    /bin/bash
-    /bin/zsh
-    /usr/bin/zsh
-    /usr/bin/git-shell
-    ```
-
-    
-
-#### 10.2 Shell脚本的执行方式
-
-##### （1）<font color='red'>echo </font>输出命令
+#### 10.2.1 <font color='red'>echo </font>输出命令
 
 - #echo [选项] [输出内容] 
 
@@ -477,7 +656,9 @@
   #\b退格删除左侧字符$ echo -e 'ab\bc'ac#\t制表符 \n换行符$ echo -e 'a\tb\tc\nd\te\tf'a	b	cd	e	f#\x按照十六进制ASCII码表输出字符$ echo -e '\x61\t\x62\t\x63'a	b	c$ echo -e '\e[1;31m abcd \e[0m' abcd #因为\e[1; 表示开启颜色区别 \e[0m 表示结束颜色区别 31m表示红色 还有其他：#30m=黑色，31m=红色，32m=绿色，33m=黄色，34m=蓝色，35m=洋红，36m=青色，#37m=白色
   ```
 
-##### （2）第一个脚本
+
+
+#### 10.2.2 第一个脚本
 
 ```shell
 $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文档$ ls$ mkdir 脚本练习$ cd 脚本练习$ vim hello.sh$ sh hello.shWelcome to linux world!hhh
@@ -490,7 +671,9 @@ $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文
 
 注意：在这一段脚本中，#!/bin/Bash这一句是个例外，他并不是注释，是标识，说明以下语句是Shell脚本，解释器是/bin/bash
 
-##### （5）执行脚本
+
+
+#### 10.2.3执行脚本
 
 - 赋予执行权限，直接运行
 
@@ -508,9 +691,9 @@ $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文
 
 
 
-#### 10.3 Bash的基本功能
+### 10.3 Bash的基本功能
 
-##### （1） 历史命令<font color='red'>history</font>与命令补全
+#### 10.3.1 历史命令<font color='red'>history</font>与命令补全
 
 - **历史命令**
 
@@ -545,7 +728,7 @@ $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文
 
 
 
-##### （2）命令别名<font color='red'>alias</font>与常用快捷键
+#### 10.3.2 命令别名<font color='red'>alias</font>与常用快捷键
 
 - **命令别名**
 
@@ -590,7 +773,7 @@ $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文
 
 
 
-##### （3）输入输出重定向
+#### 10.3.3 输入输出重定向
 
 - **标准输入输出**
 
@@ -703,9 +886,17 @@ $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文
 
     
 
-**10.3.4 多命令顺序执行与管道符**
 
-1、 多命令顺序执行
+
+#### 10.3.4 多命令顺序执行与管道符
+
+- **多命令顺序执行**
+
+|  多命令执行符 | 格式  | 作用  |
+|:--:|:---:|:---:|
+| ；  |命令1 ; 命令2	|多个命令顺序执行，命令之间没有任何逻辑联系，就算第一条报错，第二条也会执行|
+|&&	|命令1 && 命令2	|逻辑与当命令1正确执行，则命令2才会执行 当命令1执行不正确，则命令2不会执行|
+| \|\|	|命令1 \|\| 命令2	|逻辑或当命令1 执行不正确，则命令2才会执行 当命令1正确执行，则命令2不会执行|
 
 例子： [root@localhost ~]# ls ; date ; cd /user ; pwd
 
@@ -793,9 +984,11 @@ count=个数 指定输入/输出多少个数据块
 
 [root@localhost ~]# echo “$(date)"
 
-**10.4 Bash 的变量**
 
-#### 10.5 Bash的运算符-1
 
-#### 10.6 Bash的运算符-2
+### 10.4 Bash 的变量
+
+### 10.5 Bash的运算符-1
+
+### 10.6 Bash的运算符-2
 
