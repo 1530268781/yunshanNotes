@@ -621,7 +621,7 @@ SELECT CONCAT(last_name,first_name) AS 姓名 FROM employees
 
 ### 4.单行函数  
 
-#### （1）字符函数
+- 字符函数
 
 ```sql
 #(1)length()：获取参数值的字节个数(汉字占3个字节)
@@ -662,7 +662,7 @@ select rpad('殷素素','10','$') as output;
 select replace('张无忌爱上了周芷若周芷若','周芷若','赵敏');
 ```
 
-#### （2）数学函数
+- 数学函数
 
 ```sql
 #(1)round:四舍五入
@@ -689,7 +689,7 @@ SELECT MOD(10,3);
 SELECT MOD(10,-3);
 ```
 
-#### （3）日期函数
+- 日期函数
 
 ```sql
 #now 返回当前系统日期+时间
@@ -716,7 +716,7 @@ SELECT DATE_FORMAT(hiredate,'%m月/%d日 %y年') AS out_put
 FROM employees;
 ```
 
-#### （5）其他函数
+- 其他函数
 
 ```sql
 SELECT VERSION();
@@ -724,7 +724,7 @@ SELECT DATABASE();
 SELECT USER();
 ```
 
-#### （6）流程控制函数
+- 流程控制函数
 
 ```sql
 #(1)if函数：if else 效果
@@ -833,7 +833,110 @@ SELECT COUNT(1) FROM employees;	#除了1可以是任意常量值
 
 ​        
 
-### 6.分组查询		   			
+### 6.分组查询	
+
+- 语法：<font color='red'>select column,group_function(column)</font>
+  		  <font color='red'>from table</font>
+   		<font color='red'> [where condition]</font>
+   		 <font color='red'>[group by group_by_expression]</font>
+   		 <font color='red'>[order by column]</font>
+   		 <font color='red'>[having condition]</font> 
+
+- tip:
+
+  - 查询列表比较特殊，要求是分组函数和group by后出现的字段(每个...)；
+  - 先按照where筛选条件进行分组，然后根据分组函数查询对应的值,最后进行having筛选
+
+- 简单的分组查询
+
+  ```sql
+  #案例1：查询每个部门的平均工资
+  SELECT department_id,AVG(salary) 平均工资
+  FROM employees
+  GROUP BY department_id
+  ORDER BY AVG(salary) DESC
+  
+  #案例2：查询每个工种的最高工资
+  SELECT job_id,MAX(salary) 最高工资
+  FROM employees
+  GROUP BY job_id
+  
+  #案例3：查询每个位置上的部门个数
+  SELECT COUNT(*),location_id
+  FROM departments
+  GROUP BY location_id
+  ```
+
+  ​		
+
+- where筛选条件：先where筛选再分组，where筛选是在未分组的原始表上进行的
+
+  ```
+  #案例1：查询邮箱中包含a字符，每个部门的平均工资
+  SELECT AVG(salary),department_id
+  FROM employees
+  WHERE email LIKE '%a%'
+  GROUP BY department_id;
+  
+  #案例2：查询每个领导手下有奖金的员工的最高工资
+  SELECT MAX(salary),manager_id
+  FROM employees
+  WHERE commission_pct IS NOT NULL
+  GROUP BY manager_id;
+  ```
+
+  
+
+- having筛选条件：先查询在having筛选，having筛选是在查询结果集上进行的	
+
+  ```sql
+  #案例1：查询哪个部门的员工个数大于2
+  #错误写法：count(*)>2是筛选的整个原始表
+  SELECT department_id,COUNT(*) 员工个数
+  FROM employees
+  WHERE COUNT(*)>2
+  GROUP BY department_id;
+  
+  #正确写法：（1）先分组查询每个部门的员工个数；（2）根据结果再过滤查询员工个数大于2的部门
+  SELECT department_id,COUNT(*) 员工个数
+  FROM employees
+  GROUP BY department_id
+  HAVING COUNT(*)>2;
+  ```
+
+
+
+- 混合筛选条件
+
+  ```sql
+  #案例1：查询每个工种"有奖金的"员工的"最高工资>12000的"工种编号和最高工资
+  /*
+  筛选条件1：有奖金的
+  筛选条件2：最高工资>12000
+  分组条件：每个工种
+  思路：先筛选出有奖金的项，按照工种分组，查询出每个分组的最高工资和工种编号，最后从结果集筛选出最高工资大于12000的
+  */
+  SELECT job_id,MAX(salary)
+  FROM employees
+  WHERE commission_pct IS NOT NULL
+  GROUP BY job_id
+  HAVING MAX(salary)>12000;
+  
+  #案例2：查询“领导编号>102的“每个领导手下的”最低工资>5000的“领导编号以及最低工资
+  /*
+  筛选条件1：领导编号>102
+  筛选条件2：最低工资>5000
+  分组条件：每个领导
+  思路：先筛选领导编号>102的项，按照领导编号分组，查询出领导编号和最低工资，最后从结果集筛选出最低工资<5000的
+  */
+  SELECT manager_id,MIN(salary)
+  FROM employees
+  WHERE manager_id>102
+  GROUP BY manager_id
+  HAVING MIN(salary)>5000；
+  ```
+
+  
 
 ### 7.连接查询	 				
 
