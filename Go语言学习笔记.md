@@ -949,3 +949,1134 @@ var balance [10] float32
   ```
 
   
+
+### Go语言指针
+
+#### 1.什么是指针
+
+（1）一个指针变量可以指向任何一个值的内存地址。
+
+（2）类似于变量和常量，在使用指针前你需要声明指针。指针声明格式如下：
+
+```go
+var var_name *var-type
+```
+
+var-type 为指针类型，var_name 为指针变量名，* 号用于指定变量是作为一个指针。（3）以下是有效的指针声明：
+
+```go
+var ip *int        /* 指向整型*/
+var fp *float32    /* 指向浮点型 */
+```
+
+本例中这是一个指向 int 和 float32 的指针。
+
+
+
+#### 2.如何使用指针
+
+（1）指针使用流程：
+
+- 定义指针变量。
+- 为指针变量赋值。
+- 访问指针变量中指向地址的值。
+
+（2）在指针类型前面加上 * 号（前缀）来获取指针所指向的内容。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var a int= 20   /* 声明实际变量 */
+   var ip *int        /* 声明指针变量 */
+
+   ip = &a  /* 指针变量的存储地址 */
+
+   fmt.Printf("a 变量的地址是: %x\n", &a  )
+
+   /* 指针变量的存储地址 */
+   fmt.Printf("ip 变量的存储地址: %x\n", ip )
+
+   /* 使用指针访问值 */
+   fmt.Printf("*ip 变量的值: %d\n", *ip )
+}
+```
+
+以上实例执行输出结果为：
+
+```go
+a 变量的地址是: 20818a220
+ip 变量的存储地址: 20818a220
+*ip 变量的值: 20
+```
+
+
+
+#### 3.Go 空指针
+
+（1）当一个指针被定义后没有分配到任何变量时，它的值为 nil。
+
+​		nil 指针也称为空指针。
+
+​		nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值。
+
+（2）一个指针变量通常缩写为 ptr。
+
+​	查看以下实例：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var  ptr *int
+
+   fmt.Printf("ptr 的值为 : %x\n", ptr  )
+}
+```
+
+以上实例输出结果为：
+
+```
+ptr 的值为 : 0
+```
+
+（3）空指针判断：
+
+```
+if(ptr != nil)     /* ptr 不是空指针 */
+if(ptr == nil)    /* ptr 是空指针 */
+```
+
+
+
+#### 4.Go指针更多内容
+
+接下来我们将为大家介绍Go语言中更多的指针应用：
+
+| 内容                                                         | 描述                                         |
+| :----------------------------------------------------------- | :------------------------------------------- |
+| [Go 指针数组](https://www.w3cschool.cn/go/go-array-of-pointers.html) | 你可以定义一个指针数组来存储地址             |
+| [Go 指向指针的指针](https://www.w3cschool.cn/go/go-pointer-to-pointer.html) | Go 支持指向指针的指针                        |
+| [Go 像函数传递指针参数](https://www.w3cschool.cn/go/go-passing-pointers-to-functions.html) | 通过引用或地址传参，在函数调用时可以改变其值 |
+
+
+
+### Go语言结构体
+
+#### 1.定义结构体
+
+（1）结构体定义需要使用<font color='red'> type</font> 和 <font color='red'>struct </font>语句。struct 语句定义一个新的数据类型，结构体有中一个或多个成员。type 语句设定了结构体的名称。结构体的格式如下：
+
+```go
+type struct_variable_type struct {
+   member definition;
+   member definition;
+   ...
+   member definition;
+}
+```
+
+（2）一旦定义了结构体类型，它就能用于变量的声明，语法格式如下：
+
+```go
+variable_name := structure_variable_type {value1, value2...valuen}
+```
+
+
+
+#### 2.访问结构体成员
+
+（1）如果要访问结构体成员，需要使用点号 (.) 操作符，格式为：<font color='red'>"结构体.成员名"</font>。
+
+结构体类型变量使用struct关键字定义，实例如下：
+
+```go
+package main
+
+import "fmt"
+
+type Books struct {
+   title string
+   author string
+   subject string
+   book_id int
+}
+
+func main() {
+   var Book1 Books        /* 声明 Book1 为 Books 类型 */
+   var Book2 Books        /* 声明 Book2 为 Books 类型 */
+
+   /* book 1 描述 */
+   Book1.title = "Go 语言"
+   Book1.author = "www.w3cschool.cn"
+   Book1.subject = "Go 语言教程"
+   Book1.book_id = 6495407
+
+   /* book 2 描述 */
+   Book2.title = "Python 教程"
+   Book2.author = "www.w3cschool.cn"
+   Book2.subject = "Python 语言教程"
+   Book2.book_id = 6495700
+
+   /* 打印 Book1 信息 */
+   fmt.Printf( "Book 1 title : %s\n", Book1.title)
+   fmt.Printf( "Book 1 author : %s\n", Book1.author)
+   fmt.Printf( "Book 1 subject : %s\n", Book1.subject)
+   fmt.Printf( "Book 1 book_id : %d\n", Book1.book_id)
+
+   /* 打印 Book2 信息 */
+   fmt.Printf( "Book 2 title : %s\n", Book2.title)
+   fmt.Printf( "Book 2 author : %s\n", Book2.author)
+   fmt.Printf( "Book 2 subject : %s\n", Book2.subject)
+   fmt.Printf( "Book 2 book_id : %d\n", Book2.book_id)
+}
+```
+
+以上实例执行运行结果为：
+
+```go
+Book 1 title : Go 语言
+Book 1 author : www.w3cschool.cn
+Book 1 subject : Go 语言教程
+Book 1 book_id : 6495407
+Book 2 title : Python 教程
+Book 2 author : www.w3cschool.cn
+Book 2 subject : Python 语言教程
+Book 2 book_id : 6495700
+```
+
+
+
+#### 3.结构体作为函数参数
+
+（1）你可以向其他数据类型一样将结构体类型作为参数传递给函数。并以以上实例的方式访问结构体变量：
+
+```go
+package main
+
+import "fmt"
+
+type Books struct {
+   title string
+   author string
+   subject string
+   book_id int
+}
+
+func main() {
+   var Book1 Books        /* 声明 Book1 为 Books 类型 */
+   var Book2 Books        /* 声明 Book2 为 Books 类型 */
+
+   /* book 1 描述 */
+   Book1.title = "Go 语言"
+   Book1.author = "www.w3cschool.cn"
+   Book1.subject = "Go 语言教程"
+   Book1.book_id = 6495407
+
+   /* book 2 描述 */
+   Book2.title = "Python 教程"
+   Book2.author = "www.w3cschool.cn"
+   Book2.subject = "Python 语言教程"
+   Book2.book_id = 6495700
+
+   /* 打印 Book1 信息 */
+   printBook(Book1)
+
+   /* 打印 Book2 信息 */
+   printBook(Book2)
+}
+
+func printBook( book Books ) {
+   fmt.Printf( "Book title : %s\n", book.title);
+   fmt.Printf( "Book author : %s\n", book.author);
+   fmt.Printf( "Book subject : %s\n", book.subject);
+   fmt.Printf( "Book book_id : %d\n", book.book_id);
+}
+```
+
+以上实例执行运行结果为：
+
+```go
+Book title : Go 语言
+Book author : www.w3cschool.cn
+Book subject : Go 语言教程
+Book book_id : 6495407
+Book title : Python 教程
+Book author : www.w3cschool.cn
+Book subject : Python 语言教程
+Book book_id : 6495700
+```
+
+
+
+#### 4.结构体指针
+
+（1）你可以定义指向结构体的指针类似于其他指针变量，格式如下：
+
+```go
+var struct_pointer *Books
+```
+
+（2）以上定义的指针变量可以存储结构体变量的地址。查看结构体变量地址，可以将 & 符号放置于结构体变量前：
+
+```go
+struct_pointer = &Book1;
+```
+
+（3）使用结构体指针访问结构体成员，使用 "." 操作符：
+
+```go
+struct_pointer.title;
+```
+
+（4）接下来让我们使用结构体指针重写以上实例，代码如下：
+
+```go
+package main
+
+import "fmt"
+
+type Books struct {
+   title string
+   author string
+   subject string
+   book_id int
+}
+
+func main() {
+   var Book1 Books        /* Declare Book1 of type Book */
+   var Book2 Books        /* Declare Book2 of type Book */
+
+   /* book 1 描述 */
+   Book1.title = "Go 语言"
+   Book1.author = "www.w3cschool.cn"
+   Book1.subject = "Go 语言教程"
+   Book1.book_id = 6495407
+
+   /* book 2 描述 */
+   Book2.title = "Python 教程"
+   Book2.author = "www.w3cschool.cn"
+   Book2.subject = "Python 语言教程"
+   Book2.book_id = 6495700
+
+   /* 打印 Book1 信息 */
+   printBook(&Book1)
+
+   /* 打印 Book2 信息 */
+   printBook(&Book2)
+}
+func printBook( book *Books ) {
+   fmt.Printf( "Book title : %s\n", book.title);
+   fmt.Printf( "Book author : %s\n", book.author);
+   fmt.Printf( "Book subject : %s\n", book.subject);
+   fmt.Printf( "Book book_id : %d\n", book.book_id);
+}
+```
+
+以上实例执行运行结果为：
+
+```go
+Book title : Go 语言
+Book author : www.w3cschool.cn
+Book subject : Go 语言教程
+Book book_id : 6495407
+Book title : Python 教程
+Book author : www.w3cschool.cn
+Book subject : Python 语言教程
+Book book_id : 6495700
+```
+
+
+
+### Go语言切片（Slice）
+
+#### 1.定义切片
+
+（1）你可以声明一个未指定大小的数组来定义切片：
+
+```go
+var slice []type
+```
+
+（2）或使用<font color='red'>make()函数</font>来创建切片:
+
+```go
+var slice1 []type = make([]type, len)
+
+也可以简写为
+
+slice1 := make([]type, len)
+```
+
+（3）也可以指定容量，其中capacity为可选参数。
+
+```go
+make([]type, length, capacity)
+```
+
+这里 len 是数组的长度并且也是切片的初始长度。
+
+
+
+#### 2.切片初始化
+
+```go
+s :=[] int {1,2,3 } 
+```
+
+（1）直接初始化切片，[]表示是切片类型，{1,2,3}初始化值依次是1,2,3.其cap=len=3
+
+```go
+s := arr[:] 
+```
+
+（2）初始化切片s,是数组arr的引用
+
+```go
+s := arr[startIndex:endIndex] 
+```
+
+（3）将arr中从下标startIndex到endIndex-1 下的元素创建为一个新的切片
+
+```go
+s := arr[startIndex:] 
+```
+
+（4）缺省endIndex时将表示一直到arr的最后一个元素
+
+```go
+s := arr[:endIndex] 
+```
+
+（5）缺省startIndex时将表示从arr的第一个元素开始
+
+```go
+s1 := s[startIndex:endIndex] 
+```
+
+（6）通过切片s初始化切片s1
+
+```go
+s :=make([]int,len,cap) 
+```
+
+（7）通过内置函数make()初始化切片s,[]int 标识为其元素类型为int的切片
+
+
+
+#### 3.len() 和 cap() 函数
+
+（1）切片是可索引的，并且可以由 len() 方法获取长度。
+
+（2）切片提供了计算容量的方法 cap() 可以测量切片最长可以达到多少。
+
+（3）以下为具体实例：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var numbers = make([]int,3,5)
+
+   printSlice(numbers)
+}
+
+func printSlice(x []int){
+   fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+```
+
+以上实例运行输出结果为:
+
+```go
+len=3 cap=5 slice=[0 0 0]
+```
+
+
+
+#### 4.空(nil)切片
+
+一个切片在未初始化之前默认为 nil，长度为 0，实例如下：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var numbers []int
+
+   printSlice(numbers)
+
+   if(numbers == nil){
+      fmt.Printf("切片是空的")
+   }
+}
+
+func printSlice(x []int){
+   fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+```
+
+以上实例运行输出结果为:
+
+```go
+len=0 cap=0 slice=[]
+切片是空的
+```
+
+
+
+#### 5.切片截取
+
+可以通过设置下限及上限来设置截取切片 **[lower-bound:upper-bound]**，实例如下：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   /* 创建切片 */
+   numbers := []int{0,1,2,3,4,5,6,7,8}   
+   printSlice(numbers)
+
+   /* 打印原始切片 */
+   fmt.Println("numbers ==", numbers)
+
+   /* 打印子切片从索引1(包含) 到索引4(不包含)*/
+   fmt.Println("numbers[1:4] ==", numbers[1:4])
+
+   /* 默认下限为 0*/
+   fmt.Println("numbers[:3] ==", numbers[:3])
+
+   /* 默认上限为 len(s)*/
+   fmt.Println("numbers[4:] ==", numbers[4:])
+
+   numbers1 := make([]int,0,5)
+   printSlice(numbers1)
+
+   /* 打印子切片从索引  0(包含) 到索引 2(不包含) */
+   number2 := numbers[:2]
+   printSlice(number2)
+
+   /* 打印子切片从索引 2(包含) 到索引 5(不包含) */
+   number3 := numbers[2:5]
+   printSlice(number3)
+
+}
+
+func printSlice(x []int){
+   fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+```
+
+执行以上代码输出结果为：
+
+```
+len=9 cap=9 slice=[0 1 2 3 4 5 6 7 8]
+numbers == [0 1 2 3 4 5 6 7 8]
+numbers[1:4] == [1 2 3]
+numbers[:3] == [0 1 2]
+numbers[4:] == [4 5 6 7 8]
+len=0 cap=5 slice=[]
+len=2 cap=9 slice=[0 1]
+len=3 cap=7 slice=[2 3 4]
+```
+
+
+
+#### 6.append() 和 copy() 函数
+
+（1）如果想增加切片的容量，我们必须创建一个新的更大的切片并把原分片的内容都拷贝过来。
+
+（2）下面的代码描述了从拷贝切片的 copy 方法和向切片追加新元素的 append 方法。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var numbers []int
+   printSlice(numbers)
+
+   /* 允许追加空切片 */
+   numbers = append(numbers, 0)
+   printSlice(numbers)
+
+   /* 向切片添加一个元素 */
+   numbers = append(numbers, 1)
+   printSlice(numbers)
+
+   /* 同时添加多个元素 */
+   numbers = append(numbers, 2,3,4)
+   printSlice(numbers)
+
+   /* 创建切片 numbers1 是之前切片的两倍容量*/
+   numbers1 := make([]int, len(numbers), (cap(numbers))*2)
+
+   /* 拷贝 numbers 的内容到 numbers1 */
+   copy(numbers1,numbers)
+   printSlice(numbers1)   
+}
+
+func printSlice(x []int){
+   fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+```
+
+以上代码执行输出结果为：
+
+```go
+len=0 cap=0 slice=[]
+len=1 cap=2 slice=[0]
+len=2 cap=2 slice=[0 1]
+len=5 cap=8 slice=[0 1 2 3 4]
+len=5 cap=16 slice=[0 1 2 3 4]
+```
+
+
+
+### Go语言范围（Range)
+
+#### 1.Go 语言范围
+
+（1）Go 语言中 range 关键字用于for循环中迭代数组(array)、切片(slice)、链表(channel)或集合(map)的元素。
+
+（2）在数组和切片中它返回元素的索引值，在集合中返回 key-value 对的 key 值，对于映射，它返回下一个键值对的键。
+
+（2）Range返回一个值或两个值。如果在Range表达式的左侧只使用了一个值，则该值是下表中的第一个值。
+
+| Range表达式             | 第一个值   | 第二个值[可选的] |
+| ----------------------- | ---------- | ---------------- |
+| Array 或者 slice a [n]E | 索引 i int | a[i] E           |
+| String s string type    | 索引 i int | rune int         |
+| map m map[K]V           | 键 k K     | 值 m[k] V        |
+| channel c chan E        | 元素 e E   | none             |
+
+（4）实例
+
+```go
+package main
+import "fmt"
+func main() {
+    //(1)这是我们使用range去求一个slice的和。使用数组跟这个很类似
+    nums := []int{2, 3, 4}
+    sum := 0
+    for _, num := range nums {
+        sum += num
+    }
+    fmt.Println("sum:", sum)
+    
+    //(2)在数组上使用range将传入index和值两个变量。上面那个例子我们不需要使用该元素的序号，所以我们使用空白符"_"省略了。有时侯我们确实需要知道它的索引。
+    for i, num := range nums {
+        if num == 3 {
+            fmt.Println("index:", i)
+        }
+    }
+    
+    //(3)range也可以用在map的键值对上。
+    kvs := map[string]string{"a": "apple", "b": "banana"}
+    for k, v := range kvs {
+        fmt.Printf("%s -> %s\n", k, v)
+    }
+    
+    //(4)range也可以用来枚举Unicode字符串。第一个参数是字符的索引，第二个是字符（Unicode的值）本身。
+    for i, c := range "go" {
+        fmt.Println(i, c)
+    }
+}
+```
+
+以上实例运行输出结果为：
+
+```go
+sum: 9
+index: 1
+a -> apple
+b -> banana
+0 103
+1 111
+```
+
+
+
+### Go语言Map（集合）
+
+#### 1.定义 Map
+
+（1）可以使用<font color='red'>内建函数 make </font>也可以使用 <font color='red'>map 关键字</font>来定义 Map:
+
+```go
+/* 声明变量，默认 map 是 nil */
+var map_variable map[key_data_type]value_data_type
+
+/* 使用 make 函数 */
+map_variable = make(map[key_data_type]value_data_type)
+```
+
+（2）如果不初始化 map，那么就会创建一个 nil map。nil map 不能用来存放键值对
+
+（3）实例
+
+下面实例演示了创建和使用map:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var countryCapitalMap map[string]string
+   /* 创建集合 */
+   countryCapitalMap = make(map[string]string)
+   
+   /* map 插入 key-value 对，各个国家对应的首都 */
+   countryCapitalMap["France"] = "Paris"
+   countryCapitalMap["Italy"] = "Rome"
+   countryCapitalMap["Japan"] = "Tokyo"
+   countryCapitalMap["India"] = "New Delhi"
+   
+   /* 使用 key 输出 map 值 */
+   for country := range countryCapitalMap {
+      fmt.Println("Capital of",country,"is",countryCapitalMap[country])
+   }
+   
+   /* 查看元素在集合中是否存在 */
+   captial, ok := countryCapitalMap["United States"]
+   /* 如果 ok 是 true, 则存在，否则不存在 */
+   if(ok){
+      fmt.Println("Capital of United States is", captial)  
+   }else {
+      fmt.Println("Capital of United States is not present") 
+   }
+}
+```
+
+以上实例运行结果为：
+
+```go
+Capital of France is Paris
+Capital of Italy is Rome
+Capital of Japan is Tokyo
+Capital of India is New Delhi
+Capital of United States is not present
+```
+
+
+
+#### 2.delete() 函数
+
+delete() 函数用于删除集合的元素, 参数为 map 和其对应的 key。实例如下：
+
+```go
+package main
+
+import "fmt"
+
+func main() {   
+   /* 创建 map */
+   countryCapitalMap := map[string] string {"France":"Paris","Italy":"Rome","Japan":"Tokyo","India":"New Delhi"}
+   
+   fmt.Println("原始 map")   
+   
+   /* 打印 map */
+   for country := range countryCapitalMap {
+      fmt.Println("Capital of",country,"is",countryCapitalMap[country])
+   }
+   
+   /* 删除元素 */
+   delete(countryCapitalMap,"France");
+   fmt.Println("Entry for France is deleted")  
+   
+   fmt.Println("删除元素后 map")   
+   
+   /* 打印 map */
+   for country := range countryCapitalMap {
+      fmt.Println("Capital of",country,"is",countryCapitalMap[country])
+   }
+}
+```
+
+以上实例运行结果为：
+
+```go
+原始 map
+Capital of France is Paris
+Capital of Italy is Rome
+Capital of Japan is Tokyo
+Capital of India is New Delhi
+Entry for France is deleted
+删除元素后 map
+Capital of Italy is Rome
+Capital of Japan is Tokyo
+Capital of India is New Delhi
+```
+
+
+
+### Go语言递归函数
+
+#### 1.Go 语言递归函数
+
+递归，就是在运行的过程中调用自己。
+
+语法格式如下：
+
+```go
+func recursion() {
+   recursion() /* 函数调用自身 */
+}
+
+func main() {
+   recursion()
+}
+```
+
+Go 语言支持递归。但我们在使用递归时，开发者需要设置退出条件，否则递归将陷入无限循环中。
+
+递归函数对于解决数学上的问题是非常有用的，就像计算阶乘，生成斐波那契数列等。
+
+
+
+#### 2.阶乘
+
+以下实例通过 Go 语言的递归函数实例阶乘：
+
+```go
+package main
+
+import "fmt"
+
+func Factorial(x int) (result int) {
+  if x == 0 {
+    result = 1;   
+  } else {
+    result = x * Factorial(x - 1);
+  }
+  return;
+}
+
+func main() {  
+    var i int = 15
+    fmt.Printf("%d 的阶乘是 %d\n", i, Factorial(i))
+}
+```
+
+以上实例执行输出结果为：
+
+```go
+15 的阶乘是 1307674368000
+```
+
+
+
+#### 3.斐波那契数列
+
+以下实例通过 Go 语言的递归函数实现斐波那契数列：
+
+```go
+package main
+
+import "fmt"
+
+func fibonacci(n int) int {
+  if n < 2 {
+   return n
+  }
+  return fibonacci(n-2) + fibonacci(n-1)
+}
+
+func main() {
+    var i int
+    for i = 0; i < 10; i++ {
+       fmt.Printf("%d\t", fibonacci(i))
+    }
+}
+```
+
+以上实例执行输出结果为：
+
+```go
+0   1   1   2   3   5   8   13  21  34
+```
+
+
+
+### Go语言类型转换
+
+#### 1.Go 语言类型转换
+
+（1）类型转换用于将一种数据类型的变量转换为另外一种类型的变量。Go 语言类型转换基本格式如下：
+
+```go
+type_name(expression)
+```
+
+type_name 为类型，expression 为表达式。
+
+（2）实例
+
+以下实例中将整型转化为浮点型，并计算结果，将结果赋值给浮点型变量：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var sum int = 17
+   var count int = 5
+   var mean float32
+   
+   mean = float32(sum)/float32(count)
+   fmt.Printf("mean 的值为: %f\n",mean)
+}
+```
+
+以上实例执行输出结果为：
+
+```go
+mean 的值为: 3.400000
+```
+
+
+
+#### 2.go 不支持隐式转换类型
+
+示例：
+
+```go
+package main
+import "fmt"
+
+func main() {  
+    var a int64 = 3
+    var b int32
+    b = a
+    fmt.Printf("b 为 : %d", b)
+}
+```
+
+此时会报错
+
+```go
+cannot use a (type int64) as type int32 in assignment
+cannot use b (type int32) as type string in argument to fmt.Printf
+```
+
+但是如果改成 `b = int32(a) `就不会报错了:
+
+```go
+package main
+import "fmt"
+
+func main() {  
+    var a int64 = 3
+    var b int32
+    b = int32(a)
+    fmt.Printf("b 为 : %d", b)
+}
+```
+
+
+
+### GO语言接口
+
+#### 1.Go 语言接口
+
+（1）Go 语言提供了另外一种数据类型即接口，它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口。
+
+实例
+
+```go
+/* 定义接口 */
+type interface_name interface {
+   method_name1 [return_type]
+   method_name2 [return_type]
+   method_name3 [return_type]
+   ...
+   method_namen [return_type]
+}
+
+/* 定义结构体 */
+type struct_name struct {
+   /* variables */
+}
+
+/* 实现接口方法 */
+func (struct_name_variable struct_name) method_name1() [return_type] {
+   /* 方法实现 */
+}
+...
+func (struct_name_variable struct_name) method_namen() [return_type] {
+   /* 方法实现*/
+}
+```
+
+实例
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+type Phone interface {
+    call()
+}
+
+type NokiaPhone struct {
+}
+
+func (nokiaPhone NokiaPhone) call() {
+    fmt.Println("I am Nokia, I can call you!")
+}
+
+type IPhone struct {
+}
+
+func (iPhone IPhone) call() {
+    fmt.Println("I am iPhone, I can call you!")
+}
+
+func main() {
+    var phone Phone
+
+    phone = new(NokiaPhone)
+    phone.call()
+
+    phone = new(IPhone)
+    phone.call()
+
+}
+```
+
+在上面的例子中，我们定义了一个接口Phone，接口里面有一个方法call()。然后我们在main函数里面定义了一个Phone类型变量，并分别为之赋值为NokiaPhone和IPhone。然后调用call()方法，输出结果如下：
+
+```go
+I am Nokia, I can call you!
+I am iPhone, I can call you!
+```
+
+（2）
+
+- [参考1](https://www.cnblogs.com/itogo/p/8645486.html)
+- [参考2](https://blog.csdn.net/lipenghandsome/article/details/105916687)
+
+
+
+### GO语言错误处理
+
+#### 1.Go 错误处理
+
+（1）Go 语言通过内置的错误接口提供了非常简单的错误处理机制。
+
+error类型是一个接口类型，这是它的定义：
+
+```go
+type error interface {
+    Error() string
+}
+```
+
+（2）我们可以在编码中通过实现 error 接口类型来生成错误信息。
+
+函数通常在最后的返回值中返回错误信息。使用<font color='red'>errors.New </font>可返回一个错误信息：
+
+```go
+func Sqrt(f float64) (float64, error) {
+    if f < 0 {
+        return 0, errors.New("math: square root of negative number")
+    }
+    // 实现
+}
+```
+
+（3）在下面的例子中，我们在调用Sqrt的时候传递的一个负数，然后就得到了non-nil的error对象，将此对象与nil比较，结果为true，所以fmt.Println(fmt包在处理error时会调用Error方法)被调用，以输出错误，请看下面调用的示例代码：
+
+```go
+result, err:= Sqrt(-1)
+
+if err != nil {
+   fmt.Println(err)
+}
+```
+
+实例
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// 定义一个 DivideError 结构
+type DivideError struct {
+    dividee int
+    divider int
+}
+
+// 实现 `error` 接口
+func (de *DivideError) Error() string {
+    strFormat := `
+    Cannot proceed, the divider is zero.
+    dividee: %d
+    divider: 0
+`
+    return fmt.Sprintf(strFormat, de.dividee)
+}
+
+// 定义 `int` 类型除法运算的函数
+func Divide(varDividee int, varDivider int) (result int, errorMsg string) {
+    if varDivider == 0 {
+            dData := DivideError{
+                    dividee: varDividee,
+                    divider: varDivider,
+            }
+            errorMsg = dData.Error()
+            return
+    } else {
+            return varDividee / varDivider, ""
+    }
+
+}
+
+func main() {
+
+    // 正常情况
+    if result, errorMsg := Divide(100, 10); errorMsg == "" {
+            fmt.Println("100/10 = ", result)
+    }
+    // 当被除数为零的时候会返回错误信息
+    if _, errorMsg := Divide(100, 0); errorMsg != "" {
+            fmt.Println("errorMsg is: ", errorMsg)
+    }
+
+}
+```
+
+执行以上程序，输出结果为：
+
+```go
+100/10 =  10
+errorMsg is:  
+   Cannot proceed, the divider is zero.
+  dividee: 100
+  divider: 0
+```
+
+（4）
+
+- [Go语言中的异常处理](https://blog.csdn.net/m0_38004619/article/details/98968097)
+- [Golang错误和异常处理的正确姿势](https://www.jianshu.com/p/f30da01eea97)
+
