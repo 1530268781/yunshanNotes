@@ -837,10 +837,10 @@ SELECT COUNT(1) FROM employees;	#除了1可以是任意常量值
 
 - 语法：<font color='red'>select column,group_function(column)</font>
   		  <font color='red'>from table</font>
-   		<font color='red'> [where condition]</font>
-   		 <font color='red'>[group by group_by_expression]</font>
-   		 <font color='red'>[order by column]</font>
-   		 <font color='red'>[having condition]</font> 
+      		<font color='red'> [where condition]</font>
+      		 <font color='red'>[group by group_by_expression]</font>
+      		 <font color='red'>[order by column]</font>
+      		 <font color='red'>[having condition]</font> 
 
 - tip:
 
@@ -871,7 +871,7 @@ SELECT COUNT(1) FROM employees;	#除了1可以是任意常量值
 
 - where筛选条件：先where筛选再分组，where筛选是在未分组的原始表上进行的
 
-  ```
+  ```sql
   #案例1：查询邮箱中包含a字符，每个部门的平均工资
   SELECT AVG(salary),department_id
   FROM employees
