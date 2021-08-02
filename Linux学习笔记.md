@@ -436,15 +436,15 @@
 - 硬链接
 
   - 硬链接就是把源文件拷贝到目标位置，而他与cp -p 最大的一点区别就是他可以同步更新，源文件有变化硬链接文件也会同时发生变化，但是如果源文件丢失或者被删除，硬链接也并不会消失
-  - 可以通过i节点来区分，源文件和硬链接文件的i节点是一样的，所以他们会同步更新
+  - 可以通过i节点来区分，源文件和硬链接文件的<font color='orange'>i节点是一样的</font>，所以他们会同步更新
   - 但是他不能跨分区放置硬链接比如：/分区 硬链接 不能放到/boot 分区 
   - 而且不能对目录使用
 
 
 
-### 2.2 全权限管理命令
+### 2.2 权限管理命令
 
-#### 4.2.1 权限管理命令 <font color='red'>chmod</font>
+#### 2.2.1 权限管理命令 <font color='red'>chmod</font>
 
 ##### （1）chmod 
 
@@ -502,7 +502,7 @@
 
 
 
-#### 4.2.2 其他权限管理命令
+#### 2.2.2 其他权限管理命令
 
 ##### （1）<font color='red'>chown</font>
 
@@ -570,8 +570,175 @@
 
 - 范例： $ umask -S
 
-
 tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击）
+
+
+
+### 2.3 文件搜索命令
+
+#### 2.3.1 文件搜索命令<font color='red'>find</font>
+
+##### （0）find [搜索范围] [匹配条件] 
+
+##### （1）按关键字 -name | -iname
+
+- find [搜索范围] -name [关键字] 在特定路径下搜索文件名作为关键字的文件或者目录
+
+- find [搜索范围] -name [关键字]* 这样为带有关键字开头的任何文件都可以被搜索出来
+
+- find [搜索范围] -name * [关键字] * 这样为带有关键字的任何文件都可以被搜索出来
+
+- find [搜索范围] -name [关键字]??? 这样搜索的是关键字后带三个字符的 几个问号为几个字符
+
+- find [搜索范围] -iname [关键字] 不区分大小写搜索
+
+- ```shell
+  $ find /etc -name init 
+  #在目录/etc 中查找文件 init 
+  #-iname 不区分大小写 
+  $ find /etc -name *init*
+  #在目录/etc 中查找文件名包含 init 
+  $ find /etc -name init??？
+  #在目录/etc 中查找文件名 init 开头并有 3 个字符的 
+  $ find /etc -name init*
+  #在目录/etc 中查找文件名 init 开头的 
+  #tips:* 匹配任意字符，?匹配单个字符
+  ```
+
+  
+
+##### （2）按文件大小 -size
+
+- find [搜索范围] -size [数据块] 
+
+- 数据块前面加+表示查找大于这个大小的文件，-表示查找小于这个大小的文件，不加表示查找等于这个大小的文件(一般不常用)
+
+- 1个数据块=512字节=0.5KB （1KB=2个数据块）
+  size后接的数据只能为数据块需要换算，比如需要查找大于100MB的文件
+  100MB=102400KB=204800个数据块
+  find /etc -size +204800
+  数据块为Linux存储文件最小单位
+
+- ```shell
+  $ find / -size +204800 
+  #在根目录下查找大于 100MB 的文件
+  ```
+
+  
+
+##### （3）按所有者 -user
+
+- find [搜索范围] -user [所有者名]
+
+##### （4）按所属组 -group
+
+- find [搜索范围] -group [所属组名] 
+
+##### （5）按时间 -amin|-cmin|-mmin
+
+- 按访问的时间：find [搜索范围] -amin [时间]	a:access
+
+- 按修改属性的时间：find [搜索范围] -cmin [时间]	c:change
+
+- 按修改内容的时间find [搜索范围] -mmin [时间]	m:modify
+- +：超过多长时间     -：多长时间以内
+
+##### （6）其他
+
+- find [搜索范围] -size [数据块] -a -size [数据块]
+  -a：两个条件同时满足
+  -o：两个条件满足任意一个即可
+
+  ```shell
+  find /etc -size +163840 -a -size -204800
+  #在/etc下查找大于80MB小于100MB的文件
+  ```
+
+- find [搜索范围] -name [关键字] -a -type f
+  在特定路径下搜索文件名作为关键字的文件
+  -type 根据不同类型查找
+  f：文件
+  d：目录
+  l：软链接
+
+- -exec：查找到文件之后并且对其进行各种操作 {} \ ;不能丢
+
+  find [搜索范围] -name [关键字] -exec ls -l {} \ ;
+  查找到文件之后并且对其进行查看ls操作。
+
+- -ok：用于询问确认 一般在删除操作的时候使用，比如：
+  find -user yangyang -ok rm {} \ ;
+  删除yangyang用户的文件 他会挨个询问你是不是确定删除
+
+- find [搜索范围] -inum [i节点值] 根据i节点查询
+  find /etc -inum 12345 -exec rm {} \ ;
+  删除这个i节点文件 非常方便
+  也可以用来查询一个文件的硬链接
+  find /etc inum 12345 -exec ls -l {} \ ;
+  因为硬链接和文件肯定在同一个分区，并且i节点一样
+
+
+
+#### 2.3.2 其他文件搜索命令
+
+##### （1）<font color='red'>locate</font>
+
+- 命令名称：locate
+  - 命令所在路径：/usr/bin/locate 
+  - 执行权限：所有用户
+  - 语法：locate 文件名
+  - 参数：-i 不区分大小写
+  - 功能描述：在文件资料库中查找文件，速度更快。
+  - 范例：$ locate inittab
+  - tips:
+    - 新建文件 locate 不到，可以 updatedb,更新文件资料库后查找
+    - /tmp 临时文件不在文件资料库内
+
+##### （2）<font color='red'>which</font>
+
+- 命令名称：which
+
+- 命令所在路径：/usr/bin/which
+
+- 执行权限：所有用户
+
+- 语法：which 命令
+
+- 功能描述：搜索命令所在目录及别名信息
+
+- 范例：$ which ls
+
+##### （3）<font color='red'>whereis</font>
+
+- 命令名称：whereis
+
+- 命令所在路径：/usr/bin/whereis 
+
+- 执行权限：所有用户
+
+- 语法：whereis [命令名称] 
+
+- 功能描述：搜索命令所在目录及帮助文档路径
+
+- 范例：$ whereis ls
+
+##### （4）<font color='red'>grep</font>
+
+- 命令名称：grep
+
+- 命令所在路径：/bin/grep 
+
+- 执行权限：所有用户
+
+- 语法：grep -iv [指定字串] [文件] 
+
+- 功能描述：在文件中搜寻字串匹配的行并输出 
+  - -i 不区分大小写
+  - -v 排除指定字串
+
+-  范例：
+  -  grep mysql /root/install.log
+  -  \# grep -v ^# /etc/inittab 去除以#开头的所有行信息,^表示以 XXX 开头
 
 
 
@@ -661,7 +828,13 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 #### 10.2.2 第一个脚本
 
 ```shell
-$ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文档$ ls$ mkdir 脚本练习$ cd 脚本练习$ vim hello.sh$ sh hello.shWelcome to linux world!hhh
+$ cd ~
+$ ls公共  模板  视频  图片  文档  下载  音乐  桌面
+$ cd 文档
+$ mkdir 脚本练习
+$ cd 脚本练习
+$ vim hello.sh
+$ sh hello.shWelcome to linux world!hhh
 ```
 
 
@@ -673,7 +846,7 @@ $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文
 
 
 
-#### 10.2.3执行脚本
+#### 10.2.3 执行脚本
 
 - 赋予执行权限，直接运行
 
@@ -898,95 +1071,377 @@ $ cd ~$ ls公共  模板  视频  图片  文档  下载  音乐  桌面$ cd 文
 |&&	|命令1 && 命令2	|逻辑与当命令1正确执行，则命令2才会执行 当命令1执行不正确，则命令2不会执行|
 | \|\|	|命令1 \|\| 命令2	|逻辑或当命令1 执行不正确，则命令2才会执行 当命令1正确执行，则命令2不会执行|
 
-例子： [root@localhost ~]# ls ; date ; cd /user ; pwd
+- 例子： [root@localhost ~]# ls ; date ; cd /user ; pwd
 
-[root@localhost ~]# dd if=输入文件 of=输出文件 bs=字节数 count=个数 
 
-选项： 
+- 磁盘文件复制：
 
-if=输入文件 指定源文件或源设备 
+  - dd if=输入文件 of=输出文件 bs=字节数 count=个数 
+  - 选项：
+    - if=输入文件  指定源文件或源设备 
+    - of=输出文件  指定目标文件或目标设备 
+    - bs=字节数  指定一次输入/输出多少字节，即把这些字节看做一个数据块
+    - count=个数  指定输入/输出多少个数据块 
+  - 例子：
 
-of=输出文件 指定目标文件或目标设备 
+  ```shell
+  date ; dd if=/dev/zero of=/root/testfile bs=1k count=100000 ; date
+  ```
 
-bs=字节数 指定一次输入/输出多少字节，即把这些字节看做一个数据块
-
-count=个数 指定输入/输出多少个数据块 
-
-例子：
-
-[root@localhost ~]# date ; dd if=/dev/zero of=/root/testfile bs=1k count=100000 ; date[root@localhost ~]# ls anaconda-ks.cfg && echo yes 
+  [root@localhost ~]# ls anaconda-ks.cfg && echo yes 
 
 [root@localhost ~]# ls /root/test || echo "no 
 
 [root@localhost ~]# 命令 && echo yes || echo no
 
-2、 管道符
 
-命令格式：
 
-[root@localhost ~]# 命令 1 | 命令 2 
+- **管道符**
+  - 命令格式：命令 1 | 命令 2 
+  - 命令 1 的正确输出作为命令 2 的操作对象
+  - 例子：
 
-\#命令 1 的正确输出作为命令 2 的操作对象
+  ```shell
+  [root@localhost ~]# ll -a /etc/ | more 
+  
+  [root@localhost ~]# netstat -an | grep "ESTABLISHED"
+  ```
 
-颜色显示 
-
-例子：
-
-[root@localhost ~]# ll -a /etc/ | more 
-
-[root@localhost ~]# netstat -an | grep "ESTABLISHED"
-
-[root@localhost ~]# grep [选项] "搜索内容" 文件名
-
-选项： 
-
--i： 忽略大小写 
-
--n： 输出行号 
-
--v： 反向查找 
-
---color=auto 搜索出的关键字用颜色显示
-
-**10.3.5 通配符与其他特殊符号**
-
-1、通配符[root@localhost ~]# cd /tmp/ 
-
-[root@localhost tmp]# rm -rf * 
-
-[root@localhost tmp]# touch abc 
-
-[root@localhost tmp]# touch abcd 
-
-[root@localhost tmp]# touch 012 
-
-[root@localhost tmp]# touch 0abc 
-
-[root@localhost tmp]# ls ?abc 
-
-[root@localhost tmp]# ls [0-9]* 
-
-[root@localhost tmp]# ls [^0-9]*3、 Bash 中其他特殊符号反引号与$() 
-
-[root@localhost ~]# echo `ls` 
-
-[root@localhost ~]# echo $(date) 
-
-单引号与双引号
-
-[root@localhost ~]# name=sc 
-
-[root@localhost ~]# echo '$name' 
-
-[root@localhost ~]# echo "$name" 
-
-[root@localhost ~]# echo ‘$(date)' 
-
-[root@localhost ~]# echo “$(date)"
+  
+  - [root@localhost ~]# grep [选项] "搜索内容" 文件名
+  - 选项： 
+    - -i： 忽略大小写 
+    - -n： 输出行号 
+    - -v： 反向查找 
+    - --color=auto 搜索出的关键字用颜色显示
 
 
 
-### 10.4 Bash 的变量
+#### 10.3.5 通配符与其他特殊符号
+
+- 通配符
+
+  ![image-20210802142430007](Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210802142430007.png)
+
+- Bash中其他特殊符号
+
+  ![image-20210802142441259](Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210802142441259.png)
+
+
+
+### 10.4 Bash的变量
+
+#### 10.4.1 用户自定义的变量
+
+##### （1）什么是变量：
+
+​		变量是计算机内存的单元，其中存放的值可以改变。当Shell脚本需要保存一些信息 时，如一个文件名或是一个数字，就把它 存放在一个变量中。每个变量有一个名字 ，所以很容易引用它。使用变量可以保存 有用信息，使系统获知用户相关设置，变量也可以用于保存暂时信息。
+
+##### （2）变量设置规则：
+
+- 变量名称可以由字母、数字和下划线组成 ，但是不能以数字开头。如果变量名是 “2name”则是错误的。
+
+- 在Bash中，变量的默认类型都是字符串型 ，如果要进行数值运算，则必需指定变量类型为数值型。
+
+- 默认变量类型全都是字符串型，和其他语言不太一样
+
+- 变量用等号连接值，等号左右两侧不能有空格。变量的值如果有空格，需要使用单引号或双引号包括。
+
+- 在变量的值中，可以使用“\”转义符。
+
+- 如果需要增加变量的值，那么可以进行变量值的叠加。不过变量需要用双引号包含 “$变量名”或用${变量名}包含。
+
+- 如果是把命令的结果作为变量值赋予变量 ，则需要使用反引号或$()包含命令。
+  环境变量名建议大写，便于区分。
+
+  
+
+##### （3）变量的分类：
+
+- 用户自定义变量（本地变量）
+
+- 环境变量:这种变量中主要保存的是和系统操作环境相关的数据。
+
+- 位置参数变量:这种变量主要是用来向脚本当 中传递参数或数据的，变量名不能自定义，变量作用是固定的。
+
+- 预定义变量:是Bash中已经定义好的变量，变量名不能自定义，变量作用也是固定的。
+
+  
+  
+
+##### （4）用户自定义变量
+
+- ​    变量定义
+  ​    例子：
+  ​    name=“yang yang”
+
+- 变量叠加
+    aa=123
+    aa="$aa"456
+   aa=${aa}789
+
+- 变量调用
+  <font color='red'>echo </font>$变量名
+
+- 变量查看
+  <font color='red'>set    </font>查看当前系统全部变量
+
+- 变量删除
+  <font color='red'>unset </font>变量名
+
+- ```shell
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ name='zlx'
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ name="$name"666
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ name=${name}777
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ echo name
+  name
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ echo $name
+  zlx666777
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ unset name
+  
+  ```
+
+
+
+#### 10.4.2 环境变量 PATH PS1
+
+##### （1）环境变量：
+
+​	用户自定义变量只在当前的Shell中生效， 而环境变量会在当前Shell和这个Shell的所 有子Shell当中生效。如果把环境变量写入相应的配置文件，那么这个环境变量就会在所有的Shell中生效
+
+​	<font color='red'>pstree</font>:以树结构显示进程
+
+```shell
+[zlx@zlx-vmwarevirtualplatform 桌面]$ pstree
+systemd─┬─ModemManager───2*[{ModemManager}]
+        ├─NetworkManager───2*[{NetworkManager}]
+        ├─accounts-daemon───2*[{accounts-daemon}]
+        ├─avahi-daemon───avahi-daemon
+        ├─blueman-tray───2*[{blueman-tray}]
+        ├─bluetoothd
+		……
+```
+
+
+
+##### （2）设置环境变量：
+
+- <font color='orange'>申明变量</font>：export 变量名=变量值 
+
+- <font color='orange'>查询变量</font>：env
+
+- <font color='orange'>变量调用</font>：echo $变量名 
+
+- <font color='orange'>删除变量</font>：unset 变量名
+
+- pstree 树形显示进程数
+  没有这条命令可以执行以下命令下载：
+  yum -y install psmisc
+  yum provides /命令 查看没有的命令的安装包 配合yum -y install使用
+
+
+
+##### （3）系统常见环境变量
+
+- <font color='red'>PATH</font>:系统查找命令的路径
+  这便是输入命令之前不用输入绝对路径的根本原因，系统会提前在PATH环境变量里的所有路径中查询一遍有没有你输入的命令，找到之后直接执行；
+
+- 如果你想直接执行shell脚本，不加绝对路径，直接写入PATH环境变量，使用叠加
+  例子：
+
+  ```shell
+  echo $PATH
+  #PATH变量叠加
+  PATH="$PATH":/root/sh 
+  #此后，/root/sh路径里面的执行文件都可以在任意目录下直接执行，不过是临时生效
+  ```
+
+- <font color='red'>PS1</font>：定义<font color='orange'>系统提示符</font>的变量 用来改[root@localhost ~]# 这个显示
+
+  - \d:显示日期，格式为“星期 月 日”
+
+  - \h:显示简写主机名。如默认主机名“localhost”
+
+  - \t:显示24小时制时间，格式为“HH:MM:SS”
+
+  - \T:显示12小时制时间，格式为“HH:MM:SS”
+
+  - \A:显示24小时制时间，格式为“HH:MM”
+
+  - \u:显示当前用户名
+
+  - \w:显示当前所在目录的完整名称
+
+  - \W:显示当前所在目录的最后一个目录
+
+  - #:执行的第几个命令
+
+  - $:提示符。如果是root用户会显示提示符为“#”，如果是普通用户 会显示提示符为“$”
+
+    ```shell
+    [zlx@zlx-vmwarevirtualplatform 桌面]$ echo $PS1
+    \[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\]
+    [zlx@zlx-vmwarevirtualplatform 桌面]$ PS1='[\u@\t\w]\$'
+    [zlx@00:16:25~/桌面]$PS1='[\u@\@ \h \# \W]\$'
+    [zlx@12:16 上午 zlx-vmwarevirtualplatform 4 桌面]$PS1='[\u@\h \W]$'
+    [zlx@zlx-vmwarevirtualplatform 桌面]$
+    ```
+
+
+
+#### 10.4.3 位置参数变量 $n $* $@ $#
+
+- 位置参数变量
+
+|变量|作用|
+|:---:|-----|
+|$n	|n为数字，$0代表命令本身，$1-9 代 表 第 一 到 第 九 个 参 数 ， 十 以 上 的 参 数 需 要 用 大 括 号 包 含 ，如{10}.|
+|$*	|这个变量代表命令行中所有的参数，$*把所有的参数看成一个整体|
+|$@	|这个变量也代表命令行中所有的参数，不过 $@把每个参数区分对待|
+|$#	|这个变量代表命令行中所有参数的个数|
+
+- <font color='red'>$n</font> 的例子
+
+```shell
+[zlx@zlx-vmwarevirtualplatform 脚本练习]$ cat sum.sh
+
+#!/bin/bash
+num1=$1
+num2=$2
+sum=$(($num1+$num2))
+#变量sum的和是num1+num2
+echo $sum
+#打印变量sum的值
+
+[zlx@zlx-vmwarevirtualplatform 脚本练习]$ bash sum.sh 2 3
+5
+```
+
+
+
+- <font color='red'>S# S* S@</font> 的例子
+
+```shell
+[zlx@zlx-vmwarevirtualplatform 脚本练习]$ cat showParam.sh 
+
+#!/bin/bash
+echo "A total of $# parameters"
+#使用$#代表所有参数的个数
+echo "The parameters is:$*"
+#使用$*代表所有参数
+echo "The parameters is:$@"
+#使用$@也代表所有参数
+
+[zlx@zlx-vmwarevirtualplatform 脚本练习]$ bash showParam.sh 11 23 45 66
+A total of 4 parameters
+The parameters is:11 23 45 66
+The parameters is:11 23 45 66
+```
+
+
+
+- S*和S@ 的区别
+
+```shell
+[zlx@zlx-vmwarevirtualplatform 脚本练习]$ cat diffParam.sh 
+#!/bin/bash
+
+#$*中所有的参数看成一个整体，所以这个for循环只会循环一次
+for i in "$*" 
+do
+	echo "The parameter is:$i"
+done
+#$@中所有的参数都看成是独立的，所以”$@“中有几个参数，就会循环几次
+x=1
+for i in "$@"
+do
+	echo "The parameter$x is:$i"
+	x=$(($x+1))
+done
+
+[zlx@zlx-vmwarevirtualplatform 脚本练习]$ bash diffParam.sh 12 34 56 
+The parameter is:12 34 56
+The parameter1 is:12
+The parameter2 is:34
+The parameter3 is:56
+```
+
+
+
+#### 10.4.4 预定义的变量 $? $$ $!
+
+- 预定义变量
+
+
+|变量	|作用|
+|----|----|
+|$?	|最后一次执行的命令的返回状态。如果这个变量的值为0，证明上一个命令正确执行;如果 这个变量的值为非0(具体是哪个数，由命令自己来决定)，则证明上一个命令执行不正确 了。|
+|$$	|当前进程的进程号(PID)|
+|$!	|后台运行的最后一个进程的进程号(PID)|
+
+- 例子：
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 脚本练习]$ cat showPID.sh
+  
+  #!/bin/bash
+  echo “The current process is $$”
+  #输出当前进程的PID。
+  #这个PID就是showPID.sh这个脚本执行时，生成的进程的PID
+  find ./ -name hello.sh &
+  #使用find命令在root目录下查找hello.sh文件
+  #符号&的意思是把命令放入后台执行，工作管理在系统管理章节会详细介绍
+  echo "The last one Daemon process is $!"
+  
+  [zlx@zlx-vmwarevirtualplatform 脚本练习]$ bash showPID.sh
+  “The current process is 2798”
+  The last one Daemon process is 2799
+  
+  [zlx@zlx-vmwarevirtualplatform 脚本练习]$ ./hello.sh
+  
+  [zlx@zlx-vmwarevirtualplatform 脚本练习]$ echo $?
+  0
+  ```
+
+  
+
+- 接受键盘输入
+  read [选项] [变量名]
+  - -p “提示信息”：在等待read输入时，输出提示信息
+  - -t 秒数：read命令会一直等待用户输入，使用此选项可以指定等待时间
+  - -n 字符数：read命令只接受指定的字符数，就会执行
+  - -s: 隐藏输入的数据，适用于机密信息的输入
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 脚本练习]$ cat keyboard.sh 
+  
+  #!/bin/bash 
+  #Author: shenchao （E-mail: shenchao@lampbrother.net）
+  read -t 30 -p "Please input your name: " name 
+  #提示“请输入姓名”并等待 30 秒，把用户的输入保存入变量 name 中
+  echo "Name is $name " 
+  read -s -t 30 -p "Please enter your age: " age 
+  #年龄是隐私，所以我们用“-s”选项隐藏输入
+  echo -e "\n" 
+  echo "Age is $age " 
+  read -n 1 -t 30 -p "Please select your gender[M/F]: " gender
+  #使用“-n 1”选项只接收一个输入字符就会执行（都不用输入回车）
+  echo -e "\n" 
+  echo "Sex is $gender"
+  
+  [zlx@zlx-vmwarevirtualplatform 脚本练习]$ bash keyboard.sh 
+  Please input your name: zlx
+  Name is zlx 
+  Please enter your age: 
+  
+  Age is 18 
+  Please select your gender[M/F]: M
+  
+  Sex is M
+  ```
+
+  
+
 
 ### 10.5 Bash的运算符-1
 
