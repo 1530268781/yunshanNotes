@@ -940,200 +940,409 @@ SELECT COUNT(1) FROM employees;	#除了1可以是任意常量值
 
 ### 7.连接查询
 
-- 分类：
+#### （1）分类：
+
+```
+按年代分类：
+	sq129标准：仅支持内连接（等值、非等值、自连接）
+	sql199标准【推荐】支持内连接+外连接（左外连接、右外连接）+交叉连接
+	
+按功能分：
+	内连接：
+		等值连接
+		非等职连接
+		自连接
+	外连接：
+		左外连接
+		右外连接
+		全外连接
+	交叉连接
+```
+
+
+
+#### （2）SQL192标准
+
+- 等值连接
+
+```sql
+#案例1：查询女生名对应的男生名
+SELECT `name`,boyName FROM beauty,boys
+WHERE beauty.boyfriend_id = boys.id;
+
+#案例2：查询员工名和对应的部门名
+SELECT last_name,department_name
+FROM employees,departments
+WHERE employees.`department_id`=departments.`department_id`;
+
+#为表名起别名
+#案例1：查询员工号、工种号、工种名
+SELECT last_name,employees.job_id,job_title
+FROM employees,jobs
+WHERE employees.`job_id`=jobs.`job_id`;
+
+SELECT last_name,e.job_id,job_title
+FROM employees AS e,jobs AS j
+WHERE e.`job_id`=j.`job_id`;
+
+#加筛选条件
+#案例1：查询有奖金的员工们和部门名
+SELECT last_name,department_name
+FROM employees e,departments d
+WHERE e.`department_id`=d.`department_id`
+AND e.`commission_pct` IS NOT NULL; 
+```
+
+
+
+- 非等值连接
+
+```sql
+#案例1：查询员工的工资和工资级别
+SELECT salary,grade_level
+FROM employees,job_grades g
+WHERE salary BETWEEN g.`lowest_sal` AND `highest_salary`;
+```
+
+
+
+- 自连接
+
+```sql
+#3.自连接
+#案例1：查询员工名和上级的名称
+SELECT e1.last_name 员工名,e2.last_name 领导名
+FROM employees e1,employees e2
+WHERE e1.manager_id = e2.employee_id
+```
+
+
+
+#### （3）SQL199标准
+
+- 语法：
+
+  	select 查询列表
+  	from 表1 别名 【连接类型】
+  	join 表2 别名
+  	on 连接条件
+  	【where 筛选条件】
+  	【group by 分组】
+  	【having 筛选条件】
+  	【order by 排序列表】
+
+- 分类
 
   ```
-  按年代分类：
-  	sq129标准：仅支持内连接（等值、非等值、自连接）
-  	sql199标准【推荐】支持内连接+外连接（左外连接、右外连接）+交叉连接
-  	
-  按功能分：
-  	内连接：
-  		等值连接
-  		非等职连接
-  		自连接
+  分类：
+  	内连接：inner
   	外连接：
-  		左外连接
-  		右外连接
-  		全外连接
-  	交叉连接
+  		左外：left 【outer】
+  		右外：right 【outer】
+  		全外：full 【outer】
+  	交叉连接：cross
   ```
 
+- 内连接
 
-
-- SQL192标准
-
+  - 语法
+    	select 查询列表
+    	from 表1 别名
+    	inner join 表2 别名
+    	On 连接条件
   - 等值连接
 
   ```sql
-  #案例1：查询女生名对应的男生名
-  SELECT `name`,boyName FROM beauty,boys
-  WHERE beauty.boyfriend_id = boys.id;
-  
-  #案例2：查询员工名和对应的部门名
+  #（1）等值连接
+  #案例1：查询员工名和对应的部门名
   SELECT last_name,department_name
-  FROM employees,departments
-  WHERE employees.`department_id`=departments.`department_id`;
+  FROM employees e
+  INNER JOIN departments d
+  ON e.`department_id`=d.`department_id`
   
-  #为表名起别名
-  #案例1：查询员工号、工种号、工种名
-  SELECT last_name,employees.job_id,job_title
-  FROM employees,jobs
-  WHERE employees.`job_id`=jobs.`job_id`;
-  
-  SELECT last_name,e.job_id,job_title
-  FROM employees AS e,jobs AS j
-  WHERE e.`job_id`=j.`job_id`;
-  
-  #加筛选条件
-  #案例1：查询有奖金的员工们和部门名
+  #案例2：查询有奖金的员工们和部门名
   SELECT last_name,department_name
-  FROM employees e,departments d
-  WHERE e.`department_id`=d.`department_id`
-  AND e.`commission_pct` IS NOT NULL; 
+  FROM employees e
+  INNER JOIN departments d
+  ON e.`department_id`=d.`department_id`
+  WHERE e.`commission_pct` IS NOT NULL; 
   ```
-
-  
 
   - 非等值连接
 
   ```sql
+  #（2）非等值连接
   #案例1：查询员工的工资和工资级别
   SELECT salary,grade_level
-  FROM employees,job_grades g
-  WHERE salary BETWEEN g.`lowest_sal` AND `highest_salary`;
+  FROM employees e
+  INNER JOIN job_grades g
+  ON e.salary BETWEEN g.`lowest_sal` AND `highest_salary`;
   ```
 
-  
-
-  - 自连接
+  - 子连接
 
   ```sql
-  #3.自连接
+  #（3）自连接
   #案例1：查询员工名和上级的名称
   SELECT e1.last_name 员工名,e2.last_name 领导名
-  FROM employees e1,employees e2
-  WHERE e1.manager_id = e2.employee_id
+  FROM employees e1
+  INNER JOIN employees e2
+  ON e1.manager_id = e2.employee_id
+  ```
+
+- 外连接
+
+```sql
+/*
+应用场景：一个表中有，另外一个表没有的记录
+1.外连接查询结果为主表中的所有记录
+	如果从表中有和它匹配的，则显示匹配的值
+	如果没有和它匹配的，则显示null
+	外连接查询结果=内连接结果+主表中有而从表中没有的记录
+	
+2.left join:左边是主表
+right join:右边是主表
+*/
+#案例1：查询男朋友不在男生表中女生名
+select be.name,bo.*
+from beauty be
+left outer join boys bo
+on be.`boyfriend_id`=bo.`id`
+where bo.`id` is null;
+
+#案例2：查询哪个部门没有员工
+select d.*,e.employee_id
+from departments d
+left outer join employees e
+on d.`department_id` = e.`department_id`
+where e.`employee_id` is null
+```
+
+
+
+- 交叉连接
+
+```sql
+#交叉连接（笛卡尔乘积）
+SELECT be.*,bo.*
+FROM beauty be
+CROSS JOIN boys bo;
+```
+
+
+
+### 8.子查询 
+
+- 说明：当一个查询语句中又嵌套了另外一个select语句，则倍嵌套的select语句称为子查询或内查询           
+- 分类：  
+  1. select后面：
+     	要求：子查询的结果为单行多列（标量子查询）
+  2. from后面
+     	要求：子查询的结果可以为多行多列
+  3. where或having后面
+     	要求：子查询的结果必须为单列
+     		单行子查询
+     		多行子查询
+  4. exists后面
+     	要求：子查询结果必须为单列（相关子查询）
+- 特点：
+  	子查询要包含在括号中；
+  	子查询放在比较条件右侧
+  	子查询的查询优先于主查询
+  	单行子查询对应了 单行操作符：> < <= >= = <>
+  	多行子查询对应了 多行操作符：any/some  all in
+
+
+
+- 单行子查询
+
+  ```sql
+  #案例1.查询和Zlotkey相同部门的员工姓名和工资名
+  #(1)查询Zlotkey的部门编号
+  SELECT department_id 
+  FROM employees
+  WHERE last_name = 'Zlotkey';
+  
+  #(2)查询department_id=(1)的员工工资和姓名
+  SELECT last_name,salary
+  FROM employees
+  WHERE department_id = (
+  	SELECT department_id 
+  	FROM employees
+  	WHERE last_name = 'Zlotkey'
+  );
+  
+  #案例2.查询工资比公司平均工资高的员工姓名和工资
+  SELECT last_name,salary
+  FROM employees
+  WHERE salary >= (
+  	SELECT AVG(salary)
+  	FROM employees
+  )
   ```
 
 
 
-- SQL199标准
-
-  - 语法：
-
-    	select 查询列表
-    	from 表1 别名 【连接类型】
-    	join 表2 别名
-    	on 连接条件
-    	【where 筛选条件】
-    	【group by 分组】
-    	【having 筛选条件】
-    	【order by 排序列表】
-
-  - 分类
-
-    ```
-    分类：
-    	内连接：inner
-    	外连接：
-    		左外：left 【outer】
-    		右外：right 【outer】
-    		全外：full 【outer】
-    	交叉连接：cross
-    ```
-
-  - 内连接
-
-    - 语法
-      	select 查询列表
-      	from 表1 别名
-      	inner join 表2 别名
-      	On 连接条件
-    - 等值连接
-
-    ```sql
-    #（1）等值连接
-    #案例1：查询员工名和对应的部门名
-    SELECT last_name,department_name
-    FROM employees e
-    INNER JOIN departments d
-    ON e.`department_id`=d.`department_id`
-    
-    #案例2：查询有奖金的员工们和部门名
-    SELECT last_name,department_name
-    FROM employees e
-    INNER JOIN departments d
-    ON e.`department_id`=d.`department_id`
-    WHERE e.`commission_pct` IS NOT NULL; 
-    ```
-
-    - 非等值连接
-
-    ```sql
-    #（2）非等值连接
-    #案例1：查询员工的工资和工资级别
-    SELECT salary,grade_level
-    FROM employees e
-    INNER JOIN job_grades g
-    ON e.salary BETWEEN g.`lowest_sal` AND `highest_salary`;
-    ```
-
-    - 子连接
-
-    ```sql
-    #（3）自连接
-    #案例1：查询员工名和上级的名称
-    SELECT e1.last_name 员工名,e2.last_name 领导名
-    FROM employees e1
-    INNER JOIN employees e2
-    ON e1.manager_id = e2.employee_id
-    ```
-
-  - 外连接
+- 多行子查询
 
   ```sql
   /*
-  应用场景：一个表中有，另外一个表没有的记录
-  1.外连接查询结果为主表中的所有记录
-  	如果从表中有和它匹配的，则显示匹配的值
-  	如果没有和它匹配的，则显示null
-  	外连接查询结果=内连接结果+主表中有而从表中没有的记录
-  2.left join:左边是主表
-  right join:右边是主表
-  */
-  #案例1：查询男朋友不在男生表中女生名
-  select be.name,bo.*
-  from beauty be
-  left outer join boys bo
-  on be.`boyfriend_id`=bo.`id`
-  where bo.`id` is null;
+  in:判断某字段是否在列表内
   
-  #案例2：查询哪个部门没有员工
-  select d.*,e.employee_id
-  from departments d
-  left outer join employees e
-  on d.`department_id` = e.`department_id`
-  where e.`employee_id` is null
+  any/some:判断某字段的值是否满足任意一个
+  x>any() <=> x>min()
+  x=any() <=> x in ()
+  x<any() <=> x<max()
+  
+  all:判断某字段的值是否满足所有
+  x>all() <=> x>max()
+  x<all() <=> x<max()
+  */
+  #案例1：返回location_id是1400或1700的部门中的所有员工姓名
+  SELECT last_name	
+  FROM employees
+  WHERE department_id IN (
+  	SELECT DISTINCT department_id
+  	FROM departments
+  	WHERE location_id IN (1400,1700)
+  );
+  
+  #案例2：返回其他部门中比job_id为IT_PROG部门中任意工资低的员工号、姓名、job_id、salary
+  SELECT * 
+  FROM employees
+  WHERE salary < ANY(
+  	SELECT DISTINCT salary
+  	FROM employees
+  	WHERE job_id = 'IT_PROG'
+  ) AND job_id <> 'IT_PROG'
+  
+  SELECT * 
+  FROM employees
+  WHERE salary < (
+  	SELECT  MAX(salary)
+  	FROM employees
+  	WHERE job_id = 'IT_PROG'
+  ) AND job_id <> 'IT_PROG';
   ```
 
   
 
-  - 交叉连接
+
+
+- 放在from后面
 
   ```sql
-  #交叉连接（笛卡尔乘积）
-  SELECT be.*,bo.*
-  FROM beauty be
-  CROSS JOIN boys bo;
+  #案例：查询每个部门的平均工资的工资级别
+  #（1）每个部门的平均工资
+  SELECT AVG(salary),department_id
+  FROM employees
+  GROUP BY department_id
+  
+  #(2)连接：查询平均工资的工资级别
+  SELECT dep_ag.department_id,dep_ag.ag,g.grade
+  FROM sal_grade g
+  JOIN (
+  	SELECT AVG(salary) ag,department_id
+  	FROM employees
+  	GROUP BY department_id
+  ) dep_ag ON dep_ag.ag BETWEEN g.min_salary AND g.max_salary;
+  ```
+
+- 放在exists后面
+
+  ```sql
+  #案例：查询有无名字叫“张三丰”的员工
+  SELECT EXISTS(
+  	SELECT *
+  	FROM employees
+  	WHERE last_name = '张三丰'
+  ) 有无;
   ```
 
   
 
+### 9.分页查询  
 
+- 语法：
 
-### 8.子查询                     
+  select 查询列表
+  from 表1 别名
+  join 表2 别名
+  where 筛选条件
+  group by 分组
+  having 分组后筛选
+  order by 排序列表
+  limit 起始条目索引(默认0)，显示的条目数
 
-### 9.分页查询                  
+- 执行顺序：
+
+  1.from
+  2.join
+  3.on
+  4.where
+  5.group by
+  6.having
+  7.select
+  8.order by
+  9.limit
+
+- 公式：
+
+  如果要显示的页数是page,每页显示的条目数是size
+
+  **select *
+  from employees
+  limit (page-1)*size,size;**
+
+  | page | size=10 |
+  | ---- | ------- |
+  |1	|limit 0,10|
+  |2	|limit 10,10|
+  |3	|limit 20,10|
+  |4	|limit 30,10|
+
+- 案例
+
+  ```sql
+  #案例1：查询员工信息的前五条
+  SELECT * FROM employees LIMIT 5
+  SELECT * FROM employees LIMIT 0,5
+  
+  #案例2：查询有奖金的，员工工资较高的第11名到第20名
+  SELECT last_name,salary
+  FROM employees
+  WHERE commission_pct IS NOT NULL
+  ORDER BY salary DESC
+  LIMIT 10,10
+  ```
+
+  
 
 ### 10.union联合查询
+
+- 说明：查询结果之间没有关联，这个时候往往使用联合查询（union查询）
+
+- 语法：
+
+  select 字段|常量|表达式|函数 【from 表】 【where 条件】 union 【all】
+  select 字段|常量|表达式|函数 【from 表】 【where 条件】 union 【all】
+  select 字段|常量|表达式|函数 【from 表】 【where 条件】 union  【all】
+  .....
+  select 字段|常量|表达式|函数 【from 表】 【where 条件】
+
+- 注意：
+
+  - 要求列数相等
+  - union自动去重/union all 支持重复项
+
+- 案例
+
+  ```sql
+  #案例：
+  SELECT `name` FROM beauty
+  UNION
+  SELECT `boyname` FROM boys
+  ```
+
+  
+

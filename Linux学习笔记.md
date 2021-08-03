@@ -49,7 +49,7 @@
     这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件，比如可以通过下面的命令来屏蔽主机的ping命令，使别人无法ping你的机器：
 
     ```shell
-     echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all  
+    echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all  
     ```
 
   - **/root**：<font color='red'>[重点]</font>
@@ -155,7 +155,7 @@
 
 - 功能描述：显示目录文件
 
-- 语法：ls 选项[-ald] [文件或目录] 
+- 语法：<font color='orange'>ls 选项[-ald] [文件或目录] </font>
 
   - <font color='orange'>-a </font>（--all）显示所有文件，包括隐藏文件
   - <font color='orange'>-l</font> (--list) 详细信息显示（权限，所有者等）
@@ -197,7 +197,7 @@
 
 - 执行权限：所有用户
 
-- 语法：mkdir -p  [目录名]
+- 语法：<font color='orange'>mkdir -p  [目录名]</font>
 
 - 功能描述：创建新目录    -p 递归创建( -p 可以递归创建 在没有一级目录的情况下新创建二级目录)
 
@@ -219,7 +219,7 @@
 
 - 执行权限：所有用户
 
-- 语法：rmdir [目录名] 
+- 语法：<font color='orange'>rmdir [目录名] </font>font>
 
 - 功能描述： 删除空目录，只能删除没有文件的空目录 （不经常使用）
 
@@ -238,7 +238,7 @@
 
 - 命令执行权限：所有用户
 
-- 语法：cd [目录] 
+- 语法：<font color='orange'>cd [目录] </font>
 
 - 功能描述：切换目录
 
@@ -256,7 +256,7 @@
 - 命令英文原意： <font color='orange'>p</font>rint <font color='orange'>w</font>orking <font color='orange'>d</font>irectory 
 - 命令所在路径：/bin/pwd 
 - 执行权限：所有用户
-- 语法：pwd 
+- 语法：<font color='orange'>pwd </font>
 - 功能描述：显示当前目录
 - 范例：$ pwd 
 
@@ -268,7 +268,7 @@
 
 - 执行权限：所有用户
 
-- 语法：cp -rp [原文件或目录] [目标目录] 
+- 语法：<font color='orange'>cp -rp [原文件或目录] [目标目录] </font>
 
   - -r 复制目录
   - -p 保留文件属性，比如保留创建时间，日志文件的复制需要用到
@@ -296,7 +296,7 @@
 - 执行权限：所有用户
 
 
-- 语法：rm -rf [文件或目录] 
+- 语法：<font color='orange'>rm -rf [文件或目录] </font>font>
   - -r 删除目录，一般是rm -rf 连着用
   - -f 强制执行，不在询问
 
@@ -323,7 +323,7 @@
 
 - 执行权限：所有用户
 
-- 语法：touch [文件名] 或 touch[绝对路径+文件名]
+- 语法：<font color='orange'>touch [文件名] 或 touch[绝对路径+文件名]</font>
 
 - 功能描述：创建空文件
 
@@ -335,7 +335,7 @@
 
 - 执行权限：所有用户
 
-- 语法：cat [文件名] 
+- 语法：<font color='orange'>cat [文件名] </font>
 
 - 功能描述：显示文件内容 
   -  -n 显示行号
@@ -351,7 +351,7 @@
 
 - 执行权限：所有用户
 
-- 语法：more [文件名] 
+- 语法：<font color='orange'>more [文件名] </font>
   -  (空格) 或 f 翻页 
   -  (Enter) 换行 
   -  q 或 Q 退出
@@ -364,7 +364,7 @@
 
 - 命令所在路径：/usr/bin/less 执行权限：所有用户
 
-- 语法：less [文件名] 
+- 语法：<font color='orange'>less [文件名] </font>
 
 - 功能描述：分页显示文件内容（可向上翻页）
 
@@ -378,7 +378,7 @@
 
 - 执行权限：所有用户
 
-- 语法：head [文件名] 
+- 语法：<font color='orange'>head [文件名] </font>
 
 - 功能描述：显示文件前面几行 
   - -n 指定行数
@@ -391,7 +391,7 @@
 
 - 执行权限：所有用户
 
-- 语法：tail [文件名] 
+- 语法：<font color='orange'>tail [文件名] </font>
 
 - 功能描述：显示文件后面几行 
   -  -n 指定行数 
@@ -411,7 +411,7 @@
 
 - 执行权限：所有用户
 
-- 语法：ln -s [原文件] [目标文件] 
+- 语法：<font color='orange'>ln -s [原文件] [目标文件] </font>
   - -s 创建软链接
 
 - 功能描述：生成链接文件
@@ -454,7 +454,7 @@
 
 - 执行权限：所有用户
 
-- 语法：chmod [{ugoa}{+-=}{rwx}] [文件或目录] 
+- 语法：<font color='orange'>chmod [{ugoa}{+-=}{rwx}] [文件或目录] </font>
 
   -  -R 递归修改
 
@@ -515,7 +515,7 @@
 - 执行权限：所有用户
 
 
-- 语法：chown [用户] [文件或目录] 
+- 语法：<font color='orange'>chown [用户] [文件或目录] </font>
 
 
 - 功能描述：改变文件或目录的所有者 范例：$ chown shenchao fengjie 
@@ -536,7 +536,7 @@
 - 执行权限：所有用户
 
 
-- 语法：chgrp [用户组] [文件或目录] 
+- 语法：<font color='orange'>chgrp [用户组] [文件或目录] </font>
 
 
 - 功能描述：改变文件或目录的所属组
@@ -560,7 +560,7 @@
 - 执行权限：所有用户
 
 
-- 语法：umask [-S] 
+- 语法：<font color='orange'>umask [-S] </font>
 
 
 - -S 以 rwx 形式显示新建文件缺省权限
@@ -582,7 +582,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 ##### （1）按关键字 -name | -iname
 
-- find [搜索范围] -name [关键字] 在特定路径下搜索文件名作为关键字的文件或者目录
+- <font color='orange'>find [搜索范围] -name [关键字]</font> 在特定路径下搜索文件名作为关键字的文件或者目录
 
 - find [搜索范围] -name [关键字]* 这样为带有关键字开头的任何文件都可以被搜索出来
 
@@ -609,7 +609,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 ##### （2）按文件大小 -size
 
-- find [搜索范围] -size [数据块] 
+- <font color='orange'>find [搜索范围] -size [数据块] </font>
 
 - 数据块前面加+表示查找大于这个大小的文件，-表示查找小于这个大小的文件，不加表示查找等于这个大小的文件(一般不常用)
 
@@ -686,9 +686,9 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 - 命令名称：locate
   - 命令所在路径：/usr/bin/locate 
   - 执行权限：所有用户
-  - 语法：locate 文件名
+  - 语法：<font color='orange'>locate 文件名</font>
   - 参数：-i 不区分大小写
-  - 功能描述：在文件资料库中查找文件，速度更快。
+  - 功能描述：在**文件资料库**中查找文件，速度更快。
   - 范例：$ locate inittab
   - tips:
     - 新建文件 locate 不到，可以 updatedb,更新文件资料库后查找
@@ -702,7 +702,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 语法：which 命令
+- 语法：<font color='orange'>which 命令</font>
 
 - 功能描述：搜索命令所在目录及别名信息
 
@@ -716,7 +716,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 语法：whereis [命令名称] 
+- 语法：<font color='orange'>whereis [命令名称] </font>
 
 - 功能描述：搜索命令所在目录及帮助文档路径
 
@@ -730,7 +730,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 语法：grep -iv [指定字串] [文件] 
+- 语法：<font color='orange'>grep -iv [指定字串] [文件] </font>
 
 - 功能描述：在文件中搜寻字串匹配的行并输出 
   - -i 不区分大小写
@@ -739,6 +739,116 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 -  范例：
   -  grep mysql /root/install.log
   -  \# grep -v ^# /etc/inittab 去除以#开头的所有行信息,^表示以 XXX 开头
+
+
+
+### 2.4 帮助命令
+
+##### （1）<font color='red'>man</font>
+
+- 命令英文原意：manual 
+
+- 命令所在路径：/usr/bin/man 
+
+- 执行权限：所有用户
+
+- 语法：<font color='orange'>man [命令或配置文件] </font>
+  -  (空格) 或 f 翻页 
+  -  (Enter) 换行 
+  -  q 或 Q 退出
+
+- 功能描述：获得帮助信息
+
+- 范例： 
+
+  - $ man ls 
+
+    查看 ls 命令的帮助信息 
+
+  - $ man services 
+
+    查看配置文件 services 的帮助信息
+
+  - 1 命令的帮助   5 配置文件的帮助
+
+  - man 5 passwd -> 查看配置文件的帮助
+
+
+
+##### （2）<font color='red'>whatis</font>
+
+- 语法：<font color='orange'>whatis 命令</font>
+
+- 功能描述：获得命令的简单介绍信息
+
+- 范例：whatis ls
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ whatis ls
+  ls (1)               - list directory contents
+  ls (1p)              - list directory contents
+  ```
+
+  
+
+##### （3）<font color='red'>apropos</font>
+
+- 语法：<font color='orange'>apropos 配置文件名称</font>
+- whatis 类似于精确查找
+- apropos 模糊查找关键字 [功能等于 man -k ] [可以 tab 快速补全]
+
+
+
+##### （3）<font color='red'>help</font>
+
+- 命令所在路径：Shell 内置命令
+
+- 执行权限：所有用户
+
+- 功能描述：获得 Shell 内置命令的帮助信息
+
+- 范例： 
+
+  - $ help umask 
+
+    查看 umask 命令的帮助信息
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ help umask
+  umask: umask [-p] [-S] [模式]
+      显示或设定文件模式掩码。
+      
+      设定用户文件创建掩码为 MODE 模式。如果省略了 MODE，则
+      打印当前掩码的值。
+      
+      如果 MODE 模式以数字开头，则被当作八进制数解析；否则是一个
+      chmod(1) 可接收的符号模式串。
+      
+      选项：
+        -p	如果省略 MODE 模式，以可重用为输入的格式输入
+        -S	以符号形式输出，否则以八进制数格式输出
+      
+      退出状态：
+      返回成功，除非使用了无效的 MODE 模式或者选项。
+  ```
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -755,6 +865,18 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
   <img src="Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210721142803916.png" alt="image-20210721142803916" style="zoom:50%;" />
 
 - Shell还是一个功能相当强大的<font color='orange'>编程语言</font>， 易编写，易调试，灵活性较强。Shell是解释执行的<font color='orange'>脚本语言</font>，在Shell中可以直接调用Linux系统命令。
+
+
+
+### 
+
+
+
+
+
+
+
+
 
 
 
@@ -1442,10 +1564,121 @@ The parameter3 is:56
 
   
 
+### 10.5 Bash的运算符
 
-### 10.5 Bash的运算符-1
+#### 10.5.1 数值运算与运算符
 
-### 10.6 Bash的运算符-2
+##### （1）<font color='red'>declare </font>声明变量类型
 
-待更新
+- <font color='orange'>declare [+/-] [选项] 变量名</font>
+
+- 选项： 
+  - -： 给变量设定类型属性 
+  -  +：取消变量的类型属性 
+  - -i：将变量声明为整数型（integer） 
+  - -x：将变量声明为环境变量 
+  - -p：显示指定变量的被声明的类型
+
+
+
+##### （2）数值运算
+
+- 方法1：
+
+  ```shell
+  $ aa=11
+  $ bb=22
+  $ declare -i cc=$aa+$bb
+  $ echo $cc
+  33
+  ```
+
+  
+
+- 方法2：<font color='orange'>expr </font>或 let 数值运算工具
+
+  ```shell
+  $ aa=11
+  $ bb=10
+  $ dd=$(expr $aa + $bb)
+  # dd的值是aa和bb的和。注意“+”号左右两侧必须有空格。let和expr一样
+  $ echo $dd
+  21
+  ```
+
+  
+
+- 方法3：<font color='orange'>$((运算式)) 或 $[运算式]</font>（<font color='red'>推荐</font>）
+
+  ```shell
+  $ aa=10
+  $ bb=12
+  $ ee=$(($aa+$bb))
+  $ echo $ee
+  22
+  $ ff=$[$aa+$bb+$ee]
+  $ echo $ff
+  44
+  ```
+
+
+
+##### （3）运算符优先级
+
+| 优先级 | 运算符 | 说明 |
+| :----: | :----: | :--: |
+|13	|-, +	|单目负、单目正|
+|12	|!, ~	|逻辑非、按位取反或补码|
+|11	|*,/, %	乘、除、取模||
+|10	|+, -	|加、减|
+|9	|<< , >>	|按位左移、按位右移|
+|8	|< =, > =, < , >	|小于或等于、大于或等于、小于、大于|
+|7	|== , !=	|等于、不等于|
+|6	|&	|按位与|
+|5	|^	|按位异或|
+|4	|\|	|按位或|
+|3	|&&	|逻辑与|
+|2	|\|\|	|逻辑或|
+|1	|=,+=,-=,*=,/=,%=,&=, ^=,赋值、运算且赋值 |=, <<=, >>=	|
+
+
+
+
+#### 10.5.2 变量测试与内容替换
+
+- 测试表
+
+​		用来测试一个变量到底有没有设置
+![image-20210803155541740](Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210803155541740.png)
+
+- 例子：
+  - 测试x=${y-新值} 测试y变量存不存在
+
+    unset y 删除变量y
+    x=${y-new} 进行测试
+    echo $x
+    显示new，y变量不存在
+    因为变量y不存在，所以x=new
+
+  - y="" 给变量y赋值为空
+    x=${y-new} 进行测试
+    echo $x
+    显示空，y为空值
+
+  - y=old 给变量y赋值
+    x=${y-new} 进行测试
+    echo $x
+    显示old ，y变量存在且有值
+
+
+
+
+
+### 10.6 环境变量配置文件
+
+#### 10.6.1 简介
+
+#### 10.6.2 作用
+
+#### 10.6.3 其他配置文件和登录信息
 
