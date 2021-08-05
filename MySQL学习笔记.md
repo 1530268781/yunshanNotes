@@ -323,7 +323,7 @@ mysql  Ver 14.14 Distrib 5.5.15, for Win32 (x86)
 
 
 
-## DQL语言的学习
+## DQL语言
 
 数据库结构：
 
@@ -1346,3 +1346,453 @@ CROSS JOIN boys bo;
 
   
 
+## DML语言
+
+### 1.插入insert
+
+#### （1）方式一
+
+- 语法：
+
+  <font color='red'>insert into 表名(列名1，...) </font>
+
+  <font color='red'>values(值1，...)，values(值1，...)，...</font>
+
+- 插入的值的类型要与列的类型一致,且一一对应
+
+  ```sql
+  INSERT INTO beauty(id,NAME,sex,borndate,phone,photo,boyfriend_id)
+  VALUES(13,'唐艺昕','女','1990-4-23','19822223333',NULL,2);
+  ```
+
+- 可以为null的列如何插入值
+
+  ```sql
+  #方式一(对应值写null)
+  INSERT INTO beauty(id,NAME,sex,borndate,phone,photo,boyfriend_id)
+  VALUES(13,'唐艺昕','女','1990-4-23','19822223333',NULL,2);
+  
+  #方式二（不写列名）
+  INSERT INTO beauty(id,NAME,sex,borndate,phone,boyfriend_id)
+  VALUES(14,'金星','女','1990-4-23','19822223333',2);
+  ```
+
+- 列的顺序可以调换
+
+  ```sql
+  INSERT INTO beauty(NAME,sex,phone,id)
+  VALUES('蒋欣','女','1235677764',15);
+  ```
+
+- 可以省略列名，默认所有列，且列的顺序和表中列的顺序一致
+
+  ```sql
+  INSERT INTO beauty
+  VALUES(16,'张飞','男',NULL,'119',NULL,NULL);
+  ```
+
+
+
+#### （2）方式二
+
+- 语法：
+
+  <font color='red'>insert into 表名</font>
+
+  <font color='red'>set 列名1=值1，列名2=值2，...</font>
+
+  ```sql
+  INSERT INTO beauty
+  SET id=17,NAME='刘涛',phone='1928384940984'
+  ```
+
+
+
+#### （3）两者对比
+
+- 方式一支持插入多行，方式二不支持
+
+  ```sql
+  INSERT INTO beauty
+  VALUES(18,'唐艺昕','女','1990-4-23','19822223333',NULL,2),
+  (19,'唐艺昕','女','1990-4-23','19822223333',NULL,2),
+  (20,'唐艺昕','女','1990-4-23','19822223333',NULL,2);
+  ```
+
+  
+
+- 方式一支持子查询，方式二不支持
+
+  ```sql
+  INSERT INTO beauty(id,NAME,phone)
+  SELECT 21,'宋茜','123478583493';
+  ```
+
+
+
+### 2.修改update
+
+#### （1）修改单表
+
+- 语法：
+
+  <font color='red'>update 表名</font>
+
+  <font color='red'>set 列=新值，列=新值</font>
+
+  <font color='red'>where 筛选条件;</font>
+
+- 案例
+
+  ```sql
+  #案例1：修改beauty表中姓唐的电话为000000000
+  UPDATE beauty
+  SET phone='000000000'
+  WHERE NAME LIKE '唐%'
+  
+  #案例2：修改boys表中id为2的名称为张飞，魅力值为10
+  UPDATE boys
+  SET boyname='张飞',userCP=10
+  WHERE id=2;
+  ```
+
+  
+
+#### （2）修改多表
+
+- 语法：
+
+  - SQL192语法：
+
+    <font color='red'>update 表1 别名，表2 别名</font>
+
+    <font color='red'>set 列=值，...</font>
+
+    <font color='red'>where 连接条件</font>
+
+    <font color='red'>and 筛选条件</font>
+
+  - SQL199语法：【推荐】
+
+    <font color='red'>update 表1 别名</font>
+
+    <font color='red'>inner|left|right join 表2 别名</font>
+
+    <font color='red'>on 连接条件</font>
+
+    <font color='red'>set 列=值，...</font>
+
+    <font color='red'>where 筛选条件</font>
+
+- 案例：
+
+  ```sql
+  #案例1：修改张无忌的女朋友的手机号为11111111
+  UPDATE boys bo
+  INNER JOIN beauty be 
+  ON bo.`id`=be.`boyfriend_id`
+  SET phone='1111111111'
+  WHERE bo.boyName='张无忌';
+  
+  #案例2：修改没有男朋友的女生的男朋友编号都为2
+  #(1)左外连接
+  SELECT * FROM
+  beauty be LEFT OUTER JOIN boys bo
+  ON be.`boyfriend_id`=bo.`id`
+  
+  UPDATE beauty be
+  LEFT OUTER JOIN boys bo 
+  ON be.`boyfriend_id`=bo.`id`
+  SET boyfriend_id=2
+  WHERE boyfriend_id IS NULL
+  
+  #(2)右外连接
+  SELECT * FROM
+  boys bo RIGHT OUTER JOIN beauty be
+  ON bo.`id`=be.`boyfriend_id`
+  
+  UPDATE boys bo 
+  LEFT OUTER JOIN beauty be
+  ON bo.`id`=be.`boyfriend_id`
+  SET boyfriend_id=2
+  WHERE boyfriend_id IS NULL
+  ```
+
+  
+
+### 3.删除delete
+
+#### （1）单表的删除
+
+- 语法：<font color='red'>delete from 表名 where 筛选条件</font>
+
+- 案例：
+
+  ```sql
+  #案例：删除手机号以9结尾的女神信息
+  DELETE FROM beauty WHERE phone LIKE '%9'
+  ```
+
+  
+
+#### （2）多表的删除
+
+- 语法：
+
+  - SQL192标准
+
+    ​		delete 表1的别名，表2的别名 （要删除哪个表的记录就写哪个表别名）
+    ​		from 表1 别名，表2 别名
+    ​		where 连接条件
+    ​		and 筛选条件
+
+  - SQL199标准【推荐】
+
+    ​		<font color='red'>delete 表1的别名，表2的别名</font>
+    ​		<font color='red'>from 表1 别名</font>
+    ​		<font color='red'>inner|left|right| join 表2 别名</font>
+    ​		<font color='red'>on 连接条件</font>
+    ​		<font color='red'>where 筛选条件</font>
+
+- 案例：
+
+  ```sql
+  #案例：删除张无忌女朋友的信息
+  DELETE be
+  FROM boys bo 
+  JOIN beauty be
+  ON be.`boyfriend_id`=bo.`id`
+  WHERE bo.`boyName`='张无忌';
+  
+  #案例：删除黄晓明及其女朋友的信息
+  DELETE be,bo
+  FROM boys bo 
+  JOIN beauty be
+  ON be.`boyfriend_id`=bo.`id`
+  WHERE bo.`boyName`='黄晓明';
+  ```
+
+  
+
+#### （3）truncate
+
+- 语法：<font color='red'>truncate table 表名；</font>
+- truncate table boys 与 delete from boys 对比 【<font color='red'>面试题</font>】
+  - 1.都能清空表数据
+  - 2.truncate删除效率稍微高一点点
+  - 3.用delete删除在插入数据，自增长序列的值从断点开始；用truncate删除再插入数据，自增长序列的值从1开始
+  - 4.delete删除有返回值；truncate删除没有返回值
+  - 5.truncate删除后不能回滚，delete删除可以回滚
+
+
+
+## DDL语言
+
+### 1.库的管理
+
+#### （1）库的创建
+
+- 语法：<font color='red'>create database 库名</font>
+
+  ```sql
+  CREATE DATABASE books;
+  #如果库不存在则创建
+  CREATE DATABASE IF NOT EXISTS books;
+  ```
+
+  
+
+#### （2）库的修改
+
+- 语法：rename datebase 库名 to 新库名;【不安全，已废弃】
+
+
+
+#### （3）库的删除
+
+- 语法：<font color='red'>drop database 库名</font>
+
+  ```sql
+  DROP DATABASE books;
+  #如果存在则删除
+  DROP DATABASE IF EXISTS books;
+  ```
+
+  
+
+### 2.表的管理
+
+#### （1）表的创建
+
+- 语法：
+
+  <font color='red'>create table 表名(</font>	列名 列的类型 [(长度) 约束],
+  <font color='red'>	列名 列的类型 [(长度) 约束],</font>
+
+  <font color='red'>	列名 列的类型 [(长度) 约束],</font>
+
+  ​	<font color='red'>...</font>
+  ​	<font color='red'>列名 列的类型 [(长度) 约束],</font>
+
+- 案例：
+
+  ```sql
+  #案例：创建表book
+  USE books;
+  CREATE TABLE IF NOT EXISTS book(
+  	id INT,#编号
+  	bName VARCHAR(20),#书名
+  	price DOUBLE,#价格
+  	author VARCHAR(20),#作者编号
+  	pulishDate DATETIME#出版日期
+  );
+  DESC book;
+  
+  #案例：创建表author
+  CREATE TABLE author(
+  	id INT,
+  	au_name VARCHAR(20),
+  	nation VARCHAR(20)
+  )
+  DESC author;
+  ```
+
+  
+
+#### （2）表的修改
+
+- 语法：<font color='red'>alter table 表名 add|drop|modify|change column</font>
+
+- 修改列名
+
+  ```sql
+  ALTER TABLE book CHANGE COLUMN publishDate pubData DATETIME;
+  ```
+
+  
+
+- 修改列的类型或约束
+
+  ```sql
+  ALTER TABLE book MODIFY COLUMN pubData TIMESTAMP;
+  ```
+
+  
+
+- 添加新列
+
+  ```sql
+  ALTER TABLE author ADD COLUMN annual DOUBLE; #年薪
+  ```
+
+  
+
+- 删除列
+
+  ```sql
+  ALTER TABLE author DROP COLUMN annual;
+  ALTER TABLE author DROP COLUMN IF NOT EXISTS annual;
+  ```
+
+  
+
+- 修改表名
+
+  ```sql
+  ALTER TABLE author RENAME TO book_author;
+  ```
+
+  
+
+#### （3）表的复制
+
+- 仅复制表的结构
+
+  ```sql
+  CREATE TABLE copy LIKE author;
+  ```
+
+  
+
+- 复制表的结构+数据
+
+  ```sql
+  CREATE TABLE copy1 SELECT * FROM author;
+  ```
+
+  
+
+- 仅复制部分数据
+
+  ```sql
+  CRATE TABLE CREATE TABLE copy2
+  SELECT id,au_name
+  FROM author
+  WHERE nation='中国';copy1 SELECT * FROM author;
+  ```
+
+  
+
+- 仅复制部分结构
+
+  ```sql
+  CREATE TABLE copy3
+  SELECT id,au_name
+  FROM author
+  WHERE 1=2; #恒不成立，没有数据
+  ```
+
+  
+
+#### （4）表的删除
+
+```sql
+DROP TABLE book_author;
+DROP TABLE IF EXISTS book_author;
+```
+
+
+
+### 3.数据类型
+
+#### （1）整型
+
+- |  整型类型   | 字节 |                             范围                             |
+  | :---------: | :--: | :----------------------------------------------------------: |
+  |   tinyint   |  1   |               有符号：-128~127   无符号：0~255               |
+  |  smallint   |  2   |            有符号：-32768~32767   无符号：0~65535            |
+  |  mediumint  |  3   |        有符号：-8388608~8388607    无符号：0~1677215         |
+  | int\integer |  4   |     有符号：- 2147483648~2147483647 无符号：0~4294967295     |
+  |   bigint    |  8   | 有符号：-9223372036854775808~9223372036854775807 无符号：0~9223372036854775807*2+1 |
+
+- 特点：
+
+  - a.默认是有符号，如果要设置无符号，需要添加关键字unsigned
+  - b.如果插入的数值超出了整型的范围，会报out of range异常，并且插入临界值
+    c.如果不设置长度，会有默认长度。
+  - 长度代表了显示的最大宽度，如果不够会用0在左边填充，但必须搭配zerofill使用
+
+- 如何设置无符号
+
+  ```sql
+  CREATE TABLE tab_int(
+  	t1 INT,
+  	t2 INT UNSIGNED,
+  	t3 INT(8) ZEROFILL
+  );
+  ```
+
+  
+
+#### （2）小数
+
+- |        浮点数类型        | 字节 |                           范围                            |
+  | :----------------------: | :--: | :-------------------------------------------------------: |
+  |          float           |  4   |             ±1.75494351E-38~±3.402823466E+38              |
+  |          double          |  8   |     ±2.2250738585072014E-308~±1.7976931348623157E+308     |
+  |        定点数类型        | 字节 |                           范围                            |
+  | dec(M,D)    decimal(M,D) | M+2  | 最大取值范围与double相同，给定decimal的有效取值范围由M和D |
+
+  
+
+#### （3）字符型
