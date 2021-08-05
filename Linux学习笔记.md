@@ -1676,9 +1676,43 @@ The parameter3 is:56
 
 ### 10.6 环境变量配置文件
 
-#### 10.6.1 简介
+#### 10.6.1 环境变量配置文件简介
 
-#### 10.6.2 作用
+##### （1）<font color='red'>source</font>命令
+
+-  命令格式：source 配置文件  或  . 配置文件 
+- 功能描述：强制使配置文件在修改之后生效，不需要重启
+
+##### （2）简介
+
+- 环境变量配置文件中主要是定义<font color='orange'>对系统的操作环境生效的系统默认环境变量</font>，比如 PATH、HISTSIZE、PS1、HOSTNAME等 默认环境变量。
+
+- 配置文件保持位置
+
+  - /etc/profile 
+  - /etc/profile.d/*.sh 
+
+  - ~/.bash_profile 
+
+  - ~/.bashrc 
+
+  - /etc/bashrc
+
+
+
+#### 10.6.2 环境变量配置文件作用
+
+##### （1）主要的环境变量配置文件
+
+- /etc/profile
+- /etc/profile.d/\*.sh    指/etc/profile.d/下所有的.sh结尾的文件
+- ~/.bash_profile
+- ~/.bashrc
+- /etc/bashrc
+
+
+
+##### （2）环境变量配置文件调用
 
 #### 10.6.3 其他配置文件和登录信息
 
