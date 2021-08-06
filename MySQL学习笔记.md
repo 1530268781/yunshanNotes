@@ -1796,3 +1796,61 @@ DROP TABLE IF EXISTS book_author;
   
 
 #### （3）字符型
+
+- char和varchar
+
+
+|    写法    |           M的意思           |      特点      | 空间消耗 | 效率 |
+| :--------: | :-------------------------: | :------------: | :------: | :--: |
+|  char(M)   | 最大字符数，可以省略默认为1 | 固定长度的字符 | 比较耗费 |  高  |
+| varchar(M) |   最大字符数，不可用省略    | 可变长度的字符 | 比较节省 |  低  |
+
+​	当存储的字段的字符数固定时用char;当存储的字段的字符数变化时用varchar
+
+
+
+- enum 枚举型
+
+  ```sql
+  CREATE TABLE tab_char(
+  	c1 ENUM('a','b','c')
+  );
+  INSERT INTO tab_char VALUES('a'),('b'),('c'),('d'),('A');
+  ```
+
+  
+
+- set 集合型
+
+  ```sql
+  CREATE TABLE tab_set(
+  	c1 set('a','b','c')
+  );
+  INSERT INTO tab_set VALUES('a'),('A,b'),('a,c'),('a,b,c');
+  ```
+
+
+
+#### （4）日期型
+
+|日期和时间类型|字节 |最小值|最大值|
+| :--------: | :--------: | :-------: | :-------: |
+| date | 4 | 1000-01-01 | 9999-12-31 |
+|datetime |8 |1000-01-01 00:00:00 |9999-12-31 23:59:59|
+|timestamp |4 |19700101080001 |2038年的某个时刻|
+|time |3 |-838:59:59 |838:59:59|
+|year |1 |1901 |2155|
+
+```sql
+CREATE TABLE tab_date(
+	t1 DATETIME,
+	t2 TIMESTAMP
+);
+
+INSERT INTO tab_date VALUES(NOW(),NOW());
+SELECT * FROM tab_date;
+#改时区
+SHOW VARIABLES LIKE 'time_zone';
+SET time_zone='+9:00'
+```
+

@@ -48,6 +48,42 @@ INSERT INTO tab_float VALUES(123,45,123.45,123.45)
 
 #三、字符型
 /*
-较短文本：char varchar
-较长文本：tet blob
+较短文本：char varchar binary varbinary enum set
+较长文本：text blob
 */
+
+#1.char(M)和varchar(M)
+/*
+	写法		M的意思				特点		空间消耗	效率
+char	char(M)		最大的字符数，可以省略默认为1	固定长度的字符	比较耗费	高
+varchar	varchar(M)	最大的字符数，不可以省略	可别长度的字符	比较节省 	低	
+
+当存储的字段的字符数固定时用char;当存储的字段的字符数变化时用varchar
+*/
+
+#2.enum 枚举型
+CREATE TABLE tab_char(
+	c1 ENUM('a','b','c')
+);
+INSERT INTO tab_char VALUES('a'),('b'),('c'),('d'),('A');
+
+#3.set 集合型
+CREATE TABLE tab_set(
+	c1 SET('a','b','c')
+);
+INSERT INTO tab_set VALUES('a'),('A,b'),('a,c'),('a,b,c');
+
+
+#四、日期型
+CREATE TABLE tab_date(
+	t1 DATETIME,
+	t2 TIMESTAMP
+);
+
+INSERT INTO tab_date VALUES(NOW(),NOW());
+SELECT * FROM tab_date;
+#改时区
+SHOW VARIABLES LIKE 'time_zone';
+SET time_zone='+9:00';
+
+	
