@@ -563,7 +563,7 @@ func main() {
 
 #### 2.循环嵌套
 
-```
+```go
 for [condition |  ( init; condition; increment ) | Range]
 {
    for [condition |  ( init; condition; increment ) | Range]
