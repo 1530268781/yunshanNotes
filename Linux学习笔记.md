@@ -1289,7 +1289,6 @@ $ sh hello.shWelcome to linux world!hhh
 - 预定义变量:是Bash中已经定义好的变量，变量名不能自定义，变量作用也是固定的。
 
   
-  
 
 ##### （4）用户自定义变量
 
@@ -1778,9 +1777,9 @@ The parameter3 is:56
 
 ## 第十一章 Shell编程
 
-### 10.1 基础正则表达式
+### 11.1 基础正则表达式
 
-#### 10.1.1 正则表达式与通配符
+#### 11.1.1 正则表达式与通配符
 
 - 正则表达式用来在文件中<font color='orange'>匹配符合条件的字符串</font>，正则是<font color='red'>包含匹配</font>。<font color='orange'>grep、awk、sed </font>等命令可以支持正则表达式。
 
@@ -1788,7 +1787,7 @@ The parameter3 is:56
 
 
 
-#### 10.1.2 基础正则表达式
+#### 11.1.2 基础正则表达式
 
 ##### （1）<font color='red'>元字符及其作用</font>
 
@@ -1804,4 +1803,307 @@ The parameter3 is:56
 | \\{n\\}	|表示其前面的字符<font color='red'>恰好出现</font>n次。例如:[0-9]{4} 匹配4位数字，[1] [3-8] [0-9]{9} 匹配手机号码|
 | \\{n,\\}	|表示其前面的字符<font color='red'>至少出现</font>n次。例如: [0-9]{2,} 表示两位及以上的数字。|
 | \\{n,m\\}	|表示其前面的字符至少出现n次，最多出现m次。例如: [a- z]{6,8} 匹配6到8位的小写字母|
+
+##### （2）举例【以下匹配均指<font color='red'>包含匹配</font>】
+
+- “*”前一个字符匹配0次，或任意多次
+  - grep “a*” test_rule.txt
+    #匹配所有内容，包括空白行(匹配包含0个或任意多个a的行，包含0个a<=>所有内容)
+
+  - grep “aa\*” test_rule.txt
+    #匹配至少包含有一个a的行
+
+  - grep “aaa\*” test_rule.txt
+    #匹配最少包含两个连续a的字符串
+
+    
+
+- “.” 匹配除了换行符外任意一个字符
+  - grep “s..d” test_rule.txt
+    #“s..d”会匹配在s和d这两个字母之间有两个字符的单词
+  - grep “s.\*d” test_rule.txt
+    #匹配在s和d字母之间有任意(个数>=0)字符 (.\*等价于任意个数 .)
+  - grep “.*” test_rule.txt
+    #匹配所有内容，包括空白行（匹配包含0个或任意多个任意字符的行<=>所有内容）
+
+  
+
+- “^”匹配行首，“\$”匹配行尾
+
+  - grep “^M” test_rule.txt
+    #匹配以大写“M”开头的行
+  - grep “n​\$” test_rule.txt
+    #匹配以小写“n”结尾的行
+  - grep -n “^$” test_rule.txt
+    #会匹配空白行
+
+  
+
+- “[]” 匹配中括号中指定的任意一个字符，只匹配一个字符
+  - grep “s[ao]id” test_rule.txt
+    #匹配s和i字母中，要不是a、要不是o的行
+  - grep “[0-9]” test_rule.txt
+    #匹配任意一个数字
+  - grep “^[a-z]” test_rule.txt
+    #匹配用小写字母开头的行
+
+  
+
+- “[^]” 匹配除中括号的字符以外的任意一个字符
+
+  - grep “\^[\^a-z]” test_rule.txt
+    #匹配不以小写字母开头的行
+  - grep “\^[\^a-z A-Z]” test_rule.txt
+    #匹配不用字母开头的行
+
+- “\” 转义符,用于取消特殊符号的含义
+
+  - grep “\\.$” test_rule.txt
+    #匹配使用“.”结尾的行
+
+  
+
+- “\\{n\\}”表示其前面的字符恰好出现n次
+
+  - grep “a\\{3\\}” test_rule.txt
+    #匹配a字母连续出现三次的字符串,即包含aaa的字符串
+  - grep “[0-9]\\{3\\}” test_rule.txt
+    #匹配包含连续的三个数字的字符串
+
+  
+
+- “\\{n,\\}”表示其前面的字符出现不小于n次
+
+  - grep “^\[0-9]\\{3,\\}[a-z]” test_rule.txt
+
+    #匹配最少用连续三个数字开头且后跟一个字符的行
+
+    
+
+- “\{n,m\}”匹配其前面的字符至少出现n次， 最多出现m次
+
+  - grep “sa\\{1,3\\}i” test_rule.txt
+    #匹配在字母s和字母i之间有最少一个a，最多三个a
+
+```shell
+[zlx@localhost test]$ cat test_rule.txt 
+18286486521
+18384681568
+18414568468
+1530268781@qq.com
+1530268781@gmail.com
+1530268781@163.com
+@qq.com
+a@163.com
+153@.com
+#匹配包含以181、182、183、184开头的电话号码的行
+[zlx@localhost test]$ grep "18[1-4][0-9]\{8\}" test_rule.txt 
+18286486521
+18384681568
+18414568468
+#匹配包含qq邮箱xxx.qq.com的行
+[zlx@localhost test]$ grep ".*@qq.com" test_rule.txt 	#错误，.*匹配所有内容包含“空”
+1530268781@qq.com
+@qq.com
+[zlx@localhost test]$ grep "..*@qq.com" test_rule.txt #正确，..*匹配所有内容，且至少有一个字符
+1530268781@qq.com
+#匹配包含邮箱 xxx.@xxx.com的行
+[zlx@localhost test]$ grep "..*@..*\.com" test_rule.txt 
+1530268781@qq.com
+1530268781@gmail.com
+1530268781@163.com
+a@163.com
+#匹配只有电话号码的行（以电话号码开头和结尾）
+[zlx@localhost test]$ grep "^18[1-4][1-9]\{8\}" test_rule.txt 	#错误
+18286486521jidng
+18384681568dg
+18414568468
+[zlx@localhost test]$ grep "^18[1-4][1-9]\{8\}$" test_rule.txt 
+18414568468
+```
+
+
+
+### 11.2 字符截取命令
+
+#### 11.2.1 <font color='red'>cut</font>命令
+
+- 命令格式：<font color='red'>cut [选项] 文件名</font>
+- 选项：
+  - <font color='orange'>-f</font> 列号： 提取第几列 
+  - <font color='orange'>-d</font> 分隔符： 按照指定分隔符分割列
+- tips:
+  - 一般在使用cut命令的时候和管道符“|”连着使用
+  - grep为提取行，cut提取列，而且cut提取的表格中，只能用制表符隔开不能用空格
+
+- 举例：
+
+  - [root@localhost ~]# cut -f 2 student.txt 
+
+    #提取第二列
+
+  - [root@localhost ~]# cut -f 2,3 student.txt 
+
+    #提取第二第三列
+
+  - [root@localhost ~]# cut -d ":" -f 1,3 /etc/passwd
+
+    #以：为分隔符提取第一第三列
+
+- cut 命令的局限：
+
+  [root@localhost ~]# df -h | cut -d " " -f 1,3
+
+  #有空格时提取会出问题
+
+  ```shell
+  [zlx@localhost 桌面]$ cat student.txt 
+  id	name	gender	mark
+  1	Li		M		86
+  2	Shen	M		90
+  3	Gao		M		83
+  [zlx@localhost 桌面]$ cut -f 2 student.txt
+  name
+  Li
+  Shen
+  Gao
+  [zlx@localhost 桌面]$ cut -f 2,4 student.txt
+  name	mark
+  Li		86
+  Shen	90
+  Gao		83
+  
+  [zlx@localhost 桌面]$ cat student1.txt 
+  id:name:gender:mark
+  1:Shen:M:90
+  2:Li:M:86
+  3:Gao:M:83
+  [zlx@localhost 桌面]$ cut -d ":" -f 1,3 student1.txt
+  id:gender
+  1:M
+  2:M
+  3:M
+  ```
+
+  
+
+
+
+#### 11.2.2 <font color='red'>printf</font>命令
+
+- 命令格式：<font color='red'>printf  '输出类型|输出格式'  输出内容</font>
+
+- 输出类型： 
+  - %ns ： 输出字符串。n 是数字指代输出几个字符 
+  - %ni ： 输出整数。n 是数字指代输出几个数字 
+  - %m.nf ： 输出浮点数。m 和 n 是数字，指代输出整数的位数和小数位数。如%8.2f 代表共输出 8 位数， 其中 2 位是小数，6 位是整数。
+
+- 输出格式： 
+  - \a : 输出警告声音 
+  - \b : 输出退格键，也就是 Backspace 键 
+  - \f : 清除屏幕 
+  - \n : 换行 
+  - \r : 回车，也就是 Enter 键 
+  - \t : 水平输出退格键，也就是 Tab 键 
+  - \v : 垂直输出退格键，也就是 Tab 键
+
+- tips：
+
+  - 因为每有几个%s代表每几个字符输出一次
+  - 在与cat命令结合使用的时候，需要用<font color='orange'>$()把cat命令扩起来</font>，使用这种命令赋予变量的方式，才能正确输出文件内容，但是具体格式还得用%s\t 或者%s\n控制
+  - 在awk命令的输出中支持print和printf命令,printf主要在awk命令编程中使用
+    - print:print会在每个输出之后自动加入一 个换行符(Linux默认没有print命令)
+    - printf:printf是标准格式输出命令，并不会自动加入换行符，如果需要换行，需要手工加入换行符
+
+- 举例：
+
+  ```shell
+  [zlx@localhost 桌面]$ printf %s 1 2 3 4 5 6
+  123456[zlx@localhost 桌面]$ printf %s %s %s 1 2 3 4 5 6
+  %s%s123456[zlx@localhost 桌面]$ printf '%s %s %s' 1 2 3 4 5 6
+  1 2 34 5 6[zlx@localhost 桌面]$ printf '%s%s%s' 1 2 3 4 5 6
+  123456[zlx@localhost 桌面]$ printf '%s %s %s\n' 1 2 3 4 5 6
+  1 2 3
+  4 5 6
+  ```
+
+  ```shell
+  #不调整格式输出
+  [zlx@localhost 桌面]$ printf '%s' $(cat student.txt)
+  idnamegendermark1LiM862ShenM903GaoM83
+  #调整格式输出
+  [zlx@localhost 桌面]$ printf '%s\t %s\t %s\t %s\t \n' $(cat student.txt)
+  id	 name	 gender	 mark	 
+  1	 Li	 	 M	 	86	 
+  2	 Shen	 M	 	90	 
+  3	 Gao	 M	 	83	
+  ```
+
+  
+
+#### 11.2.3 awk命令
+
+- 介绍：
+
+  awk命令也叫awk编程，可以<font color='orange'>识别非制表符的空格</font>，用来解决cut命令解决不了的提取列工作，他是把需要提取的原文件一行一行扫描，扫描每一行中所需要点列，然后把它记录下来，在全部扫描完之后全部打印出来。
+
+- 命令格式：<font color='red'> awk ‘条件1{动作 1} 条件2{动作 2}…’ 文件名</font>
+
+- 条件(pattern)：一般使用关系表达式作为条件。如x>10
+
+- 动作(action)：
+
+  - 格式化输出
+  - 流程控制语句
+
+- 举例：
+
+  ```shell
+  [zlx@localhost 桌面]$ awk '{printf $2 "\t" $3 "\n"}' student.txt
+  name	gender
+  Li		M
+  Shen	M
+  Gao		M
+  [zlx@localhost 桌面]$ 
+  ```
+
+  ```shell
+  [zlx@localhost 桌面]$ df -h
+  文件系统             容量  已用  可用 已用% 挂载点
+  devtmpfs             872M     0  872M    0% /dev
+  tmpfs                901M     0  901M    0% /dev/shm
+  tmpfs                901M   18M  883M    2% /run
+  tmpfs                901M     0  901M    0% /sys/fs/cgroup
+  /dev/mapper/cl-root   17G  4.3G   13G   26% /
+  /dev/sda1            976M  193M  716M   22% /boot
+  tmpfs                181M  1.2M  179M    1% /run/user/42
+  tmpfs                181M  4.6M  176M    3% /run/user/1000
+  #查看第一列与第5列
+  [zlx@localhost 桌面]$ df -h | awk '{printf $1 "\t" $5 "\n"}' 
+  文件系统	已用%
+  devtmpfs	0%
+  tmpfs	0%
+  tmpfs	2%
+  tmpfs	0%
+  /dev/mapper/cl-root	26%
+  /dev/sda1	22%
+  tmpfs	1%
+  tmpfs	3%
+  
+  #查看cl-root文件系统的已用百分比（grep提取行，awk提取列）
+  [zlx@localhost 桌面]$ df -h | grep cl-root | awk '{printf $5 "\n"}'
+  26%
+  
+  #查看cl-root文件系统已用百分比数值（grep提取行，awk提取列，cut进一步提取列
+  [zlx@localhost 桌面]$ df -h | grep cl-root | awk '{printf $5 "\n"}' | cut -d '%' -f 1
+  26
+  #查看cl-root文件系统已用百分比数值（grep提取行，awk提取列后进一步提取列
+  [zlx@localhost 桌面]$ df -h | grep cl-root | awk '{printf $5 "\n"}' | awk -F "%" '{printf $1 "\n"}'
+  26
+  [zlx@localhost 桌面]$ 
+  ```
+
+- BEGION:
+
+- END:
 
