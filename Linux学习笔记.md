@@ -916,6 +916,24 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
   
 
+#### 10.1.4 为什么要学习Shell
+
+- 现代的互联网架构底层系统几乎都是基于 Linux 操作系统构建的，Linux的核心价值在于提供了<font color='orange'>强大的系统内核功能</font>进行文件管理和信息交互管理。
+
+- 而 Shell 则是软件研发人员高效控制和<font color='orange'>使用 Linux 的工具和桥梁</font>。Shell 本身是 C 语言编写的系统软件，通常也叫命令行工具。它具有一个基础的界面，用户在这个界面通过 Shell 脚本语言（Shell Script）来访问 Linux 操作系统内核服务。
+
+- 在科幻电影里，我们经常看到在暗色调的屏幕上 Shell 脚本代码在快速滚动，这简直成为了 Geek／Hacker 的一个形象标签。实际工作中，Shell 也备受开发、运维、测试人员甚至运营人员的青睐，几乎是 IT 技术人员的必备技能。
+
+- 而在软件测试领域，Shell 脚本编程作为自动化测试技术的基石，是测试开发工程师必须熟练掌握的技能。
+
+
+
+#### 10.1.5 Shell脚本语言有哪些优势
+
+- Shell 脚本语言的优势在于能够以<font color='orange'>轻量级、最快捷的速度</font>处理 Linux 操作系统偏底层的业务。比如<font color='orange'>软件的自动化安装、更新版本、监控报警、日志分析等</font>。虽然其他高级编程语言如 PHP、Python、Ruby 等语言也能做到，但是效率和开发成本上会大打折扣，所谓“杀鸡用牛刀”，有点得不偿失。
+
+
+
 ### 10.2 Shell脚本的执行方式
 
 #### 10.2.1 <font color='red'>echo </font>输出命令
@@ -2105,5 +2123,267 @@ a@163.com
 
 - BEGION:
 
-- END:
+  #awk 'BEGIN{printf "This is a transcript \n" } {printf $2 "\t" $6 "\n"}' student.txt
 
+- END: 
+
+  #awk 'END{printf "The End \n" } {printf $2 "\t" $6 "\n"}' student.txt 
+
+- FS:用来指定字段分隔符，写在BEGIN中
+
+  \#cat /etc/passwd | grep "/bin/bash" | awk 'BEGIN {FS=":"} {printf $1 "\t" $3 "\n"}'
+
+
+
+#### 10.2.4 <font color='red'>sed</font>命令
+
+##### （1）sed命令
+
+- sed 是一种几乎包括在所有 UNIX 平台（包括 Linux）的轻量级流编辑器。sed 主要是用来将数据进行<font color='orange'>选取、替换、删除、新增</font>的命令。
+
+- 命令格式：<font color='red'>sed [选项] ‘[动作]’ 文件名</font>
+
+- 选项：
+
+  - -n： 一般 sed 命令会把所有数据都输出到屏幕 ， 如果加入此选择，则只会把经过 sed 命令处理的行输出到屏幕。
+
+  - -e： 允许对输入数据应用多条 sed 命令编辑
+
+  - -i： 用 sed 的修改结果直接修改读取数据的文件，而不是由屏幕输出
+
+- 动作: 范围行+参数
+  - a : 追加，在当前行后添加一行或多行。添加多行时，除最后一行外，每行末尾需要用“\”代表数据未完结。
+  - c : 行替换，用c后面的字符串替换原数据行。替换多行时，除最后一行外，每行末尾需用“\”代表数据未完结。
+  - i : 插入，在当期行前插入一行或多行。插入多行时，除最后 一行外，每行末尾需要用“\”代表数据未完结。
+  - d : 删除，删除指定的行。
+  - p : 打印，输出指定的行。
+  - s : 字串替换，用一个字符串替换另外一个字符串。格式为“行范围s/旧字串/新字串/g”(和vim中的替换格式类似)。
+
+##### （2）数据选取
+
+- sed ‘2p’ student.txt 
+
+  #打印第二行后打印全部数据。一般sed命令会把所有数据都输出到屏幕 ，只不过会先输出你想要的，这时候就需要-n配合
+
+- sed -n '2p' student.txt
+
+  #打印第二行
+
+- sed -n '1,3p' student.txt
+
+  #打印1-3行
+
+```shell
+[zlx@zlx-vmwarevirtualplatform 桌面]$ cat student.txt 
+ID	Name	PHP	Linux	MySQL	Average
+1	Liming	82	95		86		87.66
+2 	Sc		74	96		87		85.66
+3	Gao		99	83		93		91.66
+[zlx@zlx-vmwarevirtualplatform 桌面]$ sed '2p' student.txt 
+ID	Name	PHP	Linux	MySQL	Average
+1	Liming	82	95		86		87.66
+1	Liming	82	95		86		87.66
+2 	Sc		74	96		87		85.66
+3	Gao		99	83		93		91.66
+[zlx@zlx-vmwarevirtualplatform 桌面]$ sed -n '2p' student.txt 
+1	Liming	82	95	86	87.66
+[zlx@zlx-vmwarevirtualplatform 桌面]$ sed -n '1,3p' student.txt 
+ID	Name	PHP	Linux	MySQL	Average
+1	Liming	82	95		86		87.66
+2 	Sc		74	96		87		85.66
+```
+
+
+
+##### （3）数据追加
+
+- sed ‘2a hello’ student.txt
+  #在第二行后追加hello
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed '2a hello' student.txt 
+  ID	Name	PHP		Linux	MySQL	Average
+  1	Liming	82		95		86		87.66
+  hello
+  2 	Sc		74		96		87		85.66  
+  3	Gao		99		83		93		91.66
+  
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed '2a hello \ world' student.txt 
+  ID	Name	PHP	Linux	MySQL	Average
+  1	Liming	82	95		86		87.66
+  hello  world
+  2 	Sc		74	96		87		85.66
+  3	Gao		99	83		93		91.66
+  ```
+
+  
+
+##### （4）数据插入
+
+- sed ‘2i hello \ world’ student.txt
+  在第二行前插入两行数据
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed '2i hello' student.txt 
+  ID	Name	PHP		Linux	MySQL	Average
+  hello
+  1	Liming	82		95		86		87.66
+  2 	Sc		74		96		87		85.66
+  3	Gao		99		83		93		91.66
+  
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed '2i hello \ world' student.txt 
+  ID	Name	PHP	Linux	MySQL	Average
+  hello  world
+  1	Liming	82	95	86	87.66
+  2 	Sc	74	96	87	85.66
+  3	Gao	99	83	93	91.66
+  ```
+
+  
+
+##### （5）数据删除
+
+- sed ‘1,3d’ student.txt
+
+  #删除1-3行数据后输出
+
+- sed -i '1,3d'student.txt
+
+  #删除1-3行数据（-i 修改数据文件）
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed '1,3d' student.txt 
+  3	Gao	99	83	93	91.66
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed -i '3d' student.txt 
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ cat student.txt 
+  ID	Name	PHP	Linux	MySQL	Average
+  1	Liming	82	95	86	87.66
+  3	Gao	99	83	93	91.66
+  ```
+
+  
+
+##### （6）数据替换
+
+- 行替换：sed '2c No such person' student.txt
+
+  #将第二行替换为指定字符串
+
+  ```shell
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed '2c No such person' student.txt 
+  ID	Name	PHP	Linux	MySQL	Average
+  No such person
+  2 	Sc	74	96	87	85.66
+  3	Gao	99	83	93	91.66
+  ```
+
+
+
+- 字符串替换
+
+  sed '行范围s/旧字符串/新字符串/g' 文件名
+
+  - sed ‘3s/74/99/g’ student.txt
+    在第三行中，把74换成99
+  - sed -i ‘3s/74/99/g’ student.txt
+    sed操作的数据直接写入文件
+  - sed -e ‘s/Liming//g ; s/Gao//g’ student.txt
+    同时把“Liming”和“Gao”替换为空（-e 多条sed命令编辑）
+
+  ```shell
+  #将第三行的99替换为95
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed '3s/99/95/g' student.txt 
+  ID	Name	PHP	Linux	MySQL	Average
+  1	Liming	82	95	86	87.66
+  3	Gao	95	83	93	91.66
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed -i '3s/99/95/g' student.txt 
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ cat student.txt 
+  ID	Name	PHP	Linux	MySQL	Average
+  1	Liming	82	95	86	87.66
+  3	Gao		95	83	93	91.66
+  #将Liming和Gao的成绩替换
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ sed -e '2s/Liming/Gao/g;3s/Gao/Liming/g' student.txt 
+  ID	Name	PHP	Linux	MySQL	Average
+  1	Gao	82	95	86	87.66
+  3	Liming	95	83	93	91.66
+  ```
+
+  
+
+
+
+### 11.3 字符处理命令
+
+#### 11.3.1 sort排序命令
+
+- 命令格式： <font color='red'>sort [选项] 文件名</font>
+
+- 选项：
+  - -f： 忽略大小写 
+  - -n： 以数值型进行排序，默认使用字符串型排序 
+  - -r： 反向排序 
+  - -t： 指定分隔符，默认分隔符是制表符 
+  - -k n[,m]： 按照指定的字段范围排序。从第 n 字段开始， m 字段结束（默认到行尾） （注意：-k 3表示用第3到最后的字段范围排序，-k 3,3 才表示用第三个字段排序）
+
+- 举列
+  - [root@localhost ~]# sort /etc/passwd 
+
+    #排序用户信息文件 
+
+  - [root@localhost ~]# sort -r /etc/passwd 
+
+    #反向排序
+
+  - [root@localhost ~]# sort -t ":" -k 3,3 /etc/passwd 
+
+    #指定分隔符是“：”，用第三字段开头，第三字段结尾排序，就是只用第三字段排序 
+
+  - [root@localhost ~]# sort -n -t ":" -k 3,3 /etc/passwd 
+
+    #指定分隔符是“：”，用第三个字段且以数值型进行排序
+
+    ```shell
+    [zlx@zlx-vmwarevirtualplatform 桌面]$ cat student.txt
+    ID	Name	PHP	Linux	MySQL	Average
+    1	Liming	82	95		86		87.66
+    2	Sc		98	99		100		99
+    3	Gao		95	83		93		91.66
+    #按平均分从低到高排序
+    [zlx@zlx-vmwarevirtualplatform 桌面]$ sort -n -k 6,6 student.txt 
+    ID	Name	PHP		Linux	MySQL	Average
+    1	Liming	82		95		86		87.66
+    3	Gao		95		83		93		91.66
+    2	Sc		98		99		100		99
+    #按平均分从高到低排序
+    [zlx@zlx-vmwarevirtualplatform 桌面]$ sort -r -n -k 6,6 student.txt 
+    2	Sc		98	99		100		99
+    3	Gao		95	83		93		91.66
+    1	Liming	82	95		86		87.66
+    ID	Name	PHP	Linux	MySQL	Average
+    
+    ```
+
+    
+
+#### 11.3.2 wc统计命令
+
+- 命令格式：<font color='red'> wc [选项] 文件名</font>
+
+- 选项： 
+
+- - -l： 只统计行数
+  - -w： 只统计单词数 
+  - -m： 只统计字符数
+
+  ```sehll
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ wc student.txt 
+   4 24 95 student.txt
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ wc -l student.txt 
+  4 student.txt
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ wc -w student.txt 
+  24 student.txt
+  [zlx@zlx-vmwarevirtualplatform 桌面]$ wc -m student.txt 
+  95 student.txt
+  ```
+
+  

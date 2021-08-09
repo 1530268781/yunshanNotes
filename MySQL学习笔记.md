@@ -1348,6 +1348,8 @@ CROSS JOIN boys bo;
 
 ## DML语言
 
+Date Manipulation Language
+
 ### 1.插入insert
 
 #### （1）方式一
@@ -1587,6 +1589,8 @@ CROSS JOIN boys bo;
 
 
 ## DDL语言
+
+Data Definition language
 
 ### 1.库的管理
 
@@ -2085,3 +2089,80 @@ ALTER TABLE stuinfo DROP FOREIGN KEY fk_stuinfo_major;
 
   
 
+
+
+## TCL语言
+
+Transaction Control Language 事务控制语言
+
+### 1.事务的概念
+
+事务由单独单元的一个或多个SQL语句组成，在这个单元中，每个MySQL语句是相互依赖的。而整个单独单元作为一个不可分割的整体，如果单元中某条SQL语句一旦执行失败或产生错误，整个单元将会回滚。所有受到影响的数据将返回到事物开始以前的状态；如果单元中的所有SQL语句均执行成功，则事物被顺利执行。
+
+
+
+### 3.事务的ACID属性【面试题】
+
+- 原子性（Atomicity）
+
+事务是一个<font color='orange'>不可分割</font>的工作单位，事务中的操作要么都发生，要么都不发生。
+
+- 一致性（Consistency）
+
+事务必须使数据库从一个<font color='orange'>一致性状态</font>变换到另外一个一致性状态（一致性：可靠+完整）
+
+- 隔离性（Isolation）
+
+一个事务的执行不能被其他事务干扰，即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间<font color='orange'>不能互相干扰</font>。
+
+- 持久性（Durability）
+
+持久性是指一个事务一旦被提交，它对数据库中数据的<font color='orange'>改变就是永久性的</font>，接下来的其他操作和数据库故障不应该对其有任何影响
+
+
+
+### 4.编写事务的步骤
+
+- 步骤一：开启事务
+  set autocommit=0;	#设置自动提交功能为禁用
+  start transaction;	[可选]
+
+- 步骤二：编写事务中的sql语句(select insert update delete)
+  语句1；
+  语句2；
+  ...
+
+- 步骤三：结束事务（提交或回滚）
+  commit；提交事务
+  rollback; 回滚事务
+
+
+
+### 5.事务的隔离级别
+
+#### （1）并发带来的问题【面试题】
+
+- <font color='red'>脏读</font>：<font color='orange'> 一个事务读取了另一个事务未提交的数据</font>。
+
+  - 对于两个事务 T1, T2。 T1 读取了已经被 T2 更新但还没有被提交的字段.
+
+    之后, 若 T2 回滚, T1读取的内容就是临时且无效的。
+
+  - 解决方法：脏读本质上是读写操作的冲突，解决办法是写完之后再读。
+
+  - ![img](https://iknow-pic.cdn.bcebos.com/30adcbef76094b367e38bab5accc7cd98c109dc4?x-bce-process%3Dimage%2Fresize%2Cm_lfit%2Cw_600%2Ch_800%2Climit_1%2Fquality%2Cq_85%2Fformat%2Cf_jpg)
+
+- <font color='red'>不可重复读</font>：<font color='orange'>一个事务两次读取同一个数据，两次读取的数据不一致</font>。
+
+  -  对于两个事务T1, T2,。T1 读取了一个字段, 然后 T2 更新了该字段.之后, T1再次读取同一个字段, 值就不同了。
+  - 解决方法：不可重复读本质上是读写操作的冲突，解决办法是读完再写。
+  - ![img](https://iknow-pic.cdn.bcebos.com/48540923dd54564e92c34561bcde9c82d0584fc7?x-bce-process%3Dimage%2Fresize%2Cm_lfit%2Cw_600%2Ch_800%2Climit_1%2Fquality%2Cq_85%2Fformat%2Cf_jpg)
+
+- <font color='red'>幻读</font>：<font color='orange'>一个事务两次读取一个范围的记录，两次读取的记录数不一致</font>。
+  - 对于两个事务T1, T2。T1 从一个表中读取了一个字段, 然后 T2 在该表中插 入了一些新的行. 之后, 如果 T1 再次读取同一个表, 就会多出几行
+  - 解决方法：幻象读本质上是读写操作的冲突，解决办法是读完再写。
+  - ![img](https://iknow-pic.cdn.bcebos.com/29381f30e924b899d124d96061061d950a7bf64a?x-bce-process%3Dimage%2Fresize%2Cm_lfit%2Cw_600%2Ch_800%2Climit_1%2Fquality%2Cq_85%2Fformat%2Cf_jpg)
+- <font color='red'>更新丢失</font>：<font color='orange'>一个事务的更新覆盖了另一个事务的更新</font>。
+  - 对于两个事务T1，T2。T1和T2读取同一个字段后，都进行了修改，但是后面修改的数据结果会覆盖前面修改的数据结果。
+  - 更新丢失本质上是写操作的冲突，解决办法是一个一个地写。
+  - ![img](https://iknow-pic.cdn.bcebos.com/32fa828ba61ea8d3f299d55c980a304e251f582a?x-bce-process%3Dimage%2Fresize%2Cm_lfit%2Cw_600%2Ch_800%2Climit_1%2Fquality%2Cq_85%2Fformat%2Cf_jpg)
