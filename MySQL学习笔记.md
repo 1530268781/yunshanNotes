@@ -2166,3 +2166,20 @@ Transaction Control Language 事务控制语言
   - 对于两个事务T1，T2。T1和T2读取同一个字段后，都进行了修改，但是后面修改的数据结果会覆盖前面修改的数据结果。
   - 更新丢失本质上是写操作的冲突，解决办法是一个一个地写。
   - ![img](https://iknow-pic.cdn.bcebos.com/32fa828ba61ea8d3f299d55c980a304e251f582a?x-bce-process%3Dimage%2Fresize%2Cm_lfit%2Cw_600%2Ch_800%2Climit_1%2Fquality%2Cq_85%2Fformat%2Cf_jpg)
+
+
+
+#### （2）事务隔离级别
+
+| 隔离级别                         | 描述                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| READ UNCOMMITTED（读未提交数据） | 允许事务读取未被其他事务提交的变更。脏读、不可重复读、幻读   |
+| READ COMMITED（读已提交数据）    | 只允许事务读取已经被其他事务提交的变更，可以避免脏读，但不可重复读和幻读的问题任然存在 |
+| REPEATBLE READ（可重复读）       | 确保事务可以多次从一个字段中读取相同的值，在这个事务持续期间，禁止其他事务对这个字段进行更新。可以避免脏读和不可重复度，但幻读问题依然存在 |
+| SERIALIZABLE（串行化）           | 确保事务可以从一个表中读取相同的行，再这个事务持续期间，禁止其他事务执行插入、更新、删除操作，所有并发问题都可以避免，但性能十分低下。 |
+
+- Oracle 支持的2 种事务隔离级别：READ COMMITED,  SERIALIZABLE。Oracle 默认的事务隔离级别为: READ  COMMITED  Mysql 支持4 种事务隔离级别. Mysql 默认的事务隔离级别为: <font color='red'>REPEATABLE READ</font>
+- Mysql 支持4 种事务隔离级别. Mysql 默认的事务隔离级别为: <font color='red'>REPEATABLE READ</font>
+- 查看当前的隔离级别：<font color='red'>SELECT @@tx_isolation;</font>
+- 设置当前MySQL连接的隔离级别：<font color='red'>set transaction isolation level 隔离级别类型;</font>
+- 设置数据库系统的全局的隔离级别：<font color='red'>set global transaction isolation level 隔离级别类型;</font>

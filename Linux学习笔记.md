@@ -337,7 +337,7 @@
 
 - 语法：<font color='orange'>cat [文件名] </font>
 
-- 功能描述：显示文件内容 
+- 功能描述：显示文件内容 ，适合较短的文件内容
   -  -n 显示行号
   -  -A 显示隐藏字符
 
@@ -356,7 +356,7 @@
   -  (Enter) 换行 
   -  q 或 Q 退出
 
-- 功能描述：分页显示文件内容,合长的文件内容
+- 功能描述：分页显示文件内容,适合长的文件内容
 
 - 范例： $ more /etc/services
 
@@ -588,7 +588,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - find [搜索范围] -name * [关键字] * 这样为带有关键字的任何文件都可以被搜索出来
 
-- find [搜索范围] -name [关键字]??? 这样搜索的是关键字后带三个字符的 几个问号为几个字符
+- find [搜索范围] -name [关键字]??? 这样搜索的是关键字后带三个字符的 ,几个问号为几个字符
 
 - find [搜索范围] -iname [关键字] 不区分大小写搜索
 
@@ -704,7 +704,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 语法：<font color='orange'>which 命令</font>
 
-- 功能描述：搜索命令所在目录及别名信息
+- 功能描述：<font color='cornflowerblue'>搜索命令</font>所在目录及别名信息
 
 - 范例：$ which ls
 
@@ -718,7 +718,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 语法：<font color='orange'>whereis [命令名称] </font>
 
-- 功能描述：搜索命令所在目录及帮助文档路径
+- 功能描述：<font color='cornflowerblue'>搜索命令</font>所在目录及帮助文档路径
 
 - 范例：$ whereis ls
 
@@ -732,7 +732,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 语法：<font color='orange'>grep -iv [指定字串] [文件] </font>
 
-- 功能描述：在文件中搜寻字串匹配的行并输出 
+- 功能描述：在文件中<font color='cornflowerblue'>搜寻字串匹配</font>的行并输出 
   - -i 不区分大小写
   - -v 排除指定字串
 
@@ -868,18 +868,6 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 
 
-### 
-
-
-
-
-
-
-
-
-
-
-
 #### 10.1.2 Shell的分类
 
 - <font color='orange'>Bourne Shell</font>:从1979起Unix就开始使用 Bourne Shell，Bourne Shell的主文件名为 sh。
@@ -990,12 +978,12 @@ $ sh hello.shWelcome to linux world!hhh
 
 - 赋予执行权限，直接运行
 
-  - chmod 755 hello.sh
+  - <font color='red'>chmod 755 hello.sh</font>
   - ./hello.sh
 
 - 通过Bash调用执行脚本
 
-  - bash hello.sh
+  - <font color='red'>bash hello.sh</font>
   - 或 sh hello.sh  (不需要执行权限就可以执行)
 
   ```shell
@@ -1102,8 +1090,8 @@ $ sh hello.shWelcome to linux world!hhh
   | ------------------ | ---------------- | ------------------------------------------------------------ |
   | 标准输出重定向     | 命令 > 文件      | 以<font color='red'>覆盖</font>的方式，把命令的正确输出输出到指定的文件或设备当中。 |
   | 标准输出重定向     | 命令 >> 文件     | 以<font color='red'>追加</font>的方式，把命令的正确输出输出到指定的文 件或设备当中。 |
-  | 标准错误输出重定向 | 错误命令 2>文件  | 以覆盖的方式，把命令的错误输出输出到指定的文件或设备当中。   |
-  | 标准错误输出重定向 | 错误命令 2>>文件 | 以追加的方式，把命令的错误输出输出到指定的文件或设备当中。   |
+  | 标准错误输出重定向 | 错误命令 2>文件  | 以<font color='red'>覆盖</font>font>的方式，把命令的错误输出输出到指定的文件或设备当中。 |
+  | 标准错误输出重定向 | 错误命令 2>>文件 | 以<font color='red'>追加</font>的方式，把命令的错误输出输出到指定的文件或设备当中。 |
 
   tip:在输入报错文件中 2和>>必选<font color='red'>连着写</font>,标准错误输出不常用
 
@@ -1237,6 +1225,7 @@ $ sh hello.shWelcome to linux world!hhh
 
 
 - **管道符**
+
   - 命令格式：命令 1 | 命令 2 
   - 命令 1 的正确输出作为命令 2 的操作对象
   - 例子：
@@ -1248,7 +1237,10 @@ $ sh hello.shWelcome to linux world!hhh
   ```
 
   
-  - [root@localhost ~]# grep [选项] "搜索内容" 文件名
+
+- <font color='red'>grep [选项] "搜索内容" 文件名</font>
+
+
   - 选项： 
     - -i： 忽略大小写 
     - -n： 输出行号 
@@ -1310,7 +1302,7 @@ $ sh hello.shWelcome to linux world!hhh
 
 ##### （4）用户自定义变量
 
-- ​    变量定义
+- se变量定义
   ​    例子：
   ​    name=“yang yang”
 
@@ -1435,9 +1427,9 @@ systemd─┬─ModemManager───2*[{ModemManager}]
 |变量|作用|
 |:---:|-----|
 |$n	|n为数字，$0代表命令本身，$1-9 代 表 第 一 到 第 九 个 参 数 ， 十 以 上 的 参 数 需 要 用 大 括 号 包 含 ，如{10}.|
-|$*	|这个变量代表命令行中所有的参数，$*把所有的参数看成一个整体|
-|$@	|这个变量也代表命令行中所有的参数，不过 $@把每个参数区分对待|
-|$#	|这个变量代表命令行中所有参数的个数|
+|$*	|这个变量代表<font color='orange'>命令行中所有的参数</font>，$*把所有的参数看成一个整体|
+|$@	|这个变量也代表<font color='orange'>命令行中所有的参数</font>，不过 $@把每个参数区分对待|
+|$#	|这个变量代表命令行中所有<font color='orange'>参数的个数</font>|
 
 - <font color='red'>$n</font> 的例子
 
@@ -2387,3 +2379,323 @@ ID	Name	PHP	Linux	MySQL	Average
   ```
 
   
+
+### 11.4 条件判断
+
+#### 11.4.1 按照文件类型判断
+
+|测试选项	|作用|
+| -----| ----- |
+|-b 文件	|判断该文件是否存在，并且是否为 块设备文件(是块设备文件 为真) block|
+|-c 文件	|判断该文件是否存在，并且是否为字符设备文件(是字符设备 文件为真) char|
+|<font color='cornflowerblue'>-d 文件</font>	|判断该文件是否存在，并且是否为目录文件(是目录为真) <font color='red'>directory</font>|
+|<font color='cornflowerblue'>-e 文件</font>	|判断该文件是否存在(存在为真) <font color='red'>exist</font>|
+|<font color='cornflowerblue'>-f 文件</font>	|判断该文件是否存在，并且是否为普通文件(是普通文件为真) <font color='red'>file</font>|
+|-L 文件	|判断该文件是否存在，并且是否为符号链接文件(是符号链接 文件为真) link|
+|-p 文件	|判断该文件是否存在，并且是否为管道文件(是管道文件为真)  pipe|
+|-s 文件	|判断该文件是否存在，并且是否为非空(非空为真)|
+|-S 文件	|判断该文件是否存在，并且是否为套接字文件(是套接字文件 为真) Socket|
+
+- 两种判断格式：
+
+  - <font color='red'>test 参数 文件路径/文件名</font>
+
+    #test -e /root/install.log	判断/root/install.log是否存在
+
+  - <font color='red'>[ 参数 文件路径/文件名 ]</font>（括号内部左右有空格）
+
+    - #[ -e /root/install.log ]
+
+    - #[ -d /root ] && echo "yes" || echo "no" 
+
+      第一个判断命令如果正确执行，则打印“yes”，否则打印“no”
+
+      逻辑与：[ -d /root ]执行为true，echo "yes"才会执行
+
+      逻辑或：echo "yes"执行为false，echo "no" 才会执行
+
+  - 举例
+
+    ```shell
+    #判断是否存在
+    [zlx]$ test -e student.txt
+    [zlx]$ test -e student.txt && echo "yes" || echo "no"
+    yes
+    
+    [zlx]$ [ -e student.txt ] 
+    [zlx]$ [ -e student.txt ] && echo "yes" || echo "no"
+    yes
+    
+    #判断是否存在，且是否为文件|文件夹
+    [zlx]$ [ -f student.txt ] && echo "yes" || echo "no"
+    yes
+    [zlx]$ [ -d student.txt ] && echo "yes" || echo "no"
+    no
+    ```
+
+    
+
+
+
+#### 11.4.2 按照文件权限判断
+
+|测试选项	|作用|
+| ----- | ----- |
+|<font color='blue'>-r 文件</font>	|判断该文件是否存在，并且是否该文件拥有读权限(有读 权限为真) <font color='red'>read</font>|
+|<font color='cornflowerblue'>-w文件</font>	|判断该文件是否存在，并且是否该文件拥有写权限(有写 权限为真) <font color='red'>write</font>|
+|<font color='cornflowerblue'>-x 文件</font>	|判断该文件是否存在，并且是否该文件拥有执行权限(有执行权限为真) <font color='red'>execute</font>|
+|-u 文件	|判断该文件是否存在，并且是否该文件拥有SUID权限(有 SUID权限为真)|
+|-g 文件	|判断该文件是否存在，并且是否该文件拥有SGID权限(有 SGID权限为真)|
+|-k 文件|	判断该文件是否存在，并且是否该文件拥有SBit权限(有 SBit权限为真)|
+
+```shell
+[zlx]$ test -r student.txt && echo "yes" || echo "no"
+yes
+
+[zlx@zlx-vmwarevirtualplatform 桌面]$ [ -w sdudent.txt ] && echo "yes" || echo "no"
+no
+[zlx@zlx-vmwarevirtualplatform 桌面]$ [ -x sdudent.txt ] && echo "yes" || echo "no"
+no
+
+[zlx]$ sudo su
+[sudo] zlx 的密码：
+[zlx]# [ -w student.txt ] && echo "yes" || echo "no"
+yes
+[zlx]# [ -x student.txt ] && echo "yes" || echo "no"
+no
+```
+
+
+
+#### 11.4.3 两个文件之间进行比较
+
+|测试选项	|作用|
+| ---- | ----- |
+|文件1 -nt 文件2	|判断文件1的修改时间是否比文件2的新(如果新则为真) <font color='red'>new than</font>|
+|文件1 -ot 文件2	|判断文件1的修改时间是否比文件2的旧(如果旧则为真) <font color='red'>old than</font>|
+|文件1 -ef 文件2	|判断文件1是否和文件2的Inode号一致，可以理解为两个文件是否为同一个文件。这个判断用于判断硬链接是很好的方法 <font color='red'>equal than</font>|
+
+```shell
+[zlx]$[ test1.sh -nt test.sh ] && echo "yes" || echo "no"
+no
+[zlx]$[ test1.sh -ot test.sh ] && echo "yes" || echo "no"
+yes
+```
+
+
+
+#### 11.4.4 两个整数之间进行比较
+
+|测试选项	|作用|
+| ----- | ----|
+|整数1 <font color='cornflowerblue'>-eq</font> 整数2| 判断整数1是否和整数2相等(相等为真) equal |
+|整数1 <font color='cornflowerblue'>-ne</font> 整数2| 判断整数1是否和整数2不相等(不相等位置)  not equal |
+|整数1<font color='cornflowerblue'> -gt </font>整数2| 判断整数1是否大于整数2(大于为真) greater than |
+|整数1 <font color='cornflowerblue'>-lt</font>  整数2| 判断整数1是否小于整数2(小于位置) lower than |
+|整数1 <font color='cornflowerblue'>-ge</font> 整数2| 判断整数1是否大于等于整数2(大于等于为真) greater  equal |
+|整数1 <font color='cornflowerblue'>-le</font> 整数2| 判断整数1是否小于等于整数2(小于等于为真) low equal |
+
+```shell
+#判断11是否大于等于12
+[zlx]$[ 11 -ge 12 ] && echo "yes" || echo "no"
+no
+#判断11是否小于等于12
+[zlx]$[ 11 -le 12 ] && echo "yes" || echo "no"
+yes
+```
+
+
+
+#### 11.4.5 字符串的判断
+
+| 测试选项       | 作用                                                         |
+| -------------- | ------------------------------------------------------------ |
+| -z 字符串      | 判断字符串是否为空(为空返回真) zero                          |
+| -n 字符串      | 判断字符串是否为非空(非空返回真) not zero                    |
+| 字串1 == 字串2 | 判断字符串1是否和字符串2相等(相等返回真)  注意：==左右有空格 |
+| 字串1 != 字串2 | 判断字符串1是否和字符串2不相等(不相等返回真) 注意：!=左右有空格 |
+
+```
+[zlx]$name="balabala"
+[zlx]$name1="labalaba"
+[zlx]$[ $name == $name1 ] && echo "yes" || echo "no"
+no
+[zlx]$[ $name != $name1 ] && echo "yes" || echo "no"
+yes
+```
+
+
+
+#### 11.4.6 多重体条件判断
+
+| 测试选项       | 作用                                                |
+| -------------- | --------------------------------------------------- |
+| 判断1 -a 判断2 | 逻辑与，判断1和判断2都成立，最终的结果才为真 and    |
+| 判断1 -o 判断2 | 逻辑或，判断1和判断2有一个成立，最终的结果就为真 or |
+| !判断          | 逻辑非，使原始的判断式取反                          |
+
+```shell
+[zlx]$aa=11
+#判断变量aa是否为非空，且是否大于等于13
+[zlx]$[ -n $aa -a $aa -gt 12 ] && echo "yes" || echo "no"
+no
+#判断变量aa是否为非空，且是否小于等于13
+[zlx]$[ -n $aa -a $aa -lt 12 ] && echo "yes" || echo "no"
+yes
+#判断变量aa是否为非空，或是否大于等于13
+[zlx]$[ -n $aa -o $aa -gt 12 ] && echo "yes" || echo "no"
+yes
+```
+
+
+
+
+
+### 11.5 流程控制
+
+#### 11.5.1 if语句
+
+##### （1）单分支if条件语句
+
+- 语法：
+
+  ```shell
+  if [ 条件判断式 ];then
+  	程序
+  fi 
+  ```
+
+  ```shell
+  if [ 条件判断式 ]
+  then 
+  	程序 
+  fi
+  ```
+
+  
+
+- 注意：
+
+  - fi：if语句使用fi结尾，和一般语言使用大括号{...}结尾不同
+  - [ 条件判断式 ]：就是使用test命令判断，所以中括号和条件判断式之间必须有空格
+  - then：后面跟符合条件之后执行的程序，可以放在[]之后，用“;”分割。也可以换行写入，就不需要“;”了
+  
+- 例子：判断分区使用率
+
+  ```shell
+  #!/bin/bash #统计根分区使用率
+  #Author:zlx
+  rate=$(df -h | grep "/dev/sda1" | awk '{print $5}' | cut -d "%" -f 1)
+  #把根分区使用率作为变量值赋给变量rate
+  if [ $rate -ge 80 ]
+  	then
+  		echo "Warning! /dev/sda1 is full!"
+  fi
+  ```
+
+  ```shell
+  #!/bin/bash #统计根分区使用率
+  #Author:zlx
+  rate=$(df -h | grep "/dev/sda1" | awk '{print $5}' | cut -d "%" -f 1)
+  #把根分区使用率作为变量值赋给变量rate
+  if [ $rate -ge 80 ];then
+  	echo "Warning! /dev/sda1 is full!"
+  fi
+  ```
+
+  
+
+##### （2）双分支if条件语句
+
+- 语法：
+
+  ```shell
+  if [ 条件判断式] 
+  	then 
+     		条件成立时，执行的程序 
+  	else 
+     		条件不成立时，执行的另一个程序
+  fi 
+  ```
+
+- 举例
+
+  - 备份文件信息及文件  (注：du -sh 文件 :获取文件夹大小)
+
+    ```shell
+    #!/bin/bash
+    #Author:zlx
+    #备份/home/zlx/桌面/shellPractice
+    ntpdate asia.pool.ntp.org &> /dev/null #同步系统时间
+    date=$(date +%y%m%d) #把当前系统时间按照“年月日”格式赋予变量date
+    size=$(du -sh /home/zlx/桌面/shellPractice) #统计文件夹大小
+    if [ -d /tmp/backup ] #如果目标存在且是文件夹
+    	then	
+            #将文件夹大小以及备份时间存储到临时文件中
+            echo "Date:$date" > /tmp/backup/shellinfo.txt #标准输出重定向（覆盖）
+            echo "Size:$size" >> /tmp/backup/shellinfo.txt  #标准输出重定向（追加）
+            cd /tmp/backup
+            tar -zcf /home/zlx/桌面/shellprac-$date.tar.gz /home/zlx/桌面/shellPractice shellinfo.txt &> /dev/null#打包压缩
+            rm -rf /tmp/backup/shellinfo.txt
+        else	
+            mkdir /tmp/backup
+            echo "Data:$date" > /tmp/backup/shellinfo.txt
+            echo "Size:$size" >> /tmp/backup/shellinfo.txt
+            cd /tmp/backup
+            tar -zcf /home/zlx/桌面/shellprac-$date.tar.gz /home/zlx/桌面/shellPractice shellinfo.txt &> /dev/null
+            rm -rf /tmp/backup/shellinfo.txt
+    fi
+    ```
+
+  - 判断apache是否启动
+
+    ```shell
+    #!/bin/bash
+    #Author:zlx 2021-08-11
+    
+    #apache所在机器ip地址（默认80端口）
+    ipport=127.0.0.1
+    
+    #获取apache是否是启动状态（通过-w全量匹配tcp的80端口）
+    isopen=$(nmap -sT $ipport | grep -w 80/tcp | grep http | awk '{print $2}')
+    
+    if [ "$isopen" == "open" ]
+       then
+            echo "$(date) httpd is ok!" >> /tmp/apache.log
+       else
+            # 启动apache
+            /etc/rc.d/init.d/httpd start &>/dev/null
+            echo "$(date) restart httpd!" >> /tmp/apache-err.log
+    fi
+    ```
+
+    tips：nmap 远程扫描，检查服务是否启动
+    		nmap -sT 扫描指定服务器上开启的TCP端口
+
+
+
+##### （3）多分支if条件语句
+
+- 语法：
+
+  ```shell
+  if [ 条件判断式1 ] 
+  	then 
+  		当条件判断式1成立时，执行程序1 
+  elif [ 条件判断式2 ] 
+  	then
+  		当条件判断式2成立时，执行程序2
+  ...省略更多条件... 
+  else 
+  	当所有条件都不成立时，最后执行此程序
+   fi 
+  ```
+
+  
+
+#### 11.5.2 case语句
+
+#### 11.5.3 for循环
+
+#### 11.5.4 while循环和until循环
+
