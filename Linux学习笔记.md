@@ -219,7 +219,7 @@
 
 - 执行权限：所有用户
 
-- 语法：<font color='orange'>rmdir [目录名] </font>font>
+- 语法：<font color='orange'>rmdir [目录名] </font>
 
 - 功能描述： 删除空目录，只能删除没有文件的空目录 （不经常使用）
 
@@ -1592,7 +1592,7 @@ The parameter3 is:56
 
 ##### （2）数值运算
 
-- 方法1：
+- 方法1：declare -i
 
   ```shell
   $ aa=11
@@ -1604,14 +1604,23 @@ The parameter3 is:56
 
   
 
-- 方法2：<font color='orange'>expr </font>或 let 数值运算工具
+- 方法2：<font color='orange'>expr </font>或 <font color='orange'>let </font>数值运算工具（加号左右有空格！）
 
   ```shell
   $ aa=11
   $ bb=10
   $ dd=$(expr $aa + $bb)
-  # dd的值是aa和bb的和。注意“+”号左右两侧必须有空格。let和expr一样
+  # dd的值是aa和bb的和。注意“+”号左右两侧必须有空格。
   $ echo $dd
+  21
+  ```
+
+  ```
+  $ aa=11
+  $ bb=10
+  $ let ee=aa+bb
+  # let后面可以直接执行基本的算术操作，变量名之前不需要加$
+  $ echo $ee
   21
   ```
 
@@ -1747,7 +1756,7 @@ The parameter3 is:56
   - 调用/etc/profile.d/*.sh文件
     这一块就是进入界面以内，切换shell登陆方式，这种不需要密码，所以和前面的/etc/profile的作用不冲突
 
-##### 
+
 
 #### 10.6.3 其他配置文件和登录信息
 
@@ -2580,7 +2589,7 @@ yes
   - [ 条件判断式 ]：就是使用test命令判断，所以中括号和条件判断式之间必须有空格
   - then：后面跟符合条件之后执行的程序，可以放在[]之后，用“;”分割。也可以换行写入，就不需要“;”了
   
-- 例子：判断分区使用率
+- 例子：<font color='cornflowerblue'>判断分区使用率</font>
 
   ```shell
   #!/bin/bash #统计根分区使用率
@@ -2620,7 +2629,9 @@ yes
 
 - 举例
 
-  - 备份文件信息及文件  (注：du -sh 文件 :获取文件夹大小)
+  - <font color='cornflowerblue'>备份文件信息及文件  </font>(注：du -sh 文件 :获取文件夹大小)
+
+    备份文件：tar -zcf xxx.tar.gz 目标文件
 
     ```shell
     #!/bin/bash
@@ -2647,7 +2658,7 @@ yes
     fi
     ```
 
-  - 判断apache是否启动
+  - <font color='cornflowerblue'>判断apache是否启动</font>
 
     ```shell
     #!/bin/bash
@@ -2691,11 +2702,153 @@ yes
    fi 
   ```
 
+
+- <font color='cornflowerblue'>判断输入的文件类型</font>
+
+  ```shell
+  #!/bin/bash 
+  #Author:zlx 2021-08-14
+  #description:judge file type
+  #读取键盘输入，并赋给变量file
+  read -p "Please input a filename:" file
+  if [ -z "$file" ]	#判断输入是否为空
+      then
+  	echo "Error,please input a filename"
+  	exit 1
+  elif [ ! -e "$file" ]	#判断输入文件是否存在
+      then 
+  	echo "Your input is not a file"
+  	exit 2
+  elif [ -f "$file" ]
+      then
+  	echo "$file is a regulare file!"
+  elif [ -d "$file" ]
+      then
+  	echo "$file is a directory!"
+  else
+  	echo "$file is an other file!"
+  fi
+  ```
+
   
 
 #### 11.5.2 case语句
 
+- 多分支case条件语句：case语句和if…elif…else语句一样都是多分支条件语句，不过和if多分支条件语句不同的是，case语句只能判断一种条件关系（等于关系），而if语句可以判断多种条件关系。
+
+- 语法：
+
+  ```shell
+  case $变量名 in 
+  	"值1")
+  		如果变量的值等于值1，则执行程序1 
+  	;; 
+  	"值2") 
+  		如果变量的值等于值2，则执行程序2 
+  	;; 
+  	...省略其他分支... 
+  		*) 
+     		如果变量的值都不是以上的值，则执行此程序
+  	;; 
+  esac
+  ```
+
+- <font color='cornflowerblue'>判断用户输入</font>
+
+  ```shell
+  #!/bin/bash
+  #Author:zlx 2021-08-14
+  #description:judge the input
+  read -p "Please choose yes/no:" -t 10 choose
+  case $choose in
+  	"yes")
+  		echo "Your choose is yes!"
+  	;;
+          "no")
+  		echo "your choose is no!"
+  	;;
+          *)
+  		echo "Your choose is error!"
+  	;;
+  esac
+  ```
+
+  
+
 #### 11.5.3 for循环
+
+##### （1）语法一
+
+- 语法：
+
+  ```shell
+  for 变量 in 值1 值2 值3
+  	do 
+  		程序
+  	done
+  ```
+
+- 例子：输出时间
+
+  ```shell
+  #!/bin/bash
+  #Author:zlx 2021-08-14
+  
+  for time in morning noon afternoon evening
+      do
+  		echo "This time is $time!"
+      done
+  ```
+
+- 优点：这种方法看起来很笨，需要把循环次数写入for，但是在系统管理的时候，当我们不确定循环次数的时候，比如解压缩一个文件里所有的压缩包，他会自动加入新的压缩包，这个时候我就需要用这种笨办法，这种后面加次数的也有一个好处，就是循环变量只要是由空格，或者回车，或者tab键隔开的，都可以算在内，所以才<font color='orange'>能和cat，ls等命令结合使用</font>，cat命令执行之后显示的结果就是由回车隔开的，都可以算成是循环变量。在加入或者减少压缩包的时候，不需要修改脚本。
+
+- 例子：<font color='cornflowerblue'>批量解压缩</font>
+
+  ```shell
+  #!/bin/bash
+  #Author:zlx 2021-08-14
+  
+  cd /lamp
+  ls *.tar.gz > ls.log	#列出所有压缩文件，覆盖重定向到ls.log
+  for i in $(cat ls.log)	#循环遍历ls.log中每一个压缩文件的记录
+      do
+          tar -zxf $i &> /dev/null	#解压缩
+      done
+  rm -rf /lamp/ls.log
+  ```
+
+  
+
+##### （2）语法二
+
+- 语法：
+
+  ```shell
+  for ((初始值;循环控制调节;变量变化))
+     do
+     	程序
+     done
+  ```
+
+- 例子：计算1加到100
+
+  ```
+  #!/bin/bash
+  #Author:zlx 2021-08-14
+  
+  s=0
+  for ((i=1;i<=100;i++))
+      do
+  	#s=$(($s+$i))			#数值运算，详见10.5.1
+  	#s=$[$s+$i]
+  	#s=$(expr $s + $i)
+  	let s=s+i
+      done
+  echo "The sum of 1+2+3+...+100 is $s!"
+  
+  ```
+
+- 批量创建用户
 
 #### 11.5.4 while循环和until循环
 
