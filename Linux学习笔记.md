@@ -317,7 +317,7 @@
 
 #### 4.1.3 文件处理命令
 
-##### (1) <font color='red'>touch</font>
+##### （1）<font color='red'>touch</font>
 
 - 命令所在路径：/bin/touch 
 
@@ -325,11 +325,11 @@
 
 - 语法：<font color='orange'>touch [文件名] 或 touch[绝对路径+文件名]</font>
 
-- 功能描述：创建空文件
+- 功能描述：<font color='cornflowerblue'>创建空文件</font>
 
 - 范例： $ touch Japanlovestory.list
 
-##### (2) <font color='red'>cat</font>
+##### （2）<font color='red'>cat</font>
 
 - 命令所在路径：/bin/cat 
 
@@ -337,7 +337,7 @@
 
 - 语法：<font color='orange'>cat [文件名] </font>
 
-- 功能描述：显示文件内容 ，适合较短的文件内容
+- 功能描述：<font color='cornflowerblue'>显示文件内容 ，适合较短的文件内容</font>
   -  -n 显示行号
   -  -A 显示隐藏字符
 
@@ -345,7 +345,7 @@
   - $ cat /etc/issue 
   - $ cat -n /etc/services
 
-##### (3) <font color='red'>more</font>
+##### （3） <font color='red'>more</font>
 
 - 命令所在路径：/bin/more 
 
@@ -356,23 +356,23 @@
   -  (Enter) 换行 
   -  q 或 Q 退出
 
-- 功能描述：分页显示文件内容,适合长的文件内容
+- 功能描述：<font color='cornflowerblue'>分页显示文件内容,适合长的文件内容</font>
 
 - 范例： $ more /etc/services
 
-##### (4) <font color='red'>less</font>
+##### （4）<font color='red'>less</font>
 
 - 命令所在路径：/usr/bin/less 执行权限：所有用户
 
 - 语法：<font color='orange'>less [文件名] </font>
 
-- 功能描述：分页显示文件内容（可向上翻页）
+- 功能描述：<font color='cornflowerblue'>分页显示文件内容（可向上翻页）</font>
 
 - 范例： $ less /etc/services
 
 - **tips: 按下 / 后可以搜索,会反显高亮 按 q 退出（more 也可以）**
 
-##### (5) <font color='red'>head</font>
+##### （5）<font color='red'>head</font>
 
 - 命令所在路径：/usr/bin/head 
 
@@ -380,12 +380,12 @@
 
 - 语法：<font color='orange'>head [文件名] </font>
 
-- 功能描述：显示文件前面几行 
+- 功能描述：<font color='cornflowerblue'>显示文件前面几行 </font>
   - -n 指定行数
 
 - 范例： $ head -n 20 /etc/services
 
-##### (6) <font color='red'>tail</font>
+##### （6） <font color='red'>tail</font>
 
 - 命令所在路径：/usr/bin/tail 
 
@@ -393,13 +393,21 @@
 
 - 语法：<font color='orange'>tail [文件名] </font>
 
-- 功能描述：显示文件后面几行 
+- 功能描述：<font color='cornflowerblue'>显示文件后面几行 </font>
   -  -n 指定行数 
   -  -f 动态显示文件末尾内容
 
 - 范例： $ tail -n 18 /etc/services
 
+##### （7）<font color='red'>mv</font>
 
+- 语法：<font color='orange'>mv 【选项】 源文件 目标文件</font>
+- 选项：
+  - -f：强制覆盖移动，如果目标文件已经存在，则不询问，直接强制覆盖；
+  - -i：交互移动，如果目标文件已经存在，则询问用户是否覆盖（默认选项）；
+  - -n：如果目标文件已经存在，则不会覆盖移动，而且不询问用户；
+  - -v：显示文件或目录的移动过程；
+  - -u：虽然目标文件已经存在，但两者相比，源文件更新，则会对目标文件进行升级；
 
 #### 4.1.4 文件链接命令
 
@@ -757,7 +765,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
   -  (Enter) 换行 
   -  q 或 Q 退出
 
-- 功能描述：获得帮助信息
+- 功能描述：<font color='cornflowerblue'>获得帮助信息</font>
 
 - 范例： 
 
@@ -779,7 +787,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 语法：<font color='orange'>whatis 命令</font>
 
-- 功能描述：获得命令的简单介绍信息
+- 功能描述：<font color='cornflowerblue'>获得命令的简单介绍信息</font>
 
 - 范例：whatis ls
 
@@ -805,7 +813,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 功能描述：获得 Shell 内置命令的帮助信息
+- 功能描述：<font color='cornflowerblue'>获得 Shell 内置命令的帮助信息</font>
 
 - 范例： 
 
@@ -834,7 +842,327 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
   
 
+### 4.5 用户管理命令
 
+##### （1）<font color='red'>useradd</font>
+
+- 命令所在路径：/usr/sbin/useradd 
+
+- 执行权限：root 
+
+- 语法：<font color='orange'>useradd 用户名</font>
+
+- 功能描述：<font color='cornflowerblue'>添加新用户</font>
+
+- 范例： $ useradd zlx
+
+
+
+##### （2）<font color='red'>passwd</font>
+
+- 命令所在路径：/usr/bin/passwd 
+
+- 执行权限：所有用户
+
+- 语法：<font color='orange'>passwd 用户名</font>
+
+- 功能描述：<font color='cornflowerblue'>设置用户密码</font>
+- 范例：$ passwd zlx
+- tips：普通用户只能更改自己密码，root 用户可以更好所有人密码
+
+
+
+##### （3）<font color='red'>who</font>
+
+- 命令所在路径：/usr/bin/who 
+
+- 执行权限：所有用户
+
+- 语法：<font color='orange'>who</font> 
+
+- 功能描述：<font color='cornflowerblue'>查看登录用户信息</font>
+
+- 范例： $ who
+
+- tips
+
+  - 第一列 登陆用户名
+  - 第二列 登陆终端 【**tty**表示本地终端 **pts**表示远程登陆终端】
+  - 第三列 登陆时间
+  - 第四列 登陆主机的IP地址 【如果没有写表示本机登陆】
+
+  ```shell
+  [zlx@localhost ~]$ who
+  zlx      tty2         2021-08-15 15:07 (tty2)
+  ```
+
+  
+
+##### （4）<font color='red'>w</font>
+
+- 命令所在路径：/usr/bin/w 
+
+- 执行权限：所有用户
+
+- 语法：<font color='orange'>w </font>
+
+- 功能描述：<font color='cornflowerblue'>查看登录用户详细信息</font>
+
+- 范例： $ w
+
+- 第一行显示 “16:02:04 up 56 min,  1 user,  load average: 0.03, 0.05, 0.01”  
+
+  - 第一个 表示当前时间
+  - 第二个 表示服务区系统连续运行时间，没有重启或者关机，衡量服务区稳定性
+  - 第三个 表示当前总共有多少个用户登陆
+  - 第四个 表示负载均衡指数，分别记录了过去一分钟，五分钟，十五分钟系统的负载情况，加起来除以三就是平均负载指数，系统的负载情况主要是指 CPU和内存的负载情况，数字大表示负载严重
+  - uptime命令也可以显示此项数据
+
+- 第二行显示 “USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT”
+
+  - IDLE：表示用户登录过来后空闲多久
+  - JCPU：表示累计占用CPU时间
+  - PCPU：表示用户登录后执行的操作占用的CPU时间
+  - WHAT：表示执行的操作
+
+  ```
+  16:02:04 up 56 min,  1 user,  load average: 0.03, 0.05, 0.01
+  USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+  zlx      tty2     tty2             15:07   56:16  59.42s  0.15s /usr/libexec/gsd-disk-
+  ```
+
+  
+
+### 4.6 压缩解压命令
+
+##### （1）<font color='red'>gzip 和 gunzip</font>
+
+- **gzip [文件名] **： 压缩文件，只能压缩文件不能压缩目录，而且不保留原文件压缩后格式为：.gz
+- **gunzip [压缩包名]** ：解压缩.gz文件
+- **gzip -d [压缩包名]** ：解压缩.gz文件
+
+
+
+##### （2）<font color='red'>tar</font>
+
+- 压缩 c：
+  - <font color='orange'>tar [选项] [压缩后文件名] [目录]</font>
+    - -c 打包
+    - -v 显示详细信息
+    - -f 指定文件名
+    - -z 打包同时压缩
+  - 例子：
+    - tar -cfv Japan.tar Japan
+      打包目录Japan 并且以Japan.tar命名
+    - <font color='cornflowerblue'>tar -zcfv Japan.tar.gz Japan</font>
+      打包并且压缩 目录Japan 以Japan.tar.gz命名
+- 解压缩 x：
+  - tar [选项] [压缩文件名] [目录]
+    - -x 解包
+    - -v 显示详细信息
+    - -f 指定解压文件名
+    - -z 解压缩
+  - 例子：
+    - tar -xfv Japan.tar Japan
+      解包目录Japan.tar并且以Japan命名
+    - <font color='cornflowerblue'>tar -zxfv Japan.tar.gz</font>
+      解压缩并且解包目录Japan.tar.gz以Japan命名
+
+##### （3）<font color='red'>zip 和 unzip</font>
+
+- **zip [选项] [压缩后文件或目录名] [文件或目录]**：原文件会保留 而且提示压缩比 deflated
+  没有gzip压缩比大，不常用。
+- 压缩后格式为：.zip    zip -r：压缩目录
+- **unzip [压缩文件]** ：解压zip文件
+
+##### 
+
+##### （4）<font color='red'>bzip2 和 bunzip2</font>
+
+- **bzip2 [选项] [文件名]** ：压缩文件，大型文件一般用这个压缩
+- 例子：
+  - bzip2 -k Japan
+    -k：保留原文件 如果不需保留可去掉。生成Japan.bz2压缩文件
+  - 他还可以与tar结合使用
+    tar -cjfv Japan.tar.bz2 Japan
+- **bunzip2 [选项] [压缩文件名]**： 解压文件
+  - -k：保留压缩包
+  - 与tar结合使用
+    tar -xjfv Japan.tar.bz2 Japan
+
+### 4.7 网络命令
+
+##### （1）<font color='red'>write</font>
+
+- 指令所在路径：/usr/bin/write 
+
+- 执行权限：所有用户
+
+- 语法：write <用户名> 
+
+- 功能描述：给用户发信息，以 Ctrl+D 保存结束
+
+- 范例： # write linzhiling
+
+- **tips:输入错误，control+delete 删除** 
+
+
+
+##### （2）<font color='red'>wall</font>
+
+- 命令英文原意：write all 
+
+- 指令所在路径：/usr/bin/wall 
+
+- 执行权限：所有用户
+
+- 语法：wall [message] 
+- 功能描述：发广播信息
+
+- 范例： # wall ShenChao is a honest man!
+
+
+
+##### （3）<font color='red'>ping</font>
+
+- 命令所在路径：/bin/ping 
+
+- 执行权限：所有用户
+
+- 语法：ping 选项 IP 地址 
+
+- -c 指定发送次数
+
+- 功能描述：测试网络连通性
+
+- 范例： # ping 192.168.1.156
+
+
+
+##### （4）<font color='red'>ifconfig</font>
+
+- 命令所在路径：/sbin/ifconfig 
+
+- 执行权限：root 
+
+- 语法：ifconfig 网卡名称 IP 地址
+
+- 功能描述：查看和设置网卡信息
+
+- 范例：# ifconfig eth0 192.168.8.250
+
+
+
+##### （5）<font color='red'>mail</font>
+
+- 命令所在路径：/bin/mail 执行权限：所有用户
+
+- 语法：mail [用户名] 
+
+- 功能描述：查看发送电子邮件
+
+- 范例：# mail root
+
+
+
+##### （6）<font color='red'>last</font>
+
+- 命令所在路径：/usr/bin/last 
+
+- 执行权限：所有用户
+
+- 语法：last 
+
+- 功能描述：列出目前与过去登入系统的用户信息
+
+- 范例：# last
+
+
+
+##### （7）<font color='red'>lastlog</font>
+
+- 命令所在路径：/usr/bin/lastlog 
+
+- 执行权限：所有用户
+
+- 语法：lastlog 
+
+- 功能描述：检查某特定用户上次登录的时间
+
+- 范例：
+  - \#lastlog 
+  - \#lastlog -u 502
+
+
+
+##### （8）<font color='red'>traceroute</font>
+
+- 命令所在路径：/bin/traceroute 执行权限：所有用户
+
+- 语法：traceroute 
+
+- 功能描述：显示数据包到主机间的路径
+
+- 范例：# traceroute www.lampbrother.net
+
+
+
+##### （9）<font color='red'>netstat</font>
+
+- 命令所在路径：/bin/netstat 
+
+- 执行权限：所有用户
+
+- 语法：netstat [选项] 
+
+- 功能描述：显示网络相关信息
+
+- 选项：
+  - -t ： TCP 协议 
+  -  -u ： UDP 协议 
+  -  -l ： 监听 
+  -  -r ： 路由 
+  -  -n ： 显示 IP 地址和端口号
+
+- 范例： 
+  - \# netstat -tlun 查看本机监听的端口
+  - \# netstat -an 查看本机所有的网络连接 
+  - \# netstat -rn 查看本机路由表
+  - 查看某一端口是否被占用：netstat -tunlp |grep 2181
+
+
+
+##### （10）<font color='red'>setup</font>
+
+- 命令所在路径：/usr/bin/setup 
+
+- 执行权限：root 
+
+- 语法：setup 
+
+- 功能描述：配置网络
+
+- 范例：# setup
+
+
+
+##### （11）<font color='red'>mount</font>
+
+- 命令位置：/bin/mount 
+
+- 执行权限：所有用户
+
+- 命令语法：mount [-t 文件系统] 设备文件名 挂载点
+
+- 范例：# mount -t iso9660 /dev/sr0 /mnt/cdrom
+
+
+
+
+
+### 4.8 挂载命令
+
+### 4.9 关机重启命令
 
 
 
@@ -2146,11 +2474,11 @@ a@163.com
 
 - 选项：
 
-  - -n： 一般 sed 命令会把所有数据都输出到屏幕 ， 如果加入此选择，则只会把经过 sed 命令处理的行输出到屏幕。
+  - <font color='orange'>-n</font>： 一般 sed 命令会把所有数据都输出到屏幕 ， 如果加入此选择，则只会把经过 sed 命令处理的行输出到屏幕。
 
-  - -e： 允许对输入数据应用多条 sed 命令编辑
+  - <font color='orange'>-e</font>： 允许对输入数据应用多条 sed 命令编辑
 
-  - -i： 用 sed 的修改结果直接修改读取数据的文件，而不是由屏幕输出
+  - <font color='orange'>-i</font>： 用 sed 的修改结果直接修改读取数据的文件，而不是由屏幕输出
 
 - 动作: 范围行+参数
   - a : 追加，在当前行后添加一行或多行。添加多行时，除最后一行外，每行末尾需要用“\”代表数据未完结。
@@ -2158,7 +2486,7 @@ a@163.com
   - i : 插入，在当期行前插入一行或多行。插入多行时，除最后 一行外，每行末尾需要用“\”代表数据未完结。
   - d : 删除，删除指定的行。
   - p : 打印，输出指定的行。
-  - s : 字串替换，用一个字符串替换另外一个字符串。格式为“行范围s/旧字串/新字串/g”(和vim中的替换格式类似)。
+  - s : 字串替换，用一个字符串替换另外一个字符串。格式为<font color='orange'>“行范围s/旧字串/新字串/g”</font>(和vim中的替换格式类似)。
 
 ##### （2）数据选取
 
@@ -2576,8 +2904,8 @@ yes
 
   ```shell
   if [ 条件判断式 ]
-  then 
-  	程序 
+  	then 
+  		程序 
   fi
   ```
 
@@ -2619,13 +2947,23 @@ yes
 - 语法：
 
   ```shell
-  if [ 条件判断式] 
-  	then 
-     		条件成立时，执行的程序 
-  	else 
-     		条件不成立时，执行的另一个程序
+  if [ 条件判断式];then 
+  	条件成立时，执行的程序 
+  else 
+  	条件不成立时，执行的另一个程序
   fi 
   ```
+
+  ```
+  if [ 条件判断式] 
+  	then 
+  		条件成立时，执行的程序 
+  	else 
+  		条件不成立时，执行的另一个程序
+  fi 
+  ```
+
+  
 
 - 举例
 
@@ -2690,6 +3028,17 @@ yes
 - 语法：
 
   ```shell
+  if [ 条件判断式1 ];then 
+  	当条件判断式1成立时，执行程序1 
+  elif [ 条件判断式2 ];then
+  	当条件判断式2成立时，执行程序2
+  ...省略更多条件... 
+  else 
+  	当所有条件都不成立时，最后执行此程序
+  fi 
+  ```
+  
+  ```
   if [ 条件判断式1 ] 
   	then 
   		当条件判断式1成立时，执行程序1 
@@ -2699,10 +3048,11 @@ yes
   ...省略更多条件... 
   else 
   	当所有条件都不成立时，最后执行此程序
-   fi 
+  fi 
   ```
-
-
+  
+  
+  
 - <font color='cornflowerblue'>判断输入的文件类型</font>
 
   ```shell
@@ -2848,7 +3198,97 @@ yes
   
   ```
 
-- 批量创建用户
+- <font color='cornflowerblue'>批量创建用户</font>
+
+  ```shell
+  #!/bin/bash
+  #Author:zlx
+  
+  #批量添加新用户
+  read -p "Please input the number of users: " -t 30 num  #输入创建用户个数
+  read -p "Please input user name: " -t 30 name   #输入用户名
+  read -p "Please input the password of users: " -t 30 pass   #输入用户密码
+  
+  if [ ! -z "$name" -a ! -z "$num" -a ! -z "$pass" ]    #判断输入信息是否为空 
+      then
+      	y=$(echo $num | sed s/'^[0-9]*$'//g)    #这里是判断输入的用户个数是否为数字，sed后也可以把^[0-9]*$换为's/[0-9]//g'
+          if [ -z "$y" ]  #如果上一条语句输出为空，就是输入的用户个数为数字
+              then
+                  for ((i=1;i<=$num;i++)) #开始循环
+                      do
+                      	/usr/sbin/useradd "$name$i" &>/dev/null #建立用户
+                          echo $pass | /usr/bin/passwd --stdin "$name$i" &>/dev/null      #设置用户密码，与用户名相同
+                      done
+                      echo "Build seccees!"
+          fi
+  fi 
+  ```
+
+  
 
 #### 11.5.4 while循环和until循环
+
+##### （1）while 循环
+
+- while循环是不定循环，也称作条件循环 。只要条件判断式成立，循环就会一直继续，直到条件判断式不成立，循环才会停止。
+
+- 语法
+
+  ```shell
+  while [ 条件判断式 ] 
+  	do 
+  		程序 
+  	done 
+  ```
+
+- 从1加到100
+
+  ```
+  #!/bin/bash  
+  #Author: zlx
+  #从1加到100
+  
+  i=1 
+  s=0 
+  while [ $i -le 100 ] #如果变量i的值小于等于100，则执行循环 
+  	do 
+          s=$(( $s+$i ))
+  		i=$(( $i+1 )) 
+  	done 
+  echo "The sum is: $s"
+  ```
+
+  
+
+##### （2）until循环
+
+- until循环，和while循环相反，until循环时只要条件判断式不成立则进行循环，并执行循环程序。一旦循环条件成立，则终止循环。
+
+- 语法：
+
+  ```shell
+  until [ 条件判断式 ] 
+  	do 
+  		程序 
+  	done 
+  ```
+
+- 从1加到100
+
+  ```shell
+  #!/bin/bash 
+  #Author: zlx
+  #从1加到100
+  
+  i=1 
+  s=0 
+  until [ $i -gt 100 ] #循环直到变量i的值大于100，就停止循环 
+  	do 
+          s=$(( $s+$i ))
+  		i=$(( $i+1 )) 
+  	done 
+  echo "The sum is: $s"
+  ```
+
+  
 
