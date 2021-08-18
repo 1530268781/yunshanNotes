@@ -887,7 +887,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 - tips
 
   - 第一列 登陆用户名
-  - 第二列 登陆终端 【**tty**表示本地终端 **pts**表示远程登陆终端】
+  - 第二列 登陆终端 【**tty**表示本地终端  **pts**表示远程登陆终端】
   - 第三列 登陆时间
   - 第四列 登陆主机的IP地址 【如果没有写表示本机登陆】
 
@@ -975,7 +975,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 - 压缩后格式为：.zip    zip -r：压缩目录
 - **unzip [压缩文件]** ：解压zip文件
 
-##### 
+
 
 ##### （4）<font color='red'>bzip2 和 bunzip2</font>
 
@@ -990,6 +990,8 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
   - 与tar结合使用
     tar -xjfv Japan.tar.bz2 Japan
 
+
+
 ### 4.7 网络命令
 
 ##### （1）<font color='red'>write</font>
@@ -998,11 +1000,11 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 语法：write <用户名> 
+- 语法：<font color='orange'>write <用户名> </font>
 
-- 功能描述：给用户发信息，以 Ctrl+D 保存结束
+- 功能描述：给指定在线用户发信息，以 <font color='orange'>Ctrl+D</font> 保存结束
 
-- 范例： # write linzhiling
+- 范例： # write zlx
 
 - **tips:输入错误，control+delete 删除** 
 
@@ -1017,9 +1019,9 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 - 执行权限：所有用户
 
 - 语法：wall [message] 
-- 功能描述：发广播信息
+- 功能描述：广播给所有在线用户发信息
 
-- 范例： # wall ShenChao is a honest man!
+- 范例： # wall zlx is a honest man!
 
 
 
@@ -1029,7 +1031,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 语法：ping 选项 IP 地址 
+- 语法：<font color='orange'>ping [选项] IP 地址 </font>
 
 - -c 指定发送次数
 
@@ -1045,7 +1047,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：root 
 
-- 语法：ifconfig 网卡名称 IP 地址
+- 语法：<font color='orange'>ifconfig 网卡名称 IP地址</font>
 
 - 功能描述：查看和设置网卡信息
 
@@ -1056,12 +1058,18 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 ##### （5）<font color='red'>mail</font>
 
 - 命令所在路径：/bin/mail 执行权限：所有用户
-
-- 语法：mail [用户名] 
-
-- 功能描述：查看发送电子邮件
-
+- 语法：<font color='orange'>mail [用户名] </font>
+- 功能描述：查看或发送电子邮件
 - 范例：# mail root
+- 进入之后：
+- Subject：输入标题
+  下面输入正文，按Ctrl+D保存结束并发送
+  按mail查询收到的邮件
+  N 表示未读邮件
+  想看第几封邮件就按前面的标号数字
+  h键查看邮箱列表
+  d [n] 删除第n封邮件
+  q 退出
 
 
 
@@ -1071,7 +1079,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 语法：last 
+- 语法：<font color='orange'>last </font>
 
 - 功能描述：列出目前与过去登入系统的用户信息
 
@@ -1113,9 +1121,9 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 - 执行权限：所有用户
 
-- 语法：netstat [选项] 
+- 语法：<font color='orange'>netstat [选项] </font>
 
-- 功能描述：显示网络相关信息
+- 功能描述：<font color='cornflowerblue'>显示网络相关信息</font>
 
 - 选项：
   - -t ： TCP 协议 
@@ -1125,7 +1133,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
   -  -n ： 显示 IP 地址和端口号
 
 - 范例： 
-  - \# netstat -tlun 查看本机监听的端口
+  - \# netstat -tuln 查看本机监听的端口
   - \# netstat -an 查看本机所有的网络连接 
   - \# netstat -rn 查看本机路由表
   - 查看某一端口是否被占用：netstat -tunlp |grep 2181
@@ -1135,28 +1143,12 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 ##### （10）<font color='red'>setup</font>
 
 - 命令所在路径：/usr/bin/setup 
-
 - 执行权限：root 
-
 - 语法：setup 
-
 - 功能描述：配置网络
-
+-  redhat专有命令 ,在其他版本不存在，他是永久生效的 和刚开始介绍的ifconfig命令不一样
+  CentOS7使用 nmtui命令代替setup，不过是在虚拟机中调试
 - 范例：# setup
-
-
-
-##### （11）<font color='red'>mount</font>
-
-- 命令位置：/bin/mount 
-
-- 执行权限：所有用户
-
-- 命令语法：mount [-t 文件系统] 设备文件名 挂载点
-
-- 范例：# mount -t iso9660 /dev/sr0 /mnt/cdrom
-
-
 
 
 
