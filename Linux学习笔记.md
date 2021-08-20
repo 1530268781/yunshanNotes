@@ -1185,6 +1185,7 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 ​	a i o
 
+<<<<<<< HEAD
 | 命令 |                           描述                           |
 | :--: | :------------------------------------------------------: |
 |  a   | 在光标所在<font color='cornflowerblue'>字符后</font>插入 |
@@ -1193,6 +1194,16 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 |  I   | 在光标所在行<font color='cornflowerblue'>行首</font>插入 |
 |  o   |                     在光标下插入新行                     |
 |  O   |                     在光标上插入新行                     |
+=======
+| 命令 |                            描述                             |
+| :--: | :---------------------------------------------------------: |
+|  a   | 在光标所在<font color='cornflowerblue'>字符后</font>fon插入 |
+|  A   |  在光标所在行<font color='cornflowerblue'>行尾</font>插入   |
+|  i   |  在光标所在<font color='cornflowerblue'>字符前</font>插入   |
+|  I   |  在光标所在行<font color='cornflowerblue'>行首</font>插入   |
+|  o   |                      在光标下插入新行                       |
+|  O   |                      在光标上插入新行                       |
+>>>>>>> 373535d676a820b1f47a2e935d3ca9a63e66c897
 
 ##### （3）定位命令 
 
