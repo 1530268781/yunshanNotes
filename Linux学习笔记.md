@@ -1154,6 +1154,8 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 ### 4.8 挂载命令
 
+[](https://blog.csdn.net/rubulai/article/details/91487243)
+
 ### 4.9 关机重启命令
 
 
@@ -1183,14 +1185,14 @@ tips: 新建文件是默认没有 x 权限（比如：防止木马病毒攻击�
 
 ​	a i o
 
-| 命令 |                             描述                             |
-| :--: | :----------------------------------------------------------: |
-|  a   | 在光标所在<font color='cornflowerblue'>字符后</font>font>插入 |
-|  A   |   在光标所在行<font color='cornflowerblue'>行尾</font>插入   |
-|  i   |   在光标所在<font color='cornflowerblue'>字符前</font>插入   |
-|  I   |   在光标所在行<font color='cornflowerblue'>行首</font>插入   |
-|  o   |                       在光标下插入新行                       |
-|  O   |                       在光标上插入新行                       |
+| 命令 |                           描述                           |
+| :--: | :------------------------------------------------------: |
+|  a   | 在光标所在<font color='cornflowerblue'>字符后</font>插入 |
+|  A   | 在光标所在行<font color='cornflowerblue'>行尾</font>插入 |
+|  i   | 在光标所在<font color='cornflowerblue'>字符前</font>插入 |
+|  I   | 在光标所在行<font color='cornflowerblue'>行首</font>插入 |
+|  o   |                     在光标下插入新行                     |
+|  O   |                     在光标上插入新行                     |
 
 ##### （3）定位命令 
 
