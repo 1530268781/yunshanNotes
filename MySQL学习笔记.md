@@ -1358,7 +1358,7 @@ Date Manipulation Language
 
   <font color='red'>insert into 表名(列名1，...) </font>
 
-  <font color='red'>values(值1，...)，values(值1，...)，...</font>
+  <font color='red'>values(值1，...)，(值2，...)，...;</font>
 
 - 插入的值的类型要与列的类型一致,且一一对应
 
@@ -2124,8 +2124,8 @@ Transaction Control Language 事务控制语言
 ### 4.编写事务的步骤
 
 - 步骤一：开启事务
-  set autocommit=0;	#设置自动提交功能为禁用
-  start transaction;	[可选]
+  <font color='red'>set autocommit=0;</font>	#设置自动提交功能为禁用
+  <font color='red'>start transaction;</font>	[可选]
 
 - 步骤二：编写事务中的sql语句(select insert update delete)
   语句1；
@@ -2133,7 +2133,7 @@ Transaction Control Language 事务控制语言
   ...
 
 - 步骤三：结束事务（提交或回滚）
-  commit；提交事务
+  <font color='red'>commit；</font>提交事务
   rollback; 回滚事务
 
 
@@ -2174,12 +2174,61 @@ Transaction Control Language 事务控制语言
 | 隔离级别                         | 描述                                                         |
 | -------------------------------- | ------------------------------------------------------------ |
 | READ UNCOMMITTED（读未提交数据） | 允许事务读取未被其他事务提交的变更。脏读、不可重复读、幻读   |
-| READ COMMITED（读已提交数据）    | 只允许事务读取已经被其他事务提交的变更，可以避免脏读，但不可重复读和幻读的问题任然存在 |
+| READ COMMITTED（读已提交数据）   | 只允许事务读取已经被其他事务提交的变更，可以避免脏读，但不可重复读和幻读的问题任然存在 |
 | REPEATBLE READ（可重复读）       | 确保事务可以多次从一个字段中读取相同的值，在这个事务持续期间，禁止其他事务对这个字段进行更新。可以避免脏读和不可重复度，但幻读问题依然存在 |
 | SERIALIZABLE（串行化）           | 确保事务可以从一个表中读取相同的行，再这个事务持续期间，禁止其他事务执行插入、更新、删除操作，所有并发问题都可以避免，但性能十分低下。 |
 
 - Oracle 支持的2 种事务隔离级别：READ COMMITED,  SERIALIZABLE。Oracle 默认的事务隔离级别为: READ  COMMITED  Mysql 支持4 种事务隔离级别. Mysql 默认的事务隔离级别为: <font color='red'>REPEATABLE READ</font>
 - Mysql 支持4 种事务隔离级别. Mysql 默认的事务隔离级别为: <font color='red'>REPEATABLE READ</font>
-- 查看当前的隔离级别：<font color='red'>SELECT @@tx_isolation;</font>
-- 设置当前MySQL连接的隔离级别：<font color='red'>set transaction isolation level 隔离级别类型;</font>
-- 设置数据库系统的全局的隔离级别：<font color='red'>set global transaction isolation level 隔离级别类型;</font>
+
+
+
+#### （3）设置事务的隔离级别
+
+- 查看当前的隔离级别：
+
+  ​	<font color='red'>SELECT @@tx_isolation;</font>
+
+- 设置当前MySQL连接会话的隔离级别：
+
+  ​	<font color='red'>set session transaction isolation level 隔离级别类型;</font>该命令只对当前会话生效，不影响其他会话和全局的事务隔离级别配置。
+
+- 设置下一次事务的事务隔离级别：
+
+  ​	<font color='red'>set transaction isolation level 隔离级别类型；</font>该命令只对下一次事务生效，不会影响会话本身设置的事务隔离级别。
+
+- 设置数据库系统的全局的隔离级别：
+
+  ​	<font color='red'>set global transaction isolation level 隔离级别类型;</font>该命令不会影响当前已连接的会话的事务隔离级别，对于以后的连接会话生效。
+
+
+
+#### （4）举例
+
+- read uncommitted (脏读，不可重复读，幻读，更新丢失 都不能解决)
+
+  ![image-20210823152455209](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823152455209.png)
+
+  ![image-20210823152945662](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823152945662.png)
+
+  ![image-20210823153532343](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823153532343.png)
+
+  ![image-20210823154321948](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823154321948.png)
+
+
+
+- read committed (解决脏读，不可重复读，幻读，更新丢失仍存在)
+
+  ![image-20210823160252930](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823160252930.png)
+
+  ![image-20210823160729970](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823160729970.png)
+
+  ![image-20210823161335871](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823161335871.png)
+
+  ![image-20210823162011169](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823162011169.png)
+
+
+
+- repeated read
+
+  ![image-20210823163921044](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823163921044.png)
