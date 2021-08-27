@@ -2176,7 +2176,7 @@ Transaction Control Language 事务控制语言
 | READ UNCOMMITTED（读未提交数据） | 允许事务读取未被其他事务提交的变更。脏读、不可重复读、幻读   |
 | READ COMMITTED（读已提交数据）   | 只允许事务读取已经被其他事务提交的变更，可以避免脏读，但不可重复读和幻读的问题任然存在 |
 | REPEATBLE READ（可重复读）       | 确保事务可以多次从一个字段中读取相同的值，在这个事务持续期间，禁止其他事务对这个字段进行更新。可以避免脏读和不可重复度，但幻读问题依然存在 |
-| SERIALIZABLE（串行化）           | 确保事务可以从一个表中读取相同的行，再这个事务持续期间，禁止其他事务执行插入、更新、删除操作，所有并发问题都可以避免，但性能十分低下。 |
+| SERIALIZABLE（串行化）           | 确保事务可以从一个表中读取相同的行，在这个事务持续期间，禁止其他事务执行插入、更新、删除操作，所有并发问题都可以避免，但性能十分低下。 |
 
 - Oracle 支持的2 种事务隔离级别：READ COMMITED,  SERIALIZABLE。Oracle 默认的事务隔离级别为: READ  COMMITED  Mysql 支持4 种事务隔离级别. Mysql 默认的事务隔离级别为: <font color='red'>REPEATABLE READ</font>
 - Mysql 支持4 种事务隔离级别. Mysql 默认的事务隔离级别为: <font color='red'>REPEATABLE READ</font>
@@ -2229,6 +2229,84 @@ Transaction Control Language 事务控制语言
 
 
 
-- repeated read
+- repeatable read （解决脏读、不可重复读，未解决幻读、丢失更新）
 
   ![image-20210823163921044](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210823163921044.png)
+  
+  ![image-20210824153058925](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210824153058925.png)
+  
+  ![image-20210824153530697](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210824153530697.png)
+
+
+
+- serializable（四种并发问题都能解决）
+
+  ![image-20210824154220383](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210824154220383.png)
+
+  ![image-20210824155313404](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210824155313404.png)
+
+  ![image-20210824160049809](MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20210824160049809.png)
+
+
+
+#### （5）设置回滚点
+
+语法：回滚到point a，操作1仍然会提交，只有操作2会回滚
+
+​		set autocommit=0;
+
+​		start transaction;
+
+​		[操作1]
+
+​		savepoint a;
+
+​		[操作2]
+
+​		rollback to a;
+
+
+
+```sql
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from balance;
++------+------+-------+
+| id   | name | money |
++------+------+-------+
+|    1 | zlx  |  1500 |
+|    2 | zzx  |  1100 |
+|    3 | ddj  |  1000 |
+|    4 | zii  |  1000 |
+|    5 | zij  |  1000 |
++------+------+-------+
+5 rows in set (0.00 sec)
+
+mysql> delete from balance where id=4;
+Query OK, 1 row affected (5.62 sec)
+
+mysql> savepoint a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from balance where id=5;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> rollback to a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from balance;
++------+------+-------+
+| id   | name | money |
++------+------+-------+
+|    1 | zlx  |  1500 |
+|    2 | zzx  |  1100 |
+|    3 | ddj  |  1000 |
+|    5 | zij  |  1000 |
++------+------+-------+
+4 rows in set (0.00 sec)
+```
+
